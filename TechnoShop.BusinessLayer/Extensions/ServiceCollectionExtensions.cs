@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using TechnoShop.BusinessLayer.Extensions;
 using TechnoShop.BusinessLayer.Interfaces;
-using TechnoShop.BusinessLayer.Services.ProductService;
+using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Data;
 using TechnoShop.Data.Extensions;
 namespace TechnoShop.BusinessLayer.Extensions;

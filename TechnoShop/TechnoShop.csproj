@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TechnoShop.BusinessLayer\TechnoShop.BusinessLayer.csproj" />
+    <ProjectReference Include="..\TechnoShop.Entities\TechnoShop.Entities.csproj" />
     <ProjectReference Include="..\TechnoShop.Exceptions\TechnoShop.Exceptions.csproj" />
   </ItemGroup>
 

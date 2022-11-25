@@ -1,0 +1,87 @@
+﻿@model ProductViewModel
+@*Скрипты валидации данных*@
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.1.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.10/jquery.validate.unobtrusive.min.js"></script>
+
+@*Bootstrap*@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+@{
+    if (Model != null)
+    {
+        if (Model.ErrorListInfo.Any())
+        {
+            <div class="alert alert-danger col-sm-5" role="alert">
+                @foreach (var Error in Model.ErrorListInfo)
+                {
+                    <div class="text-center">@Error</div>
+                }
+            </div>
+        }
+        if (Model.StatusListInfo.Any())
+        {
+            <div class="alert alert-success col-sm-5" role="alert">
+                @foreach (var Status in Model.StatusListInfo)
+                {
+                    <div class="text-center">@Status</div>
+                }
+            </div>
+        }
+
+    }
+
+    using (Html.BeginForm("AddProduct", "Product", FormMethod.Post))
+    {
+        <div class="mb-3">
+            <label class="form-label" asp-for="Name">@Html.DisplayNameFor(q => q.Name)</label>
+            <div class="col-sm-5">
+                <input asp-for="Name" type="text" class="form-control" placeholder="Например, OLED телевизор LG C2 OLED55C24LA" />
+            </div>
+            <span asp-validation-for="Name" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="Description">@Html.DisplayNameFor(q => q.Description)</label>
+            <div class="col-sm-5">
+                <textarea asp-for="Description" type="text" class="form-control" placeholder="Пример описания: 55 дюймов, 3840x2160 (4K UHD), матрица OLED, частота матрицы 120 Гц, Smart TV (LG webOS), HDR, Wi-Fi"></textarea>
+            </div>
+            <span asp-validation-for="Description" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="Cost">@Html.DisplayNameFor(q => q.Cost)</label>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <input asp-for="Cost" type="number" step="1" min="0" class="form-control" placeholder="1600" />
+                    <div class="input-group-append">
+                        <div class="input-group-text">$</div>
+                    </div>
+                </div>
+            </div>
+            <span asp-validation-for="Cost" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="Count">@Html.DisplayNameFor(q => q.Count)</label>
+            <div class="col-sm-2">
+                <input asp-for="Count" type="number" min="1" class="form-control" placeholder="Минимум 1" />
+            </div>
+            <span asp-validation-for="Count" />
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label" asp-for="ProductType">@Html.DisplayNameFor(q => q.ProductType)</label>
+            <div class="col-sm-5 form-group">
+                <select class="form-control" asp-for="@Model.ProductType" asp-items="Html.GetEnumSelectList<TechnoShop.Entities.Enums.ProductType>()"></select>
+            </div>
+            <span asp-validation-for="ProductType" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+            Добавить продукт
+        </button>
+    }
+}

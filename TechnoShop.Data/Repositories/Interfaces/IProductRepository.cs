@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechnoShop.Entities.Product;
+using TechnoShop.Entities.ProductEntity;
 
 namespace TechnoShop.Data.Repositories.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
+        bool IsAlreadyExists(string name);
     }
 }

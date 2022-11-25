@@ -1,0 +1,22 @@
+﻿@model List<ProductViewModel>
+
+@{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Тип</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Стоимость</th>
+                <th scope="col">Остаток (шт)</th>
+                <th scope="col">Действия с товаром</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model)
+            {
+                @await Html.PartialAsync("_PartialProductLine", item)
+            }
+        </tbody>
+    </table>
+}

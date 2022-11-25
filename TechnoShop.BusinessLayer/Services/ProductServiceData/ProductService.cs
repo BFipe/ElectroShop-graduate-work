@@ -8,6 +8,8 @@ using TechnoShop.BusinessLayer.Dtos.ProductDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories.Interfaces;
 using TechnoShop.Entities.Enums;
+using TechnoShop.Entities.ProductEntity;
+using TechnoShop.Exceptions;
 
 namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
@@ -20,9 +22,23 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public Task AddNewProduct(ProductRequestDto product)
+        public async Task AddNewProduct(ProductRequestDto requestProduct)
         {
-            var i = _mapper.Map<Product>(product);
+            if (_productRepository.IsAlreadyExists(requestProduct.Name)) throw new ObjectExistsException(requestProduct.Name);
+            var product = _mapper.Map<Product>(requestProduct);
+            product.ProductId = Guid.NewGuid();
+            await _productRepository.Add(product);
+            await _productRepository.Save();
+        }
+
+        public async Task<List<ProductRequestDto>> GetProducts()
+        {
+            List<ProductRequestDto> productRequestDtos = new();
+            foreach (var product in _productRepository.GetAll())
+            {
+                productRequestDtos.Add(_mapper.Map<ProductRequestDto>(product));
+            }
+            return productRequestDtos;
         }
     }
 }

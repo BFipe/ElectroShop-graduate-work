@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using TechnoShop.BusinessLayer.Dtos.Product;
-using TechnoShop.Entities.Product;
+using TechnoShop.BusinessLayer.Dtos.ProductDto;
+using TechnoShop.Entities.ProductEntity;
 
 namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
@@ -13,8 +13,9 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
     {
         public ProductMapProfile()
         {
-            CreateMap<ProductRequestDto, Entities.Product.Product>();
-            CreateMap<Entities.Product.Product, ProductResponceDTo>();
+            CreateMap<ProductRequestDto, Product>();
+            CreateMap<Product, ProductRequestDto>();
+            CreateMap<Product, ProductResponceDTo>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using TechnoShop.BusinessLayer.Dtos.Product;
+﻿using TechnoShop.BusinessLayer.Dtos.ProductDto;
 using AutoMapper;
 using TechnoShop.Models;
 
