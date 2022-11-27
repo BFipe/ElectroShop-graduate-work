@@ -7,8 +7,9 @@ using TechnoShop.Entities.ProductEntity;
 
 namespace TechnoShop.Data.Repositories.Interfaces
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductTypeRepository : IRepository<ProductType>
     {
         Task<bool> IsExists(string name);
+        Task<ProductType> GetByName(string name);
     }
 }

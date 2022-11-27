@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
             options.UseSqlServer(connectionString, q => q.MigrationsAssembly("TechnoShop"));
         });
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
         return services;
     }
 }

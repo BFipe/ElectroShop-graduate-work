@@ -52,9 +52,9 @@ namespace TechnoShop.Data.Repositories
             _dbContext.Entry(product).State = EntityState.Modified;
         }
 
-        public bool IsAlreadyExists(string name)
+        public Task<bool> IsExists(string name)
         {
-            return _dbContext.Products.Any(q => q.Name == name);
+            return _dbContext.Products.AnyAsync(q => q.Name == name);
         }
     }
 }

@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWeb", "TestWeb\TestWeb.csproj", "{22F9D593-AF2A-4B31-9B6A-83258093768D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestModels", "TestModels", "{777958A2-B88F-4914-BA51-E571592AE7EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC9DFD12-8DEC-41D8-8554-812E09666A56} = {777958A2-B88F-4914-BA51-E571592AE7EE}
+		{22F9D593-AF2A-4B31-9B6A-83258093768D} = {777958A2-B88F-4914-BA51-E571592AE7EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95779B36-18CA-46C3-B861-4B17E86AD4B7}

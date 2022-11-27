@@ -7,38 +7,62 @@ using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.ProductDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories.Interfaces;
-using TechnoShop.Entities.Enums;
 using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Exceptions;
+using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
 
 namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IProductTypeRepository _productTypeRepository;
         private readonly IMapper _mapper;
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+            _productTypeRepository = productTypeRepository;
             _mapper = mapper;
         }
+
         public async Task AddNewProduct(ProductRequestDto requestProduct)
         {
-            if (_productRepository.IsAlreadyExists(requestProduct.Name)) throw new ObjectExistsException(requestProduct.Name);
+            if (await _productRepository.IsExists(requestProduct.Name)) throw new ObjectExistsException(requestProduct.Name);
+            if (await _productTypeRepository.IsExists(requestProduct.ProductTypeName) == false) throw new ObjectNotExistsException(requestProduct.ProductTypeName);
             var product = _mapper.Map<Product>(requestProduct);
             product.ProductId = Guid.NewGuid();
             await _productRepository.Add(product);
             await _productRepository.Save();
         }
 
-        public async Task<List<ProductRequestDto>> GetProducts()
+        public async Task AddNewType(ProductTypeRequestDto productTypeRequest)
         {
-            List<ProductRequestDto> productRequestDtos = new();
+            if (await _productTypeRepository.IsExists(productTypeRequest.TypeName)) throw new ObjectExistsException(productTypeRequest.TypeName);
+            var productType = _mapper.Map<ProductType>(productTypeRequest);
+            productType.ProductTypeId = Guid.NewGuid();
+            await _productTypeRepository.Add(productType);
+            await _productTypeRepository.Save();
+
+        }
+
+        public async Task<List<ProductResponceDto>> GetProducts()
+        {
+            List<ProductResponceDto> productResponceDtos = new();
             foreach (var product in _productRepository.GetAll())
             {
-                productRequestDtos.Add(_mapper.Map<ProductRequestDto>(product));
+                productResponceDtos.Add(_mapper.Map<ProductResponceDto>(product));
             }
-            return productRequestDtos;
+            return productResponceDtos;
+        }
+
+        public async Task<List<ProductTypeResponceDto>> GetProductTypes()
+        {
+            List<ProductTypeResponceDto> productTypeResponceDtos = new();
+            foreach (var productType in _productTypeRepository.GetAll())
+            {
+                productTypeResponceDtos.Add(_mapper.Map<ProductTypeResponceDto>(productType));
+            }
+            return productTypeResponceDtos;
         }
     }
 }

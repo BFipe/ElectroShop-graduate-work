@@ -1,22 +1,5 @@
-﻿@model List<ProductViewModel>
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Тип</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Стоимость</th>
-                <th scope="col">Остаток (шт)</th>
-                <th scope="col">Действия с товаром</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in @Model)
-            {
-                @await Html.PartialAsync("_PartialProductLine", item)
-            }
-        </tbody>
-    </table>
 }

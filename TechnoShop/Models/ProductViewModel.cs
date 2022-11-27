@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using TechnoShop.Entities.Enums;
 
 namespace TechnoShop.Models
 {
@@ -28,7 +27,7 @@ namespace TechnoShop.Models
 
         [Required(ErrorMessage = "Необходимо выбрать значение типа продукта!")]
         [Display(Name = "Тип продукта")]
-        public ProductType ProductType { get; set; }
+        public string ProductTypeName { get; set; }
 
         public List<string> ErrorListInfo { get; set; } = new();
         public List<string> StatusListInfo { get; set; } = new();

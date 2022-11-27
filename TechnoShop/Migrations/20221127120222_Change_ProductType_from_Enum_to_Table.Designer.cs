@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechnoShop.Data;
 
@@ -11,9 +12,10 @@ using TechnoShop.Data;
 namespace TechnoShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221127120222_Change_ProductType_from_Enum_to_Table")]
+    partial class Change_ProductType_from_Enum_to_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,13 +258,7 @@ namespace TechnoShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPage"), 1L, 1);
 
-                    b.Property<string>("ProductTypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(60)");
-
                     b.HasKey("ProductId");
-
-                    b.HasIndex("ProductTypeName");
 
                     b.ToTable("Products");
                 });
@@ -332,23 +328,6 @@ namespace TechnoShop.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
-                {
-                    b.HasOne("TechnoShop.Entities.ProductEntity.ProductType", "ProductType")
-                        .WithMany("Products")
-                        .HasForeignKey("ProductTypeName")
-                        .HasPrincipalKey("TypeName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductType");
-                });
-
-            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.ProductType", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

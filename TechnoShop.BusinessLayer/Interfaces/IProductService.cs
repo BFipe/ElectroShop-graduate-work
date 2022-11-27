@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.ProductDto;
-using TechnoShop.Entities.Enums;
+using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
 
 namespace TechnoShop.BusinessLayer.Interfaces
 {
     public interface IProductService
     {
         public Task AddNewProduct(ProductRequestDto product);
-        public Task<List<ProductRequestDto>> GetProducts();
+        public Task AddNewType(ProductTypeRequestDto productType);
+        public Task<List<ProductResponceDto>> GetProducts();
+        public Task<List<ProductTypeResponceDto>> GetProductTypes();
+
     }
 }

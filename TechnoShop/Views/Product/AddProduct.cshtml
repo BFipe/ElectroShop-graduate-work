@@ -7,6 +7,10 @@
 @*Bootstrap*@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+@{
+
+}
+
 
 @{
     if (Model != null)
@@ -73,11 +77,11 @@
 
 
         <div class="mb-3">
-            <label class="form-label" asp-for="ProductType">@Html.DisplayNameFor(q => q.ProductType)</label>
+            <label class="form-label" asp-for="ProductTypeName">@Html.DisplayNameFor(q => q.ProductTypeName)</label>
             <div class="col-sm-5 form-group">
-                <select class="form-control" asp-for="@Model.ProductType" asp-items="Html.GetEnumSelectList<TechnoShop.Entities.Enums.ProductType>()"></select>
+                <select class="form-control" asp-for="@Model.ProductTypeName" asp-items="@ViewData["ProductTypes"] as List<SelectListItem>"></select>
             </div>
-            <span asp-validation-for="ProductType" />
+            <span asp-validation-for="ProductTypeName" />
         </div>
 
         <button class="btn btn-primary" type="submit">
