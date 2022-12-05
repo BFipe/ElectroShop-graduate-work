@@ -1,20 +1,20 @@
-﻿namespace TestConsole
+﻿using System;
+
+namespace HelloApp
 {
-    internal class Program
+    using System;
+
+    namespace HelloApp
     {
-        static void Main(string[] args)
+        
+        class Program
         {
-           List<object> obj = new List<object>();
-            obj.Add(1);
-            obj.Add("Hello");
-            obj.Add(2);
-            obj.Add(DateTime.Now.ToShortDateString());
-
-            foreach (var item in obj)
+            static void Main(string[] args)
             {
-                Console.WriteLine(item + " - " + item.GetType());
+                object[] j = new Exception[10];
+                j[0] = new Exception("ddd");
+                throw j[2] as Exception;
             }
-
         }
     }
 }

@@ -8,11 +8,10 @@ namespace Test.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly RoleManager<IdentityUser> _roleManager;
-        public HomeController(ILogger<HomeController> logger, RoleManager<IdentityUser> roleManager)
+
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _roleManager = roleManager;
         }
 
         public IActionResult Index()
