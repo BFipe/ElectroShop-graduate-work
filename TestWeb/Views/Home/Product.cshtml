@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "_ProductLayout";
+    ViewData["Title"] = "Product";
+}
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-4 justify-content-evenly">
+            @await Html.PartialAsync("_ProductCardShort")
+    </div>
+
+    <div class="row row-cols-md-3 justify-content-center">
+
+        <div class="col-1 col-sm-1">
+            <div class="row row-cols-md-5 m-4 justify-content-center text-center">
+                <div class="col-1 col-sm-1">
+                    <a href="#">1</a>
+                </div>
+                <div class="col-1 col-sm-1">
+                    <a href="#">2</a>
+                </div>
+            </div>
+
+            <div class="col-1 col-sm-1">
+            </div>
+            <div class="col-1 col-sm-1">
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,8 +12,8 @@ using TechnoShop.Data;
 namespace TechnoShop.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221121072148_Product_delete_ID_column")]
-    partial class Product_delete_ID_column
+    [Migration("20221205204734_Init_Database")]
+    partial class Init_Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -226,8 +226,12 @@ namespace TechnoShop.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TechnoShop.Entities.Product.Product", b =>
+            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
                 {
+                    b.Property<Guid>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<double>("Cost")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("float")
@@ -240,17 +244,45 @@ namespace TechnoShop.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("ProductType")
+                    b.Property<int>("ProductPage")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPage"), 1L, 1);
+
+                    b.Property<string>("ProductTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ProductTypeName");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.ProductType", b =>
+                {
+                    b.Property<Guid>("ProductTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("ProductTypeId");
+
+                    b.ToTable("ProductTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -302,6 +334,23 @@ namespace TechnoShop.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
+                {
+                    b.HasOne("TechnoShop.Entities.ProductEntity.ProductType", "ProductType")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductTypeName")
+                        .HasPrincipalKey("TypeName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.ProductEntity.ProductType", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
