@@ -4,12 +4,6 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @*
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>*@
     <div style="margin-top: 0px;margin-right: 0px;margin-left: 20px;">
         <a class="btn btn-primary" role="button" href="/product/addproduct" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e28c05;border-width: 0px;border-radius: 12px;">
             My cart
@@ -18,7 +12,7 @@
             </svg>
         </a>
 
-        <a class="btn btn-light me-2" role="button" style="margin: 5px;font-size: 17px;font-weight: bold;background: rgb(209,232,255);border-width: 0px;border-radius: 12px;" asp-page="Home/Index">
+        <a class="btn btn-light me-2" role="button" href="/Identity/Account/Manage" style="margin: 5px;font-size: 17px;font-weight: bold;background: rgb(209,232,255);border-width: 0px;border-radius: 12px;">
             My profile
         </a>
 
