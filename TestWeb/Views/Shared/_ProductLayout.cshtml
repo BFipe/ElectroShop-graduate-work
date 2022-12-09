@@ -1,22 +1,73 @@
 ﻿@{
-    var PopperScript = "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js";
+
 }
 
-<!DOCTYPE html>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel=”stylesheet” href=”https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css” />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>TechnoShop</title>
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/Aldrich.css">
+    <link rel="stylesheet" href="~/assets/css/Alfa%20Slab%20One.css">
+    <link rel="stylesheet" href="~/assets/css/Angkor.css">
+    <link rel="stylesheet" href="~/assets/css/Arbutus.css">
+    <link rel="stylesheet" href="~/assets/css/Share%20Tech%20Mono.css">
+    <link rel="stylesheet" href="~/assets/css/divider-text-middle.css">
+    <link rel="stylesheet" href="~/assets/css/Features-Image-images.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="~/assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="~/assets/css/Responsive-Image-Grid.css">
+    <link rel="stylesheet" href="~/assets/css/Simple-Slider-Simple-Slider.css">
 </head>
-<body>
-    <div>
-        @RenderBody()
+
+<body style="background: #e5f2ff;">
+    <header>
+        <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" data-aos="fade-down" data-aos-duration="500" style="box-shadow: 0px 6px 1px 1px rgba(33,37,41,0.4);border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center justify-content-xl-center me-2 bs-icon" style="background: #373273;opacity: 1;filter: blur(0px);border: 3px solid rgb(39,35,86);box-shadow: inset 2px 2px 0px 0px rgb(105,93,213), 1px 1px 1px rgb(172,163,255);width: 48px;height: 48px;padding: 0;border-radius: 16px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-battery-charging text-center" style="font-size: 19px;width: 28px;height: 28px;transform: translateX(2px) rotate(-23deg);">
+                            <path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"></path>
+                            <path d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+                            <path d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2V6zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.405z"></path>
+                            <path d="M12 10h-1.783l1.542-1.639c.097-.103.178-.218.241-.34V10zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646zM16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z"></path>
+                        </svg>
+                    </span><span style="font-size: 36px;font-family: Aldrich, sans-serif;color: #c4d8e2;text-align: left;letter-spacing: 2px;font-weight: bold;transform: translateY(3px);margin-left: 18px;margin-right: 18px;">TechnoShop</span>
+                </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse d-md-flex d-lg-flex d-xl-flex flex-wrap justify-content-md-center justify-content-lg-end justify-content-xl-end" id="navcol-5" style="font-size: 20px;">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-flex"><a class="nav-link" href="#" style="font-weight: bold;color: rgb(255,255,255);">Home</a><a class="nav-link" href="#">Products</a><a class="nav-link" href="#">Contacts</a></li>
+                    </ul>
+                    @await Html.PartialAsync("_LoginPartial");
+                    @*<div style="margin-top: 0px;margin-right: 0px;margin-left: 20px;"><a class="btn btn-light me-2" role="button" href="#" style="margin: 5px;font-size: 17px;font-weight: bold;background: rgb(209,232,255);border-width: 0px;border-radius: 12px;">Login</a><a class="btn btn-primary" role="button" href="#" style="margin: 5px;font-size: 17px;font-weight: bold;background: #0038a8;border-width: 0px;border-radius: 12px;">Register</a></div>*@
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="@PopperScript" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <footer class="text-center py-4">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-lg-3 d-lg-flex justify-content-center justify-content-lg-center">
+                <div class="col-md-6">
+                    <p class="my-2">TechnoShop&nbsp;©&nbsp;project by Ilya Maximov,&nbsp;2022&nbsp;</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+    <script src="~/assets/js/Simple-Slider.js"></script>
 </body>
+
 </html>

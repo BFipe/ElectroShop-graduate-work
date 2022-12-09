@@ -32,6 +32,11 @@ namespace Test.Controllers
         public IActionResult ProductPage()
         {
             return View();
+        } 
+        
+        public IActionResult ProductPageTestView()
+        {
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
