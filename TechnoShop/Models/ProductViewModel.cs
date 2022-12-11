@@ -5,6 +5,8 @@ namespace TechnoShop.Models
 {
     public class ProductViewModel
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "Необходимо заполнить поле с названием!")]
         [MaxLength(150, ErrorMessage = "Максимальная длинна строки - 150")]
         [Display(Name = "Название продукта")]
@@ -16,7 +18,7 @@ namespace TechnoShop.Models
         public double Cost { get; set; }
 
         [Required(ErrorMessage = "Необходимо заполнить поле кол-ва продуктов!")]
-        [DefaultValue(1)]
+        [DefaultValue(0)]
         [Display(Name = "Кол-во продукта")]
         public int Count { get; set; }
 

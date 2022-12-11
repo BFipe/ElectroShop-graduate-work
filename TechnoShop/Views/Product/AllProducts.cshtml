@@ -1,0 +1,6 @@
+﻿@model List<ProductViewModel>
+
+@foreach (var item in Model)
+{
+    @await Html.PartialAsync("_ProductCard",item);
+}

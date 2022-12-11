@@ -34,7 +34,7 @@ namespace Test.Controllers
             return View();
         } 
         
-        public IActionResult ProductPageTestView()
+        public IActionResult ProductBigPage()
         {
             return View();
         }

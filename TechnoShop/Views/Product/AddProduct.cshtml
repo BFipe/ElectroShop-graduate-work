@@ -70,7 +70,7 @@
         <div class="mb-3">
             <label class="form-label" asp-for="Count">@Html.DisplayNameFor(q => q.Count)</label>
             <div class="col-sm-2">
-                <input asp-for="Count" type="number" min="1" class="form-control" placeholder="Минимум 1" />
+                <input asp-for="Count" type="number" min="0" class="form-control"/>
             </div>
             <span asp-validation-for="Count" />
         </div>

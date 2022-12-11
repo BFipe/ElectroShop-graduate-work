@@ -27,6 +27,7 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 
         public async Task AddNewProduct(ProductRequestDto requestProduct)
         {
+            if (requestProduct.Count < 0) throw new IncorrectValueException<int>(requestProduct.Count);
             if (await _productRepository.IsExists(requestProduct.Name)) throw new ObjectExistsException(requestProduct.Name);
             if (await _productTypeRepository.IsExists(requestProduct.ProductTypeName) == false) throw new ObjectNotExistsException(requestProduct.ProductTypeName);
             var product = _mapper.Map<Product>(requestProduct);
@@ -37,12 +38,12 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 
         public async Task AddNewType(ProductTypeRequestDto productTypeRequest)
         {
+            if (String.IsNullOrWhiteSpace(productTypeRequest.TypeName)) throw new IncorrectValueException<string>();
             if (await _productTypeRepository.IsExists(productTypeRequest.TypeName)) throw new ObjectExistsException(productTypeRequest.TypeName);
             var productType = _mapper.Map<ProductType>(productTypeRequest);
             productType.ProductTypeId = Guid.NewGuid();
             await _productTypeRepository.Add(productType);
             await _productTypeRepository.Save();
-
         }
 
         public async Task<List<ProductResponceDto>> GetProducts()

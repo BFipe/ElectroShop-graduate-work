@@ -16,10 +16,8 @@ namespace TechnoShop.Entities.ProductEntity
             builder.Property(q => q.Name).HasMaxLength(150);
             builder.Property(q => q.Description).HasMaxLength(600);
             builder.Property(q => q.Cost).HasDefaultValue(0);
-            builder.Property(q => q.Count).HasDefaultValue(1);
+            builder.Property(q => q.Count).HasDefaultValue(0);
             builder.Property(q => q.ProductPage).UseIdentityColumn();
-
-            //builder.HasOne(q => q.ProductType).WithMany(q => q.Products).HasForeignKey(q => q.ProductTypeName).HasPrincipalKey(q => q.TypeName);
         }
     }
 }

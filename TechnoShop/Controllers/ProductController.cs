@@ -121,9 +121,24 @@ namespace TechnoShop.Controllers
                     Description = product.Description,
                     Count = product.Count,
                     ProductTypeName = product.ProductTypeName,
+                    Id = product.ProductId
                 });
             }
-            return View(productViewModels);
+            return View(productViewModels.OrderByDescending(q => q.Count).ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddInCart(Guid productId)
+        {
+            Console.WriteLine(productId);
+            return RedirectToAction("AllProducts");
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
+        {
+            Console.WriteLine(productId);
+            return RedirectToAction("AllProducts");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
