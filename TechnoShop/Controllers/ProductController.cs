@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
@@ -110,6 +112,7 @@ namespace TechnoShop.Controllers
 
         public async Task<IActionResult> AllProducts()
         {
+            ViewData["returnUrl"] = Request.GetDisplayUrl();
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
             try
             {
@@ -135,13 +138,7 @@ namespace TechnoShop.Controllers
             return View(productViewModels);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddInCart(string productId)
-        {
-            Console.WriteLine(productId);
-            return RedirectToAction("AllProducts");
-        }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> DeleteProduct(string productId)
         {
@@ -162,6 +159,19 @@ namespace TechnoShop.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> AddToCart(string productId, string returnUrl)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return returnUrl is null ? RedirectToAction("Index", "Home") : Redirect(returnUrl);
         }
     }
 }
