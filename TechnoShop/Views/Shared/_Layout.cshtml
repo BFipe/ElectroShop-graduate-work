@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="~/assets/css/Simple-Slider-Simple-Slider.css">
 </head>
 
-<body style="background: #e5f2ff;">
+<body style="background: #e5f2ff; min-height: 100vh; display: flex; flex-direction: column;">
     <header>
         <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" style="box-shadow: 0px 6px 1px 1px rgba(33,37,41,0.4);border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;margin-bottom: 30px;">
             <div class="container">
@@ -71,7 +71,7 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="text-center py-4">
+    <footer class="text-center py-4" style="margin-top: auto;">
         <div class="container">
             <div class="row row-cols-1 row-cols-lg-3 d-lg-flex justify-content-center justify-content-lg-center">
                 <div class="col-md-6">

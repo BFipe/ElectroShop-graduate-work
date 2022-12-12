@@ -12,7 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(connectionString, q => q.MigrationsAssembly("TechnoShop"));
+            options.UseSqlServer(connectionString, q => q.MigrationsAssembly("TechnoShop.Data"));
         });
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductTypeRepository, ProductTypeRepository>();

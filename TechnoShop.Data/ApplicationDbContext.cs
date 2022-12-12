@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using TechnoShop.Entities.ProductEntity;
 using Microsoft.AspNetCore.Identity;
+using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.Data
 {
@@ -13,7 +14,7 @@ namespace TechnoShop.Data
         {
         }
 
-        public DbSet<IdentityUser> IdentityUsers { get; set; }
+        public DbSet<TechnoShopUser> TechnoShopUsers { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
 
@@ -22,6 +23,8 @@ namespace TechnoShop.Data
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new ProductConfiguration());
             builder.ApplyConfiguration(new ProductTypeConfiguration());
+            builder.ApplyConfiguration(new UserCartConfiguration());
+            builder.ApplyConfiguration(new TechnoShopUserConfiguration());
         }
     }
 }

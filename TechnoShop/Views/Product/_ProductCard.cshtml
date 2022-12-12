@@ -1,17 +1,18 @@
 @model ProductViewModel
 @{
-    int rate = 9;
+    int rate = Model.ProductRate;
     int count = Model.Count;
     string imagePath = "/assets/img/vcc4131s3axev_samsung_5ed4f8ad8dbd4.jpg";
     string name = Model.Name;
     string description = Model.Description;
     string price = $"{Model.Cost} $";
-    Guid productId = Model.Id;
+    string productId = Model.Id;
 }
 
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using TechnoShop.Entities.UserEntity;
+@inject SignInManager<TechnoShopUser> SignInManager
+@inject UserManager<TechnoShopUser> UserManager
 
 <div>
     <div class="row d-flex justify-content-center" style="margin: 4px;padding-top: 12px;padding-bottom: 12px;">

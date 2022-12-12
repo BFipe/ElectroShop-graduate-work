@@ -5,13 +5,13 @@ public interface IRepository<TEntity>
 {
     IQueryable<TEntity> GetAll();
 
-    Task<TEntity> GetById(Guid id);
+    Task<TEntity> GetById(string id);
 
     Task Add(TEntity entity);
 
-    void Update(Guid id, TEntity entity);
+    void Update(string id, TEntity entity);
 
-    Task Delete(Guid id);
+    Task Delete(string id);
 
     Task Save();
 }

@@ -14,6 +14,6 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task AddNewType(ProductTypeRequestDto productType);
         public Task<List<ProductResponceDto>> GetProducts();
         public Task<List<ProductTypeResponceDto>> GetProductTypes();
-
+        public Task DeleteProduct(string productId);
     }
 }

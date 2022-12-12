@@ -47,23 +47,23 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductViewModel productViewModel)
+        public async Task<IActionResult> AddProduct(ProductRequestViewModel productRequestViewModel)
         {
             await GetProductTypeToViewData();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var product = _mapper.Map<ProductRequestDto>(productViewModel);
+                    var product = _mapper.Map<ProductRequestDto>(productRequestViewModel);
                     await _productService.AddNewProduct(product);
-                    productViewModel.StatusListInfo.Add($"Успешно добавлен новый продукт {product.Name}!");
+                    productRequestViewModel.StatusListInfo.Add($"Успешно добавлен новый продукт {product.Name}!");
                 }
                 catch (Exception ex)
                 {
-                    productViewModel.ErrorListInfo.Add(ex.Message);
+                    productRequestViewModel.ErrorListInfo.Add(ex.Message);
                 }
             }
-            return View(productViewModel);
+            return View(productRequestViewModel);
         }
 
         [HttpGet]
@@ -111,34 +111,51 @@ namespace TechnoShop.Controllers
         public async Task<IActionResult> AllProducts()
         {
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-            var products = await _productService.GetProducts();
-            foreach (var product in products)
+            try
             {
-                productViewModels.Add(new ProductViewModel()
+                var products = await _productService.GetProducts();
+                foreach (var product in products)
                 {
-                    Cost = product.Cost,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Count = product.Count,
-                    ProductTypeName = product.ProductTypeName,
-                    Id = product.ProductId
-                });
+                    productViewModels.Add(new ProductViewModel()
+                    {
+                        Cost = product.Cost,
+                        Name = product.Name,
+                        Description = product.Description,
+                        Count = product.Count,
+                        ProductTypeName = product.ProductTypeName,
+                        Id = product.ProductId,
+                        ProductRate = product.ProductRate
+                    });
+                }
             }
-            return View(productViewModels.OrderByDescending(q => q.Count).ToList());
+            catch (Exception)
+            {
+                RedirectToAction("Index", "Home");
+            }
+            return View(productViewModels);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddInCart(Guid productId)
+        public async Task<IActionResult> AddInCart(string productId)
         {
             Console.WriteLine(productId);
             return RedirectToAction("AllProducts");
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> DeleteProduct(Guid productId)
+        public async Task<IActionResult> DeleteProduct(string productId)
         {
-            Console.WriteLine(productId);
-            return RedirectToAction("AllProducts");
+            if (productId == null) RedirectToAction("AllProducts", "Product");
+            ErrorViewModel errorViewModel = new();
+            try
+            {
+                await _productService.DeleteProduct(productId);
+            }
+            catch (Exception ex)
+            {
+                errorViewModel.ErrorMessage = ex.Message;
+            }
+            return RedirectToAction("AllProducts", errorViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

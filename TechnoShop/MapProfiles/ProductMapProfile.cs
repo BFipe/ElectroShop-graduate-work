@@ -10,6 +10,7 @@ namespace TechnoShop.MapProfiles
         public ProductMapProfile()
         {
             CreateMap<ProductViewModel, ProductRequestDto>();
+            CreateMap<ProductRequestViewModel, ProductRequestDto>();
             CreateMap<ProductTypeViewModel, ProductTypeRequestDto>();
         }
     }

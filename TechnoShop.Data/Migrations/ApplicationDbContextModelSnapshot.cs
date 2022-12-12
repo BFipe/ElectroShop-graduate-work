@@ -8,7 +8,7 @@ using TechnoShop.Data;
 
 #nullable disable
 
-namespace TechnoShop.Migrations
+namespace TechnoShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

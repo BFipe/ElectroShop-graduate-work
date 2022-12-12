@@ -5,29 +5,22 @@ namespace TechnoShop.Models
 {
     public class ProductViewModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
-        [Required(ErrorMessage = "Необходимо заполнить поле с названием!")]
-        [MaxLength(150, ErrorMessage = "Максимальная длинна строки - 150")]
+        public int ProductRate { get; set; }
+
         [Display(Name = "Название продукта")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Необходимо заполнить поле цены!")]
-        [DefaultValue(0)]
         [Display(Name = "Стоимость")]
         public double Cost { get; set; }
 
-        [Required(ErrorMessage = "Необходимо заполнить поле кол-ва продуктов!")]
-        [DefaultValue(0)]
         [Display(Name = "Кол-во продукта")]
         public int Count { get; set; }
 
-        [Required(ErrorMessage = "Необходимо заполнить поле описания!")]
-        [MaxLength(600, ErrorMessage = "Максимальная длинна строки - 600")]
         [Display(Name = "Описание продукта")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Необходимо выбрать значение типа продукта!")]
         [Display(Name = "Тип продукта")]
         public string ProductTypeName { get; set; }
 

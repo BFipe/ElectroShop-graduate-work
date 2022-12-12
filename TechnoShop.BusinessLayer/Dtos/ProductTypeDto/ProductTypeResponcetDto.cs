@@ -8,7 +8,7 @@ namespace TechnoShop.BusinessLayer.Dtos.ProductTypeDto
 {
     public class ProductTypeResponceDto
     {
-        public Guid ProductTypeId { get; set; }
+        public string ProductTypeId { get; set; }
         public string TypeName { get; set; }
     }
 }

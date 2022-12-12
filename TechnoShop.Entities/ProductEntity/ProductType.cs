@@ -8,7 +8,7 @@ namespace TechnoShop.Entities.ProductEntity
 {
     public class ProductType
     {
-        public Guid ProductTypeId { get; set; }
+        public string ProductTypeId { get; set; }
         public string TypeName { get; set; }
 
         public List<Product> Products { get; set; }

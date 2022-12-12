@@ -23,7 +23,7 @@ namespace TechnoShop.Data.Repositories
             return _dbContext.ProductTypes.AddAsync(productType).AsTask();
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(string id)
         {
             var productType =await GetById(id);
 
@@ -37,7 +37,7 @@ namespace TechnoShop.Data.Repositories
             return _dbContext.ProductTypes.AsQueryable();
         }
 
-        public Task<ProductType> GetById(Guid id)
+        public Task<ProductType> GetById(string id)
         {
             return _dbContext.ProductTypes.SingleAsync(q => q.ProductTypeId == id);
         }
@@ -57,7 +57,7 @@ namespace TechnoShop.Data.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public void Update(Guid id, ProductType productType)
+        public void Update(string id, ProductType productType)
         {
             _dbContext.Entry(productType).State = EntityState.Modified;
         }
