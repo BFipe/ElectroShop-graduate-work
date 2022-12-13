@@ -15,5 +15,6 @@ namespace TechnoShop.BusinessLayer.Dtos.ProductDto
         public string Description { get; set; }
         public string ProductTypeName { get; set; }
         public int ProductRate { get; set; }
+        public bool IsOpenForCart { get; set; } = true;
     }
 }

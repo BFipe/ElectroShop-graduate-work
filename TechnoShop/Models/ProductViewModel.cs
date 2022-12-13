@@ -9,6 +9,8 @@ namespace TechnoShop.Models
 
         public int ProductRate { get; set; }
 
+        public bool IsOpenForCart { get; set; }
+
         [Display(Name = "Название продукта")]
         public string Name { get; set; }
 

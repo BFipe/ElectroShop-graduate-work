@@ -116,7 +116,7 @@ namespace TechnoShop.Controllers
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
             try
             {
-                var products = await _productService.GetProducts();
+                var products = await _productService.GetProducts(_contextAccessor.HttpContext.User.Identity.Name);
                 foreach (var product in products)
                 {
                     productViewModels.Add(new ProductViewModel()
@@ -127,7 +127,8 @@ namespace TechnoShop.Controllers
                         Count = product.Count,
                         ProductTypeName = product.ProductTypeName,
                         Id = product.ProductId,
-                        ProductRate = product.ProductRate
+                        ProductRate = product.ProductRate,
+                        IsOpenForCart = product.IsOpenForCart
                     });
                 }
             }
@@ -161,15 +162,16 @@ namespace TechnoShop.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToCart(string productId, string returnUrl)
         {
             try
             {
-
+                await _productService.AddToCart(productId, _contextAccessor.HttpContext.User.Identity.Name);
             }
-            catch (Exception)
+            catch (Exception )
             {
-
+                RedirectToAction("Index", "Home");
             }
             return returnUrl is null ? RedirectToAction("Index", "Home") : Redirect(returnUrl);
         }

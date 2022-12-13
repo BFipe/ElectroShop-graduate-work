@@ -17,16 +17,17 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
     public class ProductService : IProductService
     {
-        private readonly UserManager<TechnoShopUser> _userManager;
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public ProductService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, UserManager<TechnoShopUser> userManager)
+
+        public ProductService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository)
         {
             _productRepository = productRepository;
             _productTypeRepository = productTypeRepository;
             _mapper = mapper;
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         public async Task AddNewProduct(ProductRequestDto requestProduct)
@@ -51,12 +52,15 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
             await _productTypeRepository.Save();
         }
 
-        public async Task<List<ProductResponceDto>> GetProducts()
+        public async Task<List<ProductResponceDto>> GetProducts(string userEmail)
         {
+            var user = await _userRepository.FindUserByEmail(userEmail);
             List<ProductResponceDto> productResponceDtos = new();
             foreach (var product in _productRepository.GetAll())
             {
-                productResponceDtos.Add(_mapper.Map<ProductResponceDto>(product));
+                var responceProduct = _mapper.Map<ProductResponceDto>(product);
+                if (user != null && user.Products.Any(q => q.ProductId == product.ProductId)) responceProduct.IsOpenForCart = false;
+                productResponceDtos.Add(responceProduct);
             }
             return productResponceDtos;
         }
@@ -74,6 +78,19 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         public async Task DeleteProduct(string productId)
         {
             await _productRepository.Delete(productId);
+            await _productRepository.Save();
+        }
+
+        public async Task AddToCart(string productId, string userEmail)
+        {
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            var product = await _productRepository.GetById(productId);
+
+            if (user == null || product == null) return;
+            if (user.Products.Contains(product)) throw new AlreadyInTheCartException(); 
+
+            user.Products.Add(product);
+
             await _productRepository.Save();
         }
     }

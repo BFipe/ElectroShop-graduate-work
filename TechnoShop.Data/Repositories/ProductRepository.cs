@@ -34,12 +34,12 @@ namespace TechnoShop.Data.Repositories
 
         public IQueryable<Product> GetAll()
         {
-            return _dbContext.Products.AsQueryable();
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).AsQueryable();
         }
 
-        public async Task<Product> GetById(string id)
-        {
-            return await _dbContext.Products.FindAsync(id);
+        public Task<Product> GetById(string id)
+        { 
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).SingleOrDefaultAsync(q => q.ProductId == id);
         }
 
         public Task Save()
@@ -54,7 +54,7 @@ namespace TechnoShop.Data.Repositories
 
         public Task<bool> IsExists(string name)
         {
-            return _dbContext.Products.AnyAsync(q => q.Name == name);
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).AnyAsync(q => q.Name == name);
         }
     }
 }
