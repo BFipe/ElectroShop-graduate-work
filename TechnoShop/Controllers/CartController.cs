@@ -56,6 +56,21 @@ namespace TechnoShop.Controllers
             }
             return Redirect("MyCart");
         }
+        
+        [HttpPost]
+        public async Task<IActionResult> ChangeQuantity(string productId, int productQuantity)
+        {
+            if (productQuantity < 0) return Redirect("MyCart");
+            try
+            {
+                await _cartService.ChangeProductQuantity(_contextAccessor.HttpContext.User.Identity.Name, productId, productQuantity);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return Redirect("MyCart");
+        }
 
         [HttpPost]
         public async Task<IActionResult> ClearCart()

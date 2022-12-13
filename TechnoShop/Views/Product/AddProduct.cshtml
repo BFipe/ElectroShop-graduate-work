@@ -79,7 +79,9 @@
         <div class="mb-3">
             <label class="form-label" asp-for="ProductTypeName">@Html.DisplayNameFor(q => q.ProductTypeName)</label>
             <div class="col-sm-5 form-group">
-                <select class="form-control" asp-for="@Model.ProductTypeName" asp-items="@ViewData["ProductTypes"] as List<SelectListItem>"></select>
+                <select class="form-control" asp-for="@Model.ProductTypeName" asp-items="@ViewData["ProductTypes"] as List<SelectListItem>">
+                    <option selected disabled>Выберите тип продукта: </option>
+                </select>
             </div>
             <span asp-validation-for="ProductTypeName" />
         </div>

@@ -13,6 +13,8 @@ namespace TechnoShop.Models
 
         public int CartCount { get; set; }
 
+        public int CartMaxCount { get; set; }
+
         public string Id { get; set; }
 
     }

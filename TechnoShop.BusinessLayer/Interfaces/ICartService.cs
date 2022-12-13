@@ -12,6 +12,7 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task AddToCart(string productId, int cartCount, string userEmail);
         public Task<List<CartResponceDto>> GetProductsFromCart(string userEmail);
         public Task DeleteProductFromCart(string userEmail, string productId);
+        public Task ChangeProductQuantity(string userEmail, string productId, int productQuantity);
         public Task ClearCart(string userEmail);
     }
 }

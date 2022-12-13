@@ -3,28 +3,40 @@
     var productName = Model.Name;
     var productType = Model.ProductTypeName;
     var cost = Model.Cost;
-    var count = Model.CartCount;
+    var amount = Model.CartCount;
+    var maxAmount = Model.CartMaxCount;
     var id = Model.Id;
+    var totalCost = cost * amount;
 }
 
 <tr>
-    <td>@productName</td>
+    <td style="padding-left: 24px;">@productName</td>
     <td>@productType</td>
-    <td>@cost $</td>
-    <td class="text-center">
+    <td style="text-align: center;">@cost $</td>
 
-        <input type="number" style="background: rgb(62,62,62);border-radius: 10px;border-width: 5px;color: var(--bs-table-color);font-weight: bold;text-align: center;" name="productCount" value="@count" step="1" min="1">
+    <td class="text-center">
+        <form action="/Cart/ChangeQuantity" method="post">
+        <div class="input-group d-flex justify-content-center">
+                <input class="form-control" type="number" value="@amount" min="1" max="@maxAmount" step="1" name="productQuantity" style="box-shadow: 2px 2px 4px rgba(0,0,0,0.4);text-align: center;font-size: 16px;font-weight: bold;border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;background: rgb(70,73,77);color: rgb(255,255,255);border: 5px inset rgb(109,109,109) ;">
+                <button name="productId" value="@id" class="btn btn-primary" style="background: #91ceed;color: rgb(0,0,0);box-shadow: 2px 2px 4px rgba(0,0,0,0.4);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;border: 5px inset rgb(101,151,173) ;">
+                <strong>Change quantity</strong>
+                <br>
+            </button>
+        </div>
+        </form>
 
     </td>
 
+    <td class="text-center">@totalCost $ (за @amount шт.)</td>
+
     <td class="justify-content-center">
         <form action="/Cart/DeleteProduct" method="post">
-        <button name="productId" value="@id" class="btn btn-danger d-flex justify-content-center" style="border-radius: 10px;font-weight: bold;color: rgb(0,0,0);border-style: none;box-shadow: 2px 2px 3px rgba(0,0,0,0.5);">
-            Remove product
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bag-x-fill" style="transform: translateY(4px);">
-                <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM6.854 8.146a.5.5 0 1 0-.708.708L7.293 10l-1.147 1.146a.5.5 0 0 0 .708.708L8 10.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 10l1.147-1.146a.5.5 0 0 0-.708-.708L8 9.293 6.854 8.146z"></path>
-            </svg>
-        </button>
+            <button name="productId" value="@id" class="btn btn-danger d-flex justify-content-center" style="border-radius: 10px;font-weight: bold;color: rgb(0,0,0);border-style: none;box-shadow: 2px 2px 3px rgba(0,0,0,0.5);">
+                Remove product&nbsp;
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bag-x-fill" style="transform: translateY(4px);">
+                    <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM6.854 8.146a.5.5 0 1 0-.708.708L7.293 10l-1.147 1.146a.5.5 0 0 0 .708.708L8 10.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 10l1.147-1.146a.5.5 0 0 0-.708-.708L8 9.293 6.854 8.146z"></path>
+                </svg>
+            </button>
         </form>
 
     </td>
