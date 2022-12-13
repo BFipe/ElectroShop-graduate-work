@@ -11,5 +11,7 @@ namespace TechnoShop.Data.Repositories.Interfaces
     public interface IUserRepository
     {
         Task<TechnoShopUser> FindUserByEmail(string email);
+
+        void AddProductToCart(TechnoShopUser user, Product product, int cartCount);
     }
 }

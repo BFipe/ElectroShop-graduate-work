@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.Data.Repositories.Interfaces;
+using TechnoShop.Entities.CartEntity;
+using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.Data.Repositories
@@ -21,6 +23,11 @@ namespace TechnoShop.Data.Repositories
         public Task<TechnoShopUser> FindUserByEmail(string email)
         {
             return _dbContext.TechnoShopUsers.Include(q => q.Products).SingleOrDefaultAsync(q => q.Email == email);
+        }
+
+        public void AddProductToCart(TechnoShopUser user, Product product, int cartCount)
+        {
+            user.UserCarts.Add(new UserCart { Product = product, ProductCount = cartCount });
         }
     }
 }

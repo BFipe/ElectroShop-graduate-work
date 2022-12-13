@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using TechnoShop.BusinessLayer.Extensions;
 using TechnoShop.BusinessLayer.Interfaces;
+using TechnoShop.BusinessLayer.Services.CartServiceData;
 using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Data;
 using TechnoShop.Data.Extensions;
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddAutoMapper(Assembly.GetCallingAssembly(),
                        Assembly.GetExecutingAssembly());
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ICartService, CartService>();
         return services;
     }
 }

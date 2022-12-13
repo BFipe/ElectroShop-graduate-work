@@ -162,18 +162,5 @@ namespace TechnoShop.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize]
-        public async Task<IActionResult> AddToCart(string productId, string returnUrl)
-        {
-            try
-            {
-                await _productService.AddToCart(productId, _contextAccessor.HttpContext.User.Identity.Name);
-            }
-            catch (Exception )
-            {
-                RedirectToAction("Index", "Home");
-            }
-            return returnUrl is null ? RedirectToAction("Index", "Home") : Redirect(returnUrl);
-        }
     }
 }

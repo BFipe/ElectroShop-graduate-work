@@ -11,7 +11,6 @@ using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Exceptions;
 using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
 using Microsoft.AspNetCore.Identity;
-using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
@@ -78,19 +77,6 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         public async Task DeleteProduct(string productId)
         {
             await _productRepository.Delete(productId);
-            await _productRepository.Save();
-        }
-
-        public async Task AddToCart(string productId, string userEmail)
-        {
-            var user = await _userRepository.FindUserByEmail(userEmail);
-            var product = await _productRepository.GetById(productId);
-
-            if (user == null || product == null) return;
-            if (user.Products.Contains(product)) throw new AlreadyInTheCartException(); 
-
-            user.Products.Add(product);
-
             await _productRepository.Save();
         }
     }

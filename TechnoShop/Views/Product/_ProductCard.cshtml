@@ -59,12 +59,14 @@
 
                     @name
 
-                </h2><p style="padding: 12px;">
+                </h2>
+                <p style="padding: 12px;">
 
                     @description
 
                     <br>
-                </p><div class="row d-flex justify-content-center" style="padding: 2px;margin: 6px;">
+                </p>
+                <div class="row d-flex justify-content-center" style="padding: 2px;margin: 6px;">
                     <div class="col-auto d-flex justify-content-center">
                         <span class="badge rounded-pill bg-primary fs-2 fw-bold" style="box-shadow: 0px 0px 12px 6px rgba(13,110,253,0.4);">
 
@@ -82,15 +84,21 @@
                         {
                             <div class="col-auto col-md-6 d-flex justify-content-center align-content-center" style="margin: 0px;padding: 4px;">
 
-                                <form action="/Product/AddToCart" method="post">
-                                    <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
-                                    <button name="productId" value="@productId" class="btn btn-primary d-flex justify-content-center align-content-center" style="border-radius: 10px;background: rgb(255,195,125);font-weight: bold;color: rgb(0,0,0);border-style: none;box-shadow: 2px 2px 3px rgba(0,0,0,0.5);">
-                                        Add to cart <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-basket3-fill" style="transform: translateY(3px);">
-                                            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.468 15.426.943 9h14.114l-1.525 6.426a.75.75 0 0 1-.729.574H3.197a.75.75 0 0 1-.73-.574z"></path>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <form action="/Cart/AddToCart" method="post">
 
+                                    <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
+                                    <div class="input-group d-flex justify-content-center">
+                                        <input class="form-control" type="number" value="1" min="1" step="1" name="cartCount" style="box-shadow: 2px 2px 4px rgba(0,0,0,0.4);text-align: center;font-size: 16px;font-weight: bold;border-width: 5px;border-color: rgb(233,233,233);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;">
+
+                                        <button name="productId" value="@productId" class="btn btn-primary" style="background: rgb(255,195,125);color: rgb(0,0,0);box-shadow: 2px 2px 4px rgba(0,0,0,0.4);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;">
+                                            <strong>Add to cart </strong>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-basket3-fill" style="transform: translateY(0px);">
+                                                <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.468 15.426.943 9h14.114l-1.525 6.426a.75.75 0 0 1-.729.574H3.197a.75.75 0 0 1-.73-.574z"></path>
+                                            </svg>
+                                            <br>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         }
                         else
