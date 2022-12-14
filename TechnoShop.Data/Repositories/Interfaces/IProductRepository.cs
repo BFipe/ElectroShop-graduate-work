@@ -10,5 +10,7 @@ namespace TechnoShop.Data.Repositories.Interfaces
     public interface IProductRepository : IRepository<Product>
     {
         Task<bool> IsExists(string name);
+
+        int ProductCount();
     }
 }

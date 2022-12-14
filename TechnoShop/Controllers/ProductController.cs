@@ -109,14 +109,16 @@ namespace TechnoShop.Controllers
             await GetProductTypeToViewData();
             return View(productTypeViewModels);
         }
-
-        public async Task<IActionResult> AllProducts()
+        
+        public async Task<IActionResult> AllProducts(string productType, int page = 1, int productsPerPage = 6)
         {
             ViewData["returnUrl"] = Request.GetDisplayUrl();
-            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            CombinedPageProductViewModel combinedPageProductViewModel= new();
+            List<ProductViewModel> productViewModels = new();
             try
             {
-                var products = await _productService.GetProducts(_contextAccessor.HttpContext.User.Identity.Name);
+                var products = await _productService.GetProducts(_contextAccessor.HttpContext.User.Identity.Name, productType, page, productsPerPage);
+
                 foreach (var product in products)
                 {
                     productViewModels.Add(new ProductViewModel()
@@ -131,12 +133,18 @@ namespace TechnoShop.Controllers
                         IsOpenForCart = product.IsOpenForCart
                     });
                 }
+
+                combinedPageProductViewModel.Products = productViewModels;
+                combinedPageProductViewModel.CurrentPage = page;
+                combinedPageProductViewModel.ProductsPerPage = productsPerPage;
+                combinedPageProductViewModel.ProductType = productType;
+                combinedPageProductViewModel.ProductCount = _productService.GetProductCount(productType);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                RedirectToAction("Index", "Home");
+                return RedirectToAction("AllProducts", "Product");
             }
-            return View(productViewModels);
+            return View(combinedPageProductViewModel);
         }
 
         [Authorize]

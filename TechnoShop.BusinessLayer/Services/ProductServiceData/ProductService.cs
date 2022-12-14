@@ -11,6 +11,7 @@ using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Exceptions;
 using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 {
@@ -51,16 +52,28 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
             await _productTypeRepository.Save();
         }
 
-        public async Task<List<ProductResponceDto>> GetProducts(string userEmail)
+        public async Task<List<ProductResponceDto>> GetProducts(string userEmail, string productType, int page, int productsPerPage)
         {
-            var user = await _userRepository.FindUserByEmail(userEmail);
-            List<ProductResponceDto> productResponceDtos = new();
-            foreach (var product in _productRepository.GetAll())
+            var productCount = GetProductCount(productType);
+
+            if (page < 1) throw new IncorrectValueException<int>(page);
+            if (productsPerPage < 1) throw new IncorrectValueException<int>(productsPerPage);
+            if (productCount != 0 && productCount + productsPerPage <= page * productsPerPage)
             {
-                var responceProduct = _mapper.Map<ProductResponceDto>(product);
-                if (user != null && user.Products.Any(q => q.ProductId == product.ProductId)) responceProduct.IsOpenForCart = false;
-                productResponceDtos.Add(responceProduct);
+                throw new OutOfRangeException(page);
             }
+            
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            var productResponceDtos = _productRepository
+                .GetAll()
+                .Where(q => productType == null || q.ProductTypeName == productType).ToList()
+                .Skip(--page * productsPerPage).Take(productsPerPage)
+                .Select(q => _mapper.Map<ProductResponceDto>(q))
+                .ToList();
+            productResponceDtos.ForEach(q =>
+            {
+                if (user != null && user.Products.Any(j => j.ProductId == q.ProductId)) q.IsOpenForCart = false;
+            });
             return productResponceDtos;
         }
 
@@ -78,6 +91,11 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         {
             await _productRepository.Delete(productId);
             await _productRepository.Save();
+        }
+
+        public int GetProductCount(string productType)
+        {
+            return _productRepository.GetAll().Where(q => productType == null || q.ProductTypeName == productType).Count();
         }
     }
 }

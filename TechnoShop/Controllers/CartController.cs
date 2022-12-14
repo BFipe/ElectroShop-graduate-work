@@ -30,6 +30,7 @@ namespace TechnoShop.Controllers
 
 
         [Authorize]
+        [HttpPost]
         public async Task<IActionResult> AddToCart(string productId, string returnUrl, int cartCount)
         {
             try
@@ -52,7 +53,7 @@ namespace TechnoShop.Controllers
             }
             catch (Exception)
             {
-                throw;
+                Redirect("MyCart");
             }
             return Redirect("MyCart");
         }
@@ -67,7 +68,7 @@ namespace TechnoShop.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Redirect("MyCart");
             }
             return Redirect("MyCart");
         }
@@ -81,7 +82,7 @@ namespace TechnoShop.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return Redirect("MyCart");
             }
             return Redirect("MyCart");
         }

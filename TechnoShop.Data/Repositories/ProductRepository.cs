@@ -56,5 +56,10 @@ namespace TechnoShop.Data.Repositories
         {
             return _dbContext.Products.Include(q => q.TechnoShopUsers).AnyAsync(q => q.Name == name);
         }
+
+        public int ProductCount()
+        {
+            return _dbContext.Products.Count();
+        }
     }
 }

@@ -5,6 +5,7 @@
     string imagePath = "/assets/img/vcc4131s3axev_samsung_5ed4f8ad8dbd4.jpg";
     string name = Model.Name;
     string description = Model.Description;
+    string productType = Model.ProductTypeName;
     string price = $"{Model.Cost} $";
     string productId = Model.Id;
     var maxCount = Model.Count;
@@ -58,7 +59,7 @@
             <div>
                 <h2 class="fw-bold text-center d-flex justify-content-center" style="padding: 4px;">
 
-                    @name
+                    @productType @name
 
                 </h2>
                 <p style="padding: 12px;">
@@ -89,7 +90,7 @@
 
                                     <input type="hidden" name="returnUrl" value="@ViewData["returnUrl"]" />
                                     <div class="input-group d-flex justify-content-center">
-                                        <input class="form-control" type="number" value="1" min="1" max="@maxCount" step="1" name="cartCount" style="box-shadow: 2px 2px 4px rgba(0,0,0,0.4);text-align: center;font-size: 16px;font-weight: bold;border-width: 5px;border-color: rgb(233,233,233);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px;">
+                                        <input class="form-control" type="number" value="1" min="1" max="@maxCount" step="1" name="cartCount" style="box-shadow: 2px 2px 4px rgba(0,0,0,0.4);text-align: center;font-size: 16px;font-weight: bold;border-width: 5px;border-color: rgb(233,233,233);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; min-width: 60px;max-width: 100px;">
 
                                         <button name="productId" value="@productId" class="btn btn-primary" style="background: rgb(255,195,125);color: rgb(0,0,0);box-shadow: 2px 2px 4px rgba(0,0,0,0.4);border-top-left-radius: 10px;border-top-right-radius: 10px;border-bottom-right-radius: 10px;border-bottom-left-radius: 10px; border-width: 0px;">
                                             <strong>Add to cart </strong>
@@ -141,7 +142,7 @@
                     </div>
                 }
 
-                @if (SignInManager.IsSignedIn(User))
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                 {
                     <div class="row d-flex justify-content-evenly" style="margin: 6px;">
 
