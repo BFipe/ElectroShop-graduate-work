@@ -17,17 +17,22 @@ namespace TechnoShop.Controllers
         public CartController(IMapper mapper, ICartService cartService, IHttpContextAccessor contextAccessor)
         {
             _mapper = mapper;
-            _cartService= cartService;
+            _cartService = cartService;
             _contextAccessor = contextAccessor;
         }
 
         public async Task<IActionResult> MyCart()
         {
-            List<CartViewModel> cart = new ();
+            List<CartViewModel> cart = new();
             cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name));
             return View(cart);
         }
 
+        [HttpGet]
+        public IActionResult AddToCart()
+        {
+            return RedirectToAction("Index", "Home");
+        }
 
         [Authorize]
         [HttpPost]
@@ -53,11 +58,11 @@ namespace TechnoShop.Controllers
             }
             catch (Exception)
             {
-                Redirect("MyCart");
+                return Redirect("MyCart");
             }
             return Redirect("MyCart");
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> ChangeQuantity(string productId, int productQuantity)
         {
@@ -85,6 +90,43 @@ namespace TechnoShop.Controllers
                 return Redirect("MyCart");
             }
             return Redirect("MyCart");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PurchaseConfirmation()
+        {
+            CombinedPurchaseDataViewModel purchaseData = new();
+
+            List<CartViewModel> cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name));
+            if (cart.Any() == false) return Redirect("MyCart");
+
+            purchaseData.CartItems = cart;
+            return View(purchaseData);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PurchaseConfirmation(UserPurchaseDataViewModel userPurchaseDataViewModel)
+        {
+            CombinedPurchaseDataViewModel purchaseData = new();
+            
+            purchaseData.UserPurchaseData = userPurchaseDataViewModel;
+            
+            List<CartViewModel> cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name));
+            
+            if (cart.Any() == false) return Redirect("MyCart");
+
+            purchaseData.CartItems = cart;
+
+            if (ModelState.IsValid)
+            {
+
+
+            }
+            else
+            {
+                return View(purchaseData);
+            }
+            return View(purchaseData);
         }
     }
 }

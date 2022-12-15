@@ -14,35 +14,35 @@ namespace Test.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
         
-        public IActionResult Product()
+        [HttpPost]
+        public IActionResult Hello(List<int> number)
         {
-            return View();
+            Console.WriteLine("Hello");
+            foreach (var item in number)
+            {
+                Console.WriteLine(item);
+            }
+            return View("Index");
         }
-        
-        public IActionResult ProductPage()
+
+        [HttpPost]
+        public IActionResult Index(List<int> number)
         {
+            Console.WriteLine("Index");
+            foreach (var item in number)
+            {
+                Console.WriteLine(item);
+            }
             return View();
         } 
-        
-        public IActionResult ProductBigPage()
-        {
-            return View();
-        }
-        
-        public IActionResult CartPage()
-        {
-            return View();
-        }
+              
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
