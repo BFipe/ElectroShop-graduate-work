@@ -17,6 +17,7 @@ namespace TechnoShop.Entities.ProductEntity
             builder.Property(q => q.Description).HasMaxLength(600);
             builder.Property(q => q.Cost).HasDefaultValue(0);
             builder.Property(q => q.Count).HasDefaultValue(0);
+            builder.Property(q => q.InOrderCount).HasDefaultValue(0);
         }
     }
 }

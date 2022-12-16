@@ -4,6 +4,6 @@
     {
         public List<CartViewModel> CartItems { get; set; } = new();
 
-        public UserPurchaseDataViewModel UserPurchaseData { get; set; } = new();
+        public UserOrderDataViewModel UserPurchaseData { get; set; } = new();
     }
 }

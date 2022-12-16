@@ -56,7 +56,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                     Id = q.ProductId,
                     Name = q.Name,
                     CartCount = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount,
-                    CartMaxCount = q.Count,
+                    CartMaxCount = q.Count - q.InOrderCount,
                 })
                 .ToList();
 
@@ -90,6 +90,12 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
 
             user.UserCarts.Single(q => q.ProductId == product.ProductId).ProductCount = productQuantity;
             await _productRepository.Save();
+        }
+
+        public async Task CreatePurchase(PurchaseUserOrderDataRequestDto purchaseUserOrder, string userEmail)
+        {
+            //TODO PurchaseAction
+            await ClearCart(userEmail);
         }
     }
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using TechnoShop.Models;
 using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
+using TechnoShop.BusinessLayer.Dtos.CartDto;
 
 namespace TechnoShop.MapProfiles
 {
@@ -9,8 +10,9 @@ namespace TechnoShop.MapProfiles
     {
         public ProductMapProfile()
         {
-            CreateMap<ProductViewModel, ProductRequestDto>();
+            CreateMap<ProductResponceViewModel, ProductRequestDto>();
             CreateMap<ProductRequestViewModel, ProductRequestDto>();
+
             CreateMap<ProductTypeViewModel, ProductTypeRequestDto>();
         }
     }

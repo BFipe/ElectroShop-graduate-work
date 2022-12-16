@@ -22,7 +22,7 @@ namespace TechnoShop.Data.Repositories
 
         public Task<TechnoShopUser> FindUserByEmail(string email)
         {
-            return _dbContext.TechnoShopUsers.Include(q => q.Products).SingleOrDefaultAsync(q => q.Email == email);
+            return _dbContext.TechnoShopUsers.Include(q => q.Products).Include(q => q.UserOrders).SingleOrDefaultAsync(q => q.Email == email);
         }
 
         public void AddProductToCart(TechnoShopUser user, Product product, int cartCount)

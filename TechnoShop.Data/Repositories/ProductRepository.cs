@@ -34,12 +34,12 @@ namespace TechnoShop.Data.Repositories
 
         public IQueryable<Product> GetAll()
         {
-            return _dbContext.Products.Include(q => q.TechnoShopUsers).AsQueryable();
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).Include(q => q.UserCarts).Include(q => q.UserOrders).AsQueryable();
         }
 
         public Task<Product> GetById(string id)
         { 
-            return _dbContext.Products.Include(q => q.TechnoShopUsers).SingleOrDefaultAsync(q => q.ProductId == id);
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).Include(q => q.UserCarts).Include(q => q.UserOrders).SingleOrDefaultAsync(q => q.ProductId == id);
         }
 
         public Task Save()
@@ -54,7 +54,7 @@ namespace TechnoShop.Data.Repositories
 
         public Task<bool> IsExists(string name)
         {
-            return _dbContext.Products.Include(q => q.TechnoShopUsers).AnyAsync(q => q.Name == name);
+            return _dbContext.Products.Include(q => q.TechnoShopUsers).Include(q => q.UserCarts).Include(q => q.UserOrders).AnyAsync(q => q.Name == name);
         }
 
         public int ProductCount()

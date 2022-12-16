@@ -10,6 +10,6 @@
 
         public string ProductType { get; set; }
 
-        public List<ProductViewModel> Products { get; set; }
+        public List<ProductResponceViewModel> Products { get; set; }
     }
 }

@@ -114,19 +114,19 @@ namespace TechnoShop.Controllers
         {
             ViewData["returnUrl"] = Request.GetDisplayUrl();
             CombinedPageProductViewModel combinedPageProductViewModel= new();
-            List<ProductViewModel> productViewModels = new();
+            List<ProductResponceViewModel> productViewModels = new();
             try
             {
                 var products = await _productService.GetProducts(_contextAccessor.HttpContext.User.Identity.Name, productType, page, productsPerPage);
 
                 foreach (var product in products)
                 {
-                    productViewModels.Add(new ProductViewModel()
+                    productViewModels.Add(new ProductResponceViewModel()
                     {
                         Cost = product.Cost,
                         Name = product.Name,
                         Description = product.Description,
-                        Count = product.Count,
+                        Count = product.Count - product.InOrderCount,
                         ProductTypeName = product.ProductTypeName,
                         Id = product.ProductId,
                         ProductRate = product.ProductRate,

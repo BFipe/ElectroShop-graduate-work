@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TechnoShop.BusinessLayer.Dtos.CartDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Models;
@@ -105,28 +107,76 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PurchaseConfirmation(UserPurchaseDataViewModel userPurchaseDataViewModel)
+        public async Task<IActionResult> PurchaseConfirmation([FromForm] UserOrderDataViewModel userPurchaseDataViewModel)
         {
+            if (userPurchaseDataViewModel == null)
+            {
+                return View("PurchaseConfirmation");
+            }
+
             CombinedPurchaseDataViewModel purchaseData = new();
-            
+
             purchaseData.UserPurchaseData = userPurchaseDataViewModel;
-            
+
             List<CartViewModel> cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name));
-            
+
             if (cart.Any() == false) return Redirect("MyCart");
 
             purchaseData.CartItems = cart;
 
-            if (ModelState.IsValid)
+            if (
+                !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.FullName) &&
+                !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.PhoneNumber) &&
+                !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.City) &&
+                !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.Street) &&
+                !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.HouseNumber)
+               )
             {
+                float validPhone = DecharisePhoneNumber(userPurchaseDataViewModel.PhoneNumber);
 
+                if (validPhone == 0)
+                {
+                    purchaseData.UserPurchaseData.PhoneNumber = String.Empty;
+                }
+                else
+                {
+                    PurchaseUserOrderDataRequestDto purchaseUserOrder = new PurchaseUserOrderDataRequestDto()
+                    {
+                        FullName = userPurchaseDataViewModel.FullName,
+                        City = userPurchaseDataViewModel.City,
+                        Entrance = userPurchaseDataViewModel.Entrance,
+                        FlatNumber = userPurchaseDataViewModel.FlatNumber,
+                        Floor = userPurchaseDataViewModel.Floor,
+                        HouseNumber = userPurchaseDataViewModel.HouseNumber,
+                        OrderComment = userPurchaseDataViewModel.OrderComment,
+                        Street = userPurchaseDataViewModel.Street,
+                        PhoneNumber = validPhone
+                    };
 
-            }
-            else
-            {
-                return View(purchaseData);
+                    await _cartService.CreatePurchase(purchaseUserOrder, _contextAccessor.HttpContext.User.Identity.Name);
+
+                    return Redirect("MyCart");
+                }
             }
             return View(purchaseData);
         }
+
+        private float DecharisePhoneNumber(string phoneNumber)
+        {
+            string[] phoneFilterChar = { " ", "+", "(", ")", "-" };
+            foreach (var pchar in phoneFilterChar)
+            {
+                phoneNumber = phoneNumber.Replace(pchar, "");
+            }
+            bool result = float.TryParse(phoneNumber, out float number) && (phoneNumber.Count() == 11 || phoneNumber.Count() == 12);
+            if (result == false) return 0;
+            return number;
+        }
+
+        public async Task<IActionResult> MyPurchases()
+        {
+            return View("MyCart");
+        }
     }
 }
+

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TechnoShop.Models
 {
-    public class ProductViewModel
+    public class ProductResponceViewModel
     {
         public string Id { get; set; }
 
