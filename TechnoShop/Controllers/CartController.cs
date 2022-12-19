@@ -26,7 +26,7 @@ namespace TechnoShop.Controllers
         public async Task<IActionResult> MyCart()
         {
             List<CartViewModel> cart = new();
-            cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name)).Where(q => q.IsAvaliableForCart).ToList();
+            cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name)).ToList();
             return View(cart);
         }
 
@@ -99,7 +99,7 @@ namespace TechnoShop.Controllers
         {
             CombinedPurchaseDataViewModel purchaseData = new();
 
-            List<CartViewModel> cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name));
+            List<CartViewModel> cart = _mapper.Map<List<CartViewModel>>(await _cartService.GetProductsFromCart(_contextAccessor.HttpContext.User.Identity.Name)).Where(q => q.IsAvaliableForCart).ToList();
             if (cart.Any() == false) return Redirect("MyCart");
 
             purchaseData.CartItems = cart;

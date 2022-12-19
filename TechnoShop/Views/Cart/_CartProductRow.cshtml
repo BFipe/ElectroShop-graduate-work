@@ -7,6 +7,7 @@
     var maxAmount = Model.CartMaxCount;
     var id = Model.Id;
     var totalCost = cost * amount;
+    var isAvaliableForCart = Model.IsAvaliableForCart;
 }
 
 <tr>
@@ -14,6 +15,8 @@
     <td>@productType</td>
     <td style="text-align: center;">@cost $</td>
 
+    @if (isAvaliableForCart)
+    {  
     <td class="text-center">
         <form action="/Cart/ChangeQuantity" method="post">
         <div class="input-group d-flex justify-content-center">
@@ -24,10 +27,17 @@
             </button>
         </div>
         </form>
-
     </td>
 
     <td class="text-center">@totalCost $ (за @amount шт.)</td>
+    }
+    else
+    {
+        <td class="text-start" colspan="2">
+            <br />Этот продукт недоступен на данный момент и будет игнорироваться в итоговом заказе.<br />
+            <br />
+        </td>
+    }
 
     <td class="justify-content-center">
         <form action="/Cart/DeleteProduct" method="post">

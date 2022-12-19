@@ -50,15 +50,14 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             var user = await _userRepository.FindUserByEmail(userEmail);
             if (user == null) throw new NotFoundException<string>(userEmail);
 
-            cartResponceDtos = _productRepository.GetAll()
-                .Where(q => q.TechnoShopUsers.Contains(user))
+            cartResponceDtos = user.Products
                 .Select(q => new CartResponceDto
-                {
+                {    
                     ProductTypeName = q.ProductTypeName,
                     Cost = q.Cost,
                     Id = q.ProductId,
                     Name = q.Name,
-                    IsAvaliableForCart = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount <= q.Count - q.InOrderCount,
+                    IsAvaliableForCart = q.Count - q.InOrderCount > 0,
                     CartCount = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount <= q.Count - q.InOrderCount ? q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount : q.Count - q.InOrderCount,
                     CartMaxCount = q.Count - q.InOrderCount,
                 })
@@ -119,11 +118,13 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 TechnoShopUser = user  
             };
 
-            user.UserCarts.ForEach(q =>
+            user.UserCarts
+                .Where(q => q.Product.Count - q.Product.InOrderCount > 0)
+                .ToList()
+                .ForEach(q =>
             {
                 userOrder.UserOrderProducts.Add(new UserOrderProduct() { Product = q.Product, ProductCount = q.ProductCount });
                 q.Product.InOrderCount = q.ProductCount;
-                
             });
             
             await _cartRepository.AddNewOrder(userOrder);

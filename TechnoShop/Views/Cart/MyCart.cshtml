@@ -1,7 +1,10 @@
 ﻿@model List<CartViewModel>
 
 @{
-    var totalAmount = Model.Select(q => new { TotalAmount = q.Cost * q.CartCount}).Sum(q => q.TotalAmount);
+    var totalAmount = Model
+    .Where(q => q.IsAvaliableForCart)
+    .Select(q => new { TotalAmount = q.Cost * q.CartCount})
+    .Sum(q => q.TotalAmount);
 }
 
 <div>
