@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.CartDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories.Interfaces;
+using TechnoShop.Entities.UserOrderEntity;
 using TechnoShop.Exceptions;
 
 namespace TechnoShop.BusinessLayer.Services.CartServiceData
@@ -16,14 +17,16 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
 
-        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository)
+        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository, ICartRepository cartRepository)
         {
             _productRepository = productRepository;
             _productTypeRepository = productTypeRepository;
             _mapper = mapper;
             _userRepository = userRepository;
+            _cartRepository = cartRepository;
         }
 
         public async Task AddToCart(string productId, int cartCount, string userEmail)
@@ -35,7 +38,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             if (user == null || product == null) return;
             if (user.Products.Contains(product)) throw new AlreadyInTheCartException();
 
-            _userRepository.AddProductToCart(user, product, cartCount);
+            _cartRepository.AddProductToCart(user, product, cartCount);
 
             await _productRepository.Save();
         }
@@ -55,7 +58,8 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                     Cost = q.Cost,
                     Id = q.ProductId,
                     Name = q.Name,
-                    CartCount = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount,
+                    IsAvaliableForCart = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount <= q.Count - q.InOrderCount,
+                    CartCount = q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount <= q.Count - q.InOrderCount ? q.UserCarts.Single(r => r.ProductId == q.ProductId && r.TechnoShopUserId == user.Id).ProductCount : q.Count - q.InOrderCount,
                     CartMaxCount = q.Count - q.InOrderCount,
                 })
                 .ToList();
@@ -94,7 +98,37 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
 
         public async Task CreatePurchase(PurchaseUserOrderDataRequestDto purchaseUserOrder, string userEmail)
         {
-            //TODO PurchaseAction
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            DateTime dateCreated = DateTime.Now;
+            UserOrder userOrder = new UserOrder()
+            {
+                UserOrderId = Guid.NewGuid().ToString(),
+                FullName = purchaseUserOrder.FullName,
+                PhoneNumber = purchaseUserOrder.PhoneNumber,
+                City = purchaseUserOrder.City,
+                Street = purchaseUserOrder.Street,
+                HouseNumber = purchaseUserOrder.HouseNumber,
+                FlatNumber = purchaseUserOrder.FlatNumber,
+                Floor = purchaseUserOrder.Floor,
+                Entrance = purchaseUserOrder.Entrance,
+                OrderComment = purchaseUserOrder.OrderComment,
+                
+                OrderStatus = OrderStatusEnum.Processing_State,
+                DateCreated = dateCreated,
+                OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated.ToLongTimeString}",
+                TechnoShopUser = user  
+            };
+
+            user.UserCarts.ForEach(q =>
+            {
+                userOrder.UserOrderProducts.Add(new UserOrderProduct() { Product = q.Product, ProductCount = q.ProductCount });
+                q.Product.InOrderCount = q.ProductCount;
+                
+            });
+            
+            await _cartRepository.AddNewOrder(userOrder);
+
+            await _productRepository.Save();
             await ClearCart(userEmail);
         }
     }

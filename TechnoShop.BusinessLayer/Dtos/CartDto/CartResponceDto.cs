@@ -19,5 +19,7 @@ namespace TechnoShop.BusinessLayer.Dtos.CartDto
         public int CartMaxCount { get; set; }
 
         public string Id { get; set; }
+
+        public bool IsAvaliableForCart { get; set; }
     }
 }

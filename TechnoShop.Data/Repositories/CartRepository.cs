@@ -8,21 +8,27 @@ using TechnoShop.Data.Repositories.Interfaces;
 using TechnoShop.Entities.CartEntity;
 using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Entities.UserEntity;
+using TechnoShop.Entities.UserOrderEntity;
 
 namespace TechnoShop.Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class CartRepository : ICartRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public UserRepository(ApplicationDbContext dbContext)
+        public CartRepository(ApplicationDbContext dbContext)
         {
             _dbContext= dbContext;
         }
 
-        public Task<TechnoShopUser> FindUserByEmail(string email)
+        public void AddProductToCart(TechnoShopUser user, Product product, int cartCount)
         {
-            return _dbContext.TechnoShopUsers.Include(q => q.Products).Include(q => q.UserOrders).SingleOrDefaultAsync(q => q.Email == email);
+            user.UserCarts.Add(new UserCart { Product = product, ProductCount = cartCount });
+        }
+
+        public Task AddNewOrder(UserOrder userOrder)
+        {
+            return _dbContext.UserOrders.AddAsync(userOrder).AsTask();
         }
     }
 }

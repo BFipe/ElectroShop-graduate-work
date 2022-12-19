@@ -17,5 +17,6 @@ namespace TechnoShop.Models
 
         public string Id { get; set; }
 
+        public bool IsAvaliableForCart { get; set; }
     }
 }
