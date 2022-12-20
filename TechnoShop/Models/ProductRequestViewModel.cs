@@ -11,12 +11,10 @@ namespace TechnoShop.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Необходимо заполнить поле цены!")]
-        [DefaultValue(0)]
         [Display(Name = "Стоимость")]
         public double Cost { get; set; }
 
         [Required(ErrorMessage = "Необходимо заполнить поле кол-ва продуктов!")]
-        [DefaultValue(0)]
         [Display(Name = "Кол-во продукта")]
         public int Count { get; set; }
 
@@ -28,6 +26,11 @@ namespace TechnoShop.Models
         [Required(ErrorMessage = "Необходимо выбрать значение типа продукта!")]
         [Display(Name = "Тип продукта")]
         public string ProductTypeName { get; set; }
+
+        [Required(ErrorMessage = "Необходимо заполнить ссылку на фотографию продукта!")]
+        [MaxLength(300, ErrorMessage = "Максимальная длинна строки - 300")]
+        [Display(Name = "Ссылка на фотографию продукта")]
+        public string PictureLink { get; set; }
 
         public List<string> ErrorListInfo { get; set; } = new();
         public List<string> StatusListInfo { get; set; } = new();

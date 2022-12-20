@@ -53,6 +53,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             cartResponceDtos = user.Products
                 .Select(q => new CartResponceDto
                 {    
+                    
                     ProductTypeName = q.ProductTypeName,
                     Cost = q.Cost,
                     Id = q.ProductId,
@@ -114,7 +115,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 
                 OrderStatus = OrderStatusEnum.Processing_State,
                 DateCreated = dateCreated,
-                OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated.ToLongTimeString}",
+                OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated.Date} {dateCreated.ToLongTimeString()}",
                 TechnoShopUser = user  
             };
 

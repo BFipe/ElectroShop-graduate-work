@@ -15,9 +15,10 @@ namespace TechnoShop.Entities.ProductEntity
             builder.HasKey(q => q.ProductId);
             builder.Property(q => q.Name).HasMaxLength(150);
             builder.Property(q => q.Description).HasMaxLength(600);
-            builder.Property(q => q.Cost).HasDefaultValue(0);
-            builder.Property(q => q.Count).HasDefaultValue(0);
-            builder.Property(q => q.InOrderCount).HasDefaultValue(0);
+            builder.Property(q => q.PictureLink).HasMaxLength(300);
+            builder.Property(q => q.Cost).IsRequired(true);
+            builder.Property(q => q.Count).IsRequired(true);
+            builder.Property(q => q.InOrderCount).IsRequired(true);
         }
     }
 }

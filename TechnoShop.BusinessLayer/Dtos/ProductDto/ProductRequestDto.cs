@@ -13,5 +13,7 @@ namespace TechnoShop.BusinessLayer.Dtos.ProductDto
         public int Count { get; set; }
         public string Description { get; set; }
         public string ProductTypeName { get; set; }
+        public string PictureLink { get; set; }
+
     }
 }

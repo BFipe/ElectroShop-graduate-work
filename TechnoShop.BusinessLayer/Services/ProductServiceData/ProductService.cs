@@ -78,13 +78,8 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         }
 
         public async Task<List<ProductTypeResponceDto>> GetProductTypes()
-        {
-            List<ProductTypeResponceDto> productTypeResponceDtos = new();
-            foreach (var productType in _productTypeRepository.GetAll())
-            {
-                productTypeResponceDtos.Add(_mapper.Map<ProductTypeResponceDto>(productType));
-            }
-            return productTypeResponceDtos;
+        { 
+            return _mapper.Map<List<ProductTypeResponceDto>>(_productTypeRepository.GetAll().ToList());
         }
 
         public async Task DeleteProduct(string productId)

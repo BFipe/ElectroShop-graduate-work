@@ -21,6 +21,7 @@ namespace TechnoShop.Entities.ProductEntity
         public double Cost { get; set; }
         public string Description { get; set; } 
         public int ProductRate { get; set; }
+        public string PictureLink { get; set; } 
 
 
         public string ProductTypeName { get; set; }

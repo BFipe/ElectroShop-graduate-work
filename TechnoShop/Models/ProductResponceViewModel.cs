@@ -26,6 +26,9 @@ namespace TechnoShop.Models
         [Display(Name = "Тип продукта")]
         public string ProductTypeName { get; set; }
 
+        [Display(Name = "Ссылка на фотографию продукта")]
+        public string PictureLink { get; set; }
+
         public List<string> ErrorListInfo { get; set; } = new();
         public List<string> StatusListInfo { get; set; } = new();
     }

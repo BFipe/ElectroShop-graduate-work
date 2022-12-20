@@ -14,6 +14,7 @@ namespace TechnoShop.BusinessLayer.Dtos.ProductDto
         public int Count { get; set; }
         public int InOrderCount { get; set; }
         public string Description { get; set; }
+        public string PictureLink { get; set; }
         public string ProductTypeName { get; set; }
         public int ProductRate { get; set; }
         public bool IsOpenForCart { get; set; } = true;

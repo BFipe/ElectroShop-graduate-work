@@ -23,9 +23,9 @@ namespace TechnoShop.Data.Repositories
             return _dbContext.Products.AddAsync(product).AsTask();
         }
 
-        public async Task Delete(string id)
+        public async Task Delete(string productId)
         {
-            var product = await GetById(id);
+            var product = await GetById(productId);
 
             if (product is null) return;
 

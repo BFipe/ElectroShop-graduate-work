@@ -128,6 +128,7 @@ namespace TechnoShop.Controllers
                         Description = product.Description,
                         Count = product.Count - product.InOrderCount,
                         ProductTypeName = product.ProductTypeName,
+                        PictureLink = product.PictureLink,
                         Id = product.ProductId,
                         ProductRate = product.ProductRate,
                         IsOpenForCart = product.IsOpenForCart
