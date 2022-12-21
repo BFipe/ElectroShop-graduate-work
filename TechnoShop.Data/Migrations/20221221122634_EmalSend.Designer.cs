@@ -3,21 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechnoShop.Data;
 
 #nullable disable
 
-namespace TechnoShop.Migrations
+namespace TechnoShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221221122634_EmalSend")]
+    partial class EmalSend
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -250,30 +252,54 @@ namespace TechnoShop.Migrations
                     b.ToTable("UserCart", (string)null);
                 });
 
+            modelBuilder.Entity("TechnoShop.Entities.EmailSenderEntity.EmailSender", b =>
+                {
+                    b.Property<string>("EmailSenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
+
+                    b.HasKey("EmailSenderId");
+
+                    b.ToTable("EmailSenders");
+                });
+
             modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
                 {
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Cost")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("float")
-                        .HasDefaultValue(0.0);
+                        .HasColumnType("float");
 
                     b.Property<int>("Count")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(600)
                         .HasColumnType("nvarchar(600)");
 
+                    b.Property<int>("InOrderCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("PictureLink")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<int>("ProductRate")
                         .HasColumnType("int");
@@ -302,6 +328,94 @@ namespace TechnoShop.Migrations
                     b.HasKey("ProductTypeId");
 
                     b.ToTable("ProductTypes");
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.UserOrderEntity.UserOrder", b =>
+                {
+                    b.Property<string>("UserOrderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Entrance")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("FlatNumber")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Floor")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("HouseNumber")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("OrderComment")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime?>("OrderCompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderStatusComment")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<float>("PhoneNumber")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("TechnoShopUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserOrderId");
+
+                    b.HasIndex("TechnoShopUserId");
+
+                    b.ToTable("UserOrders");
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.UserOrderEntity.UserOrderProduct", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserOrderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("ProductId", "UserOrderId");
+
+                    b.HasIndex("UserOrderId");
+
+                    b.ToTable("UserOrderProducts", (string)null);
                 });
 
             modelBuilder.Entity("TechnoShop.Entities.UserEntity.TechnoShopUser", b =>
@@ -393,9 +507,41 @@ namespace TechnoShop.Migrations
                     b.Navigation("ProductType");
                 });
 
+            modelBuilder.Entity("TechnoShop.Entities.UserOrderEntity.UserOrder", b =>
+                {
+                    b.HasOne("TechnoShop.Entities.UserEntity.TechnoShopUser", "TechnoShopUser")
+                        .WithMany("UserOrders")
+                        .HasForeignKey("TechnoShopUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TechnoShopUser");
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.UserOrderEntity.UserOrderProduct", b =>
+                {
+                    b.HasOne("TechnoShop.Entities.ProductEntity.Product", "Product")
+                        .WithMany("UserOrderProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TechnoShop.Entities.UserOrderEntity.UserOrder", "UserOrder")
+                        .WithMany("UserOrderProducts")
+                        .HasForeignKey("UserOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("UserOrder");
+                });
+
             modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
                 {
                     b.Navigation("UserCarts");
+
+                    b.Navigation("UserOrderProducts");
                 });
 
             modelBuilder.Entity("TechnoShop.Entities.ProductEntity.ProductType", b =>
@@ -403,9 +549,16 @@ namespace TechnoShop.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("TechnoShop.Entities.UserOrderEntity.UserOrder", b =>
+                {
+                    b.Navigation("UserOrderProducts");
+                });
+
             modelBuilder.Entity("TechnoShop.Entities.UserEntity.TechnoShopUser", b =>
                 {
                     b.Navigation("UserCarts");
+
+                    b.Navigation("UserOrders");
                 });
 #pragma warning restore 612, 618
         }

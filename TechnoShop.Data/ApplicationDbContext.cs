@@ -5,6 +5,7 @@ using TechnoShop.Entities.ProductEntity;
 using Microsoft.AspNetCore.Identity;
 using TechnoShop.Entities.UserEntity;
 using TechnoShop.Entities.UserOrderEntity;
+using TechnoShop.Entities.EmailSenderEntity;
 
 namespace TechnoShop.Data
 {
@@ -19,6 +20,7 @@ namespace TechnoShop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<UserOrder> UserOrders { get; set; }
+        public DbSet<EmailSender> EmailSenders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +29,7 @@ namespace TechnoShop.Data
             builder.ApplyConfiguration(new ProductTypeConfiguration());
             builder.ApplyConfiguration(new TechnoShopUserConfiguration());
             builder.ApplyConfiguration(new UserOrderConfiguration());
+            builder.ApplyConfiguration(new EmailSenderConfiguration());
         }
     }
 }

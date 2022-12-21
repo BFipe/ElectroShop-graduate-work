@@ -17,7 +17,7 @@ namespace TechnoShop.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.11")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -248,6 +248,26 @@ namespace TechnoShop.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("UserCart", (string)null);
+                });
+
+            modelBuilder.Entity("TechnoShop.Entities.EmailSenderEntity.EmailSender", b =>
+                {
+                    b.Property<string>("EmailSenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(24)
+                        .HasColumnType("nvarchar(24)");
+
+                    b.HasKey("EmailSenderId");
+
+                    b.ToTable("EmailSenders");
                 });
 
             modelBuilder.Entity("TechnoShop.Entities.ProductEntity.Product", b =>
