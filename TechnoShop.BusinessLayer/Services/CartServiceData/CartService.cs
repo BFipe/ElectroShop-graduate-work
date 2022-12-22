@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.CartDto;
+using TechnoShop.BusinessLayer.Dtos.OrderDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories.Interfaces;
 using TechnoShop.Entities.UserOrderEntity;
+using TechnoShop.Enums;
 using TechnoShop.Exceptions;
 
 namespace TechnoShop.BusinessLayer.Services.CartServiceData
@@ -52,8 +54,8 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
 
             cartResponceDtos = user.Products
                 .Select(q => new CartResponceDto
-                {    
-                    
+                {
+
                     ProductTypeName = q.ProductTypeName,
                     Cost = q.Cost,
                     Id = q.ProductId,
@@ -112,11 +114,11 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 Floor = purchaseUserOrder.Floor,
                 Entrance = purchaseUserOrder.Entrance,
                 OrderComment = purchaseUserOrder.OrderComment,
-                
+
                 OrderStatus = OrderStatusEnum.Processing_State,
                 DateCreated = dateCreated,
                 OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated.Date} {dateCreated.ToLongTimeString()}",
-                TechnoShopUser = user  
+                TechnoShopUser = user
             };
 
             user.UserCarts
@@ -127,11 +129,58 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 userOrder.UserOrderProducts.Add(new UserOrderProduct() { Product = q.Product, ProductCount = q.ProductCount });
                 q.Product.InOrderCount = q.ProductCount;
             });
-            
+
             await _cartRepository.AddNewOrder(userOrder);
 
             await _productRepository.Save();
             await ClearCart(userEmail);
+        }
+
+        public async Task<List<OrderResponceDto>> GetUserOrders(string userEmail)
+        {
+            List<OrderResponceDto> orderResponceDtos = new();
+
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            if (user == null) throw new NotFoundException<string>(userEmail);
+
+            var userOrders = user.UserOrders.ToList();
+
+            foreach (var order in userOrders)
+            {
+                OrderResponceDto orderResponceDto = new()
+                {
+                    UserOrderId = order.UserOrderId,
+                    DateCreated = order.DateCreated,
+                    FlatNumber = order.FlatNumber,
+                    Floor = order.Floor,
+                    FullName = order.FullName,
+                    City = order.City,
+                    Entrance = order.Entrance,
+                    HouseNumber = order.HouseNumber,
+                    OrderComment = order.OrderComment,
+                    OrderStatus = order.OrderStatus,
+                    PhoneNumber = order.PhoneNumber,
+                    Street = order.Street,
+                };
+                foreach (var userOrder in order.UserOrderProducts)
+                {
+                    OrderProductResponceDto orderProductResponceDto = new()
+                    {
+                        ProductId = userOrder.Product.ProductId,
+                        Name= userOrder.Product.Name,
+                        ProductTypeName = userOrder.Product.ProductTypeName,
+                        Cost= userOrder.Product.Cost,
+                        
+                        ProductCount = userOrder.ProductCount,
+                    };
+
+                    orderResponceDto.Products.Add(orderProductResponceDto);
+                }
+
+                orderResponceDtos.Add(orderResponceDto);
+            }
+
+            return orderResponceDtos;
         }
     }
 }

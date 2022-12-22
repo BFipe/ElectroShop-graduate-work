@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechnoShop.Entities.ProductEntity;
-using TechnoShop.Entities.UserEntity;
+using TechnoShop.BusinessLayer.Dtos.CartDto;
 using TechnoShop.Enums;
 
-namespace TechnoShop.Entities.UserOrderEntity
+namespace TechnoShop.BusinessLayer.Dtos.OrderDto
 {
-    public class UserOrder
+    public class OrderResponceDto
     {
         public string UserOrderId { get; set; }
 
         public DateTime DateCreated { get; set; }
 
-        public string FullName { get; set;}
+        public string FullName { get; set; }
 
-        public float PhoneNumber { get; set;}
+        public float PhoneNumber { get; set; }
 
         public string City { get; set; }
 
@@ -35,16 +34,7 @@ namespace TechnoShop.Entities.UserOrderEntity
 
         public OrderStatusEnum? OrderStatus { get; set; }
 
-        public DateTime? OrderCompletionDate { get; set; }
-
-        public string OrderStatusComment { get; set; }
-
-
-        public string TechnoShopUserId { get; set;}
-        public TechnoShopUser TechnoShopUser { get; set; }
-    
-        public List<Product> Products { get; set; } = new();
-        
-        public List<UserOrderProduct> UserOrderProducts { get; set; } = new(); 
+        public List<OrderProductResponceDto> Products { get; set; } = new();
     }
+
 }

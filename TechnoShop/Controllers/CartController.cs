@@ -157,7 +157,7 @@ namespace TechnoShop.Controllers
 
                     
 
-                    return Redirect("MyCart");
+                    return Redirect("MyOrders");
                 }
             }
             return View(purchaseData);
@@ -175,9 +175,12 @@ namespace TechnoShop.Controllers
             return number;
         }
 
-        public async Task<IActionResult> MyPurchases()
+        public async Task<IActionResult> MyOrders()
         {
-            return View("MyCart");
+            CombinedOrderResponceViewModel combinedOrderResponceViewModel = new();
+            var orderResponce = _mapper.Map<List<OrderResponceViewModel>>(await _cartService.GetUserOrders(_contextAccessor.HttpContext.User.Identity.Name));
+            combinedOrderResponceViewModel.Orders = orderResponce;
+            return View(combinedOrderResponceViewModel);
         }
     }
 }

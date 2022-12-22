@@ -18,4 +18,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TechnoShop.Enums\TechnoShop.Enums.csproj" />
+  </ItemGroup>
+
 </Project>
