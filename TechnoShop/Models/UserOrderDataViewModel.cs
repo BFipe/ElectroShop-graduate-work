@@ -44,5 +44,8 @@ namespace TechnoShop.Models
         [MaxLength(30, ErrorMessage = "Максимальная длинна строки - 150")]
         [Display(Name = "Комментарий к заказу")]
         public string OrderComment { get; set; }
+
+        [Display(Name = "Опция для отправки заказа на почту")]
+        public bool SendEmail { get; set; }
     }
 }

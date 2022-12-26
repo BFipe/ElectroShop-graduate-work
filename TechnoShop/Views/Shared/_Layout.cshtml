@@ -3,6 +3,9 @@
 @inject IWebHostEnvironment Environment
 @inject ICompositeViewEngine Engine
 
+@{
+    var popperJS = "https://unpkg.com/@popperjs/core@2";
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>TechnoShop</title>
     <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/bootstrap/css/bootstrap.bundle.min.js">
     <link rel="stylesheet" href="~/assets/css/Aldrich.css">
     <link rel="stylesheet" href="~/assets/css/Alfa%20Slab%20One.css">
     <link rel="stylesheet" href="~/assets/css/Angkor.css">
@@ -23,6 +27,20 @@
     <link rel="stylesheet" href="~/assets/css/Navbar-Centered-Links-icons.css">
     <link rel="stylesheet" href="~/assets/css/Responsive-Image-Grid.css">
     <link rel="stylesheet" href="~/assets/css/Simple-Slider-Simple-Slider.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Angkor&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arbutus&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/Contact-Form-v2-Modal--Full-with-Google-Map.css">
+    <link rel="stylesheet" href="assets/css/divider-text-middle.css">
+    <link rel="stylesheet" href="assets/css/Features-Image-images.css">
+    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="assets/css/Responsive-Image-Grid.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu-sidebar.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider-Simple-Slider.css">
 </head>
 
 <body style="background: #e5f2ff; min-height: 100vh; display: flex; flex-direction: column;">
@@ -85,6 +103,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
     <script src="~/assets/js/Simple-Slider.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/Contact-Form-v2-Modal--Full-with-Google-Map.js"></script>
+    <script src="assets/js/Sidebar-Menu.js"></script>
+    <script src="assets/js/Simple-Slider.js"></script>
+    <script src="@popperJS"></script>
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>

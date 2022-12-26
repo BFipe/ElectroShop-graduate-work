@@ -30,5 +30,10 @@ namespace TechnoShop.Data.Repositories
         {
             return _dbContext.UserOrders.AddAsync(userOrder).AsTask();
         }
+
+        public Task<int> OrdersCount()
+        {
+            return _dbContext.UserOrders.CountAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +21,17 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICartRepository _cartRepository;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
-        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository, ICartRepository cartRepository)
+        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository, ICartRepository cartRepository, IEmailSender emailSender)
         {
             _productRepository = productRepository;
             _productTypeRepository = productTypeRepository;
             _mapper = mapper;
             _userRepository = userRepository;
             _cartRepository = cartRepository;
+            _emailSender = emailSender;
         }
 
         public async Task AddToCart(string productId, int cartCount, string userEmail)
@@ -38,6 +41,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             var product = await _productRepository.GetById(productId);
 
             if (user == null || product == null) return;
+            if (product.Count - product.InOrderCount < cartCount) return;
             if (user.Products.Contains(product)) throw new AlreadyInTheCartException();
 
             _cartRepository.AddProductToCart(user, product, cartCount);
@@ -101,10 +105,14 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
         public async Task CreatePurchase(PurchaseUserOrderDataRequestDto purchaseUserOrder, string userEmail)
         {
             var user = await _userRepository.FindUserByEmail(userEmail);
-            DateTime dateCreated = DateTime.Now;
+            var dateCreated = DateTime.Now.ToString();
+            var orderNumber = await _cartRepository.OrdersCount() + 1;
             UserOrder userOrder = new UserOrder()
             {
                 UserOrderId = Guid.NewGuid().ToString(),
+
+                OrderNumber = orderNumber.ToString(),
+
                 FullName = purchaseUserOrder.FullName,
                 PhoneNumber = purchaseUserOrder.PhoneNumber,
                 City = purchaseUserOrder.City,
@@ -117,7 +125,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
 
                 OrderStatus = OrderStatusEnum.Processing_State,
                 DateCreated = dateCreated,
-                OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated.Date} {dateCreated.ToLongTimeString()}",
+                OrderStatusComment = $"Создан пользователем {user.Email} в {dateCreated}",
                 TechnoShopUser = user
             };
 
@@ -127,12 +135,26 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 .ForEach(q =>
             {
                 userOrder.UserOrderProducts.Add(new UserOrderProduct() { Product = q.Product, ProductCount = q.ProductCount });
-                q.Product.InOrderCount = q.ProductCount;
+                q.Product.InOrderCount += q.ProductCount;
             });
 
             await _cartRepository.AddNewOrder(userOrder);
-
             await _productRepository.Save();
+
+            if (purchaseUserOrder.SendEmail)
+            {
+               var htmlMessage = $@"
+<h1>Спасибо за оформление заказа!</h1>
+<p>Номер вашего заказа - {orderNumber}.</p>
+
+<p>В ближайшее время с вами свяжется менеджер для его подтверждения!</p>
+
+<p>Список всех ваших заказов - https://localhost:7002/Cart/MyOrders</p>
+";
+               await _emailSender.SendEmailAsync(user.Email, $"TechnoShop, оформление заказа №{orderNumber}", htmlMessage);
+                
+            }
+
             await ClearCart(userEmail);
         }
 
@@ -150,6 +172,7 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
                 OrderResponceDto orderResponceDto = new()
                 {
                     UserOrderId = order.UserOrderId,
+                    OrderNumber = order.OrderNumber,
                     DateCreated = order.DateCreated,
                     FlatNumber = order.FlatNumber,
                     Floor = order.Floor,
@@ -181,6 +204,22 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             }
 
             return orderResponceDtos;
+        }
+
+        public async Task CancelOrder(string userEmail, string cancelComment, string orderId)
+        {
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            if (user == null) throw new NotFoundException<string>(userEmail);
+
+            var userOrder = user.UserOrders.Single(q => q.UserOrderId == orderId);
+            userOrder.OrderStatusComment = cancelComment;
+            userOrder.OrderStatus = OrderStatusEnum.Canceled_By_User;
+            userOrder.Products.ForEach(q =>
+            {
+                q.InOrderCount -= userOrder.UserOrderProducts.Single(w => w.ProductId == q.ProductId).ProductCount;
+            });
+
+            await _productRepository.Save();
         }
     }
 }

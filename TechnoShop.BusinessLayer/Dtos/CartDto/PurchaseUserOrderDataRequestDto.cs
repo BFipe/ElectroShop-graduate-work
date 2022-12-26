@@ -12,7 +12,7 @@ namespace TechnoShop.BusinessLayer.Dtos.CartDto
     {
         public string FullName { get; set; }
 
-        public float PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string City { get; set; }
 
@@ -27,5 +27,7 @@ namespace TechnoShop.BusinessLayer.Dtos.CartDto
         public string Floor { get; set; }
 
         public string OrderComment { get; set; }
+
+        public bool SendEmail { get; set; }
     }
 }

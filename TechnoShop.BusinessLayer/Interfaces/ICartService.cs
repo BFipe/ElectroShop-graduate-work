@@ -16,6 +16,7 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task ChangeProductQuantity(string userEmail, string productId, int productQuantity);
         public Task ClearCart(string userEmail);
         public Task CreatePurchase(PurchaseUserOrderDataRequestDto purchaseUserOrder,string userEmail);
+        public Task CancelOrder(string userEmail, string cancelComment, string orderId);
         public Task<List<OrderResponceDto>> GetUserOrders(string userEmail);
     }
 }

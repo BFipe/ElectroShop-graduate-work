@@ -14,6 +14,7 @@ namespace TechnoShop.Entities.UserOrderEntity
         {
             builder.HasKey(q => q.UserOrderId);
             builder.Property(q => q.DateCreated).IsRequired(true);
+            builder.Property(q => q.OrderNumber).IsRequired(true);
             builder.Property(q => q.FullName).IsRequired(true).HasMaxLength(60);
             builder.Property(q => q.PhoneNumber).IsRequired(true);
             builder.Property(q => q.City).IsRequired(true).HasMaxLength(30);

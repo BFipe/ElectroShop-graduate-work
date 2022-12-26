@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Drawing;
 using TechnoShop.BusinessLayer.Dtos.CartDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.BusinessLayer.Services.ProductServiceData;
@@ -132,9 +136,9 @@ namespace TechnoShop.Controllers
                 !String.IsNullOrWhiteSpace(userPurchaseDataViewModel.HouseNumber)
                )
             {
-                float validPhone = DecharisePhoneNumber(userPurchaseDataViewModel.PhoneNumber);
+                string validPhone = DecharisePhoneNumber(userPurchaseDataViewModel.PhoneNumber);
 
-                if (validPhone == 0)
+                if (validPhone == String.Empty)
                 {
                     purchaseData.UserPurchaseData.PhoneNumber = String.Empty;
                 }
@@ -150,20 +154,19 @@ namespace TechnoShop.Controllers
                         HouseNumber = userPurchaseDataViewModel.HouseNumber,
                         OrderComment = userPurchaseDataViewModel.OrderComment,
                         Street = userPurchaseDataViewModel.Street,
-                        PhoneNumber = validPhone
+                        PhoneNumber = validPhone,
+                        SendEmail = userPurchaseDataViewModel.SendEmail,
                     };
 
                     await _cartService.CreatePurchase(purchaseUserOrder, _contextAccessor.HttpContext.User.Identity.Name);
-
                     
-
                     return Redirect("MyOrders");
                 }
             }
             return View(purchaseData);
         }
 
-        private float DecharisePhoneNumber(string phoneNumber)
+        private string DecharisePhoneNumber(string phoneNumber)
         {
             string[] phoneFilterChar = { " ", "+", "(", ")", "-" };
             foreach (var pchar in phoneFilterChar)
@@ -171,16 +174,46 @@ namespace TechnoShop.Controllers
                 phoneNumber = phoneNumber.Replace(pchar, "");
             }
             bool result = float.TryParse(phoneNumber, out float number) && (phoneNumber.Count() == 11 || phoneNumber.Count() == 12);
-            if (result == false) return 0;
-            return number;
+            if (result == false) return String.Empty;
+
+            var charArray = phoneNumber.ToArray();
+            if (charArray[0] == '3')
+            {
+                phoneNumber = $"+{charArray[0]}{charArray[1]}{charArray[2]} ({charArray[3]}{charArray[4]}) {charArray[5]}{charArray[6]}{charArray[7]}-{charArray[8]}{charArray[9]}-{charArray[10]}{charArray[11]}";
+                Console.WriteLine(phoneNumber);
+            }
+            if (charArray[0] == '8')
+            {
+                phoneNumber = $"{charArray[0]} ({charArray[1]}{charArray[2]}{charArray[3]}) {charArray[4]}{charArray[5]}{charArray[6]}-{charArray[7]}{charArray[8]}-{charArray[9]}{charArray[10]}";
+                Console.WriteLine(phoneNumber);
+            }
+            return phoneNumber;
         }
 
         public async Task<IActionResult> MyOrders()
         {
             CombinedOrderResponceViewModel combinedOrderResponceViewModel = new();
-            var orderResponce = _mapper.Map<List<OrderResponceViewModel>>(await _cartService.GetUserOrders(_contextAccessor.HttpContext.User.Identity.Name));
+            var orderResponce = _mapper.Map<List<OrderResponceViewModel>>(await _cartService.GetUserOrders(_contextAccessor.HttpContext.User.Identity.Name)).OrderByDescending(q => q.DateCreated).ToList();
             combinedOrderResponceViewModel.Orders = orderResponce;
             return View(combinedOrderResponceViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(string cancelComment, string orderId, string cancelationReason)
+        {
+            if (String.IsNullOrWhiteSpace(orderId)) Redirect("MyOrders");
+
+            try
+            {
+                string cancelRequestComment = $"Отменен пользователем по причине: \"{cancelationReason}\" с комментарием: \"{cancelComment}\" в {DateTime.Now.ToString()}";
+                await _cartService.CancelOrder(_contextAccessor.HttpContext.User.Identity.Name, cancelRequestComment, orderId);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ExceptionMessage"] = ex.Message;
+                
+            }
+            return Redirect("MyOrders");
         }
     }
 }

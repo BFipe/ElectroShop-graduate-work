@@ -13,5 +13,6 @@ namespace TechnoShop.Data.Repositories.Interfaces
     {
         public void AddProductToCart(TechnoShopUser user, Product product, int cartCount);
         public Task AddNewOrder(UserOrder userOrder);
+        public Task<int> OrdersCount();
     }
 }

@@ -12,11 +12,13 @@ namespace TechnoShop.BusinessLayer.Dtos.OrderDto
     {
         public string UserOrderId { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public string OrderNumber { get; set; }
+
+        public string DateCreated { get; set; }
 
         public string FullName { get; set; }
 
-        public float PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string City { get; set; }
 
