@@ -10,7 +10,6 @@ namespace TechnoShop.Models
         [Display(Name = "Название типа продукта")]
         public string TypeName { get; set; }
 
-        public List<string> ErrorListInfo { get; set; } = new();
-        public List<string> StatusListInfo { get; set; } = new();
+        public ResponceStatusViewModel ResponceStatus { get; set; } = new();
     }
 }

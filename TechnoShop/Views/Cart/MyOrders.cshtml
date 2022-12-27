@@ -3,6 +3,13 @@
     var modalId = 0;
 }
 
+
+@if (Model.ResponceStatus != null)
+{
+    @await Html.PartialAsync("_ToastErrorSucessInformation", Model.ResponceStatus)
+}
+
+
 @if (Model.Orders.Any() == false)
 {
     <div class="d-flex justify-content-center">

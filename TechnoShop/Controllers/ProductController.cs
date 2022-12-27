@@ -51,6 +51,8 @@ namespace TechnoShop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductRequestViewModel productRequestViewModel)
         {
+            ModelState.Remove("ResponceStatus.ErrorMessage");
+            ModelState.Remove("ResponceStatus.SucessMessage");
             await GetProductTypeToViewData();
             if (ModelState.IsValid)
             {
@@ -58,11 +60,11 @@ namespace TechnoShop.Controllers
                 {
                     var product = _mapper.Map<ProductRequestDto>(productRequestViewModel);
                     await _productService.AddNewProduct(product);
-                    productRequestViewModel.StatusListInfo.Add($"Успешно добавлен новый продукт {product.Name}!");
+                    productRequestViewModel.ResponceStatus.SucessMessage = $"Успешно добавлен новый продукт {product.Name}!";
                 }
                 catch (Exception ex)
                 {
-                    productRequestViewModel.ErrorListInfo.Add(ex.Message);
+                    productRequestViewModel.ResponceStatus.ErrorMessage = ex.Message;
                 }
             }
             return View(productRequestViewModel);
@@ -78,17 +80,19 @@ namespace TechnoShop.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProductType(ProductTypeViewModel productTypeViewModel)
         {
+            ModelState.Remove("ResponceStatus.ErrorMessage");
+            ModelState.Remove("ResponceStatus.SucessMessage");
             if (ModelState.IsValid)
             {
                 try
                 {
                     var productType = _mapper.Map<ProductTypeRequestDto>(productTypeViewModel);
                     await _productService.AddNewType(productType);
-                    productTypeViewModel.StatusListInfo.Add($"Успешно добавлен новый тип {productType.TypeName}!");
+                    productTypeViewModel.ResponceStatus.SucessMessage = $"Успешно добавлен новый тип {productType.TypeName}!";
                 }
                 catch (Exception ex)
                 {
-                    productTypeViewModel.ErrorListInfo.Add(ex.Message);
+                    productTypeViewModel.ResponceStatus.ErrorMessage = ex.Message;
                 }
             }
             await GetProductTypeToViewData();
@@ -153,16 +157,17 @@ namespace TechnoShop.Controllers
         public async Task<IActionResult> DeleteProduct(string productId)
         {
             if (productId == null) RedirectToAction("AllProducts", "Product");
-            ErrorViewModel errorViewModel = new();
+            ResponceStatusViewModel responceStatusViewModel = new();
             try
             {
                 await _productService.DeleteProduct(productId);
+                responceStatusViewModel.SucessMessage = "Продукт был успешно удален";
             }
             catch (Exception ex)
             {
-                errorViewModel.ErrorMessage = ex.Message;
+                responceStatusViewModel.ErrorMessage = ex.Message;
             }
-            return RedirectToAction("AllProducts", errorViewModel);
+            return RedirectToAction("AllProducts", responceStatusViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

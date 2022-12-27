@@ -32,7 +32,9 @@ namespace TechnoShop.Models
         [Display(Name = "Ссылка на фотографию продукта")]
         public string PictureLink { get; set; }
 
-        public List<string> ErrorListInfo { get; set; } = new();
-        public List<string> StatusListInfo { get; set; } = new();
+        
+        public ResponceStatusViewModel ResponceStatus { get; set; } = new();
+
+        
     }
 }
