@@ -7,6 +7,7 @@ using System.Diagnostics;
 using TechnoShop.BusinessLayer.Dtos.ProductDto;
 using TechnoShop.BusinessLayer.Dtos.ProductTypeDto;
 using TechnoShop.BusinessLayer.Interfaces;
+using TechnoShop.Exceptions;
 using TechnoShop.Models;
 
 
@@ -113,11 +114,12 @@ namespace TechnoShop.Controllers
             await GetProductTypeToViewData();
             return View(productTypeViewModels);
         }
-        
-        public async Task<IActionResult> AllProducts(string productType, int page = 1, int productsPerPage = 6)
+
+        public async Task<IActionResult> AllProducts(string productType, int page = 1, int productsPerPage = 6, ResponceStatusViewModel? responceStatusViewModel = null)
         {
             ViewData["returnUrl"] = Request.GetDisplayUrl();
             CombinedPageProductViewModel combinedPageProductViewModel= new();
+            combinedPageProductViewModel.ResponceStatusViewModel = responceStatusViewModel;
             List<ProductResponceViewModel> productViewModels = new();
             try
             {
@@ -168,6 +170,59 @@ namespace TechnoShop.Controllers
                 responceStatusViewModel.ErrorMessage = ex.Message;
             }
             return RedirectToAction("AllProducts", responceStatusViewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(string productId)
+        {
+            if (String.IsNullOrEmpty(productId)) return Redirect("AllProducts");
+
+            await GetProductTypeToViewData();
+            var product = await _productService.GetProduct(productId);
+
+            if (product is null) return Redirect("AllProducts");
+
+            ProductEditViewModel productResponceViewModel = new()
+            {
+                Id = product.ProductId,
+                ProductRate = product.ProductRate,
+                Description = product.Description,
+                Cost = product.Cost,
+                Count = product.Count,
+                Name = product.Name,
+                PictureLink = product.PictureLink,
+                ProductTypeName = product.ProductTypeName,
+                MinCount = product.InOrderCount
+            };
+
+            return View(productResponceViewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(string productId, ProductEditViewModel productEditViewModel)
+        {
+            ModelState.Remove("ResponceStatus.ErrorMessage");
+            ModelState.Remove("ResponceStatus.SucessMessage");
+            ModelState.Remove("Id");
+            await GetProductTypeToViewData();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var productRequest = _mapper.Map<ProductRequestDto>(productEditViewModel);
+                    await _productService.UpdateProduct(productId, productRequest);
+                    ResponceStatusViewModel responceStatus = new();
+                    responceStatus.SucessMessage = $"Успешно обновлен продукт с именем {productEditViewModel.Name}";
+                    return RedirectToAction("AllProducts", responceStatus);
+                }
+                catch (Exception ex)
+                {
+                    productEditViewModel.ResponceStatus.ErrorMessage = ex.Message;
+                } 
+            }
+            return View(productEditViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

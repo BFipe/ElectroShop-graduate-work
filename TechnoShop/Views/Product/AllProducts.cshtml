@@ -17,6 +17,8 @@
 @inject SignInManager<TechnoShopUser> SignInManager
 @inject UserManager<TechnoShopUser> UserManager
 
+@await Html.PartialAsync("_ToastErrorSucessInformation", Model.ResponceStatusViewModel)
+
 @if (Model.Products.Any())
 {
     <div data-bs-spy="scroll">

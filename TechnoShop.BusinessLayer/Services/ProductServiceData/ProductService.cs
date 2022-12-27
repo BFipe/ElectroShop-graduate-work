@@ -62,14 +62,19 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
             {
                 throw new OutOfRangeException(page);
             }
-            
+
+            //User for product in cart detecting
             var user = await _userRepository.FindUserByEmail(userEmail);
+
+            //Get list of products from db
             var productResponceDtos = _productRepository
                 .GetAll()
                 .Where(q => productType == null || q.ProductTypeName == productType).ToList()
                 .Skip(--page * productsPerPage).Take(productsPerPage)
                 .Select(q => _mapper.Map<ProductResponceDto>(q))
                 .ToList();
+
+            //Detecting
             productResponceDtos.ForEach(q =>
             {
                 if (user != null && user.Products.Any(j => j.ProductId == q.ProductId)) q.IsOpenForCart = false;
@@ -78,7 +83,7 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         }
 
         public async Task<List<ProductTypeResponceDto>> GetProductTypes()
-        { 
+        {
             return _mapper.Map<List<ProductTypeResponceDto>>(_productTypeRepository.GetAll().ToList());
         }
 
@@ -91,6 +96,31 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
         public int GetProductCount(string productType)
         {
             return _productRepository.GetAll().Where(q => productType == null || q.ProductTypeName == productType).Count();
+        }
+
+        public async Task<ProductResponceDto> GetProduct(string productId)
+        {
+            return _mapper.Map<ProductResponceDto>(await _productRepository.GetById(productId));
+        }
+
+        public async Task UpdateProduct(string productId, ProductRequestDto product)
+        {
+            var dbProduct = await _productRepository.GetById(productId);
+            var dbProducts = _productRepository.GetAll();
+
+            //Checking new product data
+            if (dbProducts.Any(q => q.Name == product.Name && q.ProductId != productId)) throw new ObjectExistsException(product.Name);
+            if (product.Count - dbProduct.InOrderCount < 0) throw new IncorrectValueException<int>(product.Count);
+
+            dbProduct.Cost = product.Cost;
+            dbProduct.PictureLink = product.PictureLink;
+            dbProduct.Count = product.Count;
+            dbProduct.Name = product.Name;
+            dbProduct.Description = product.Description;
+            dbProduct.ProductTypeName = product.ProductTypeName;
+            dbProduct.ProductRate= product.ProductRate;
+
+            await _productRepository.Save();
         }
     }
 }

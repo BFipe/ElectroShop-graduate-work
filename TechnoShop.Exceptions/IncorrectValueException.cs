@@ -12,7 +12,7 @@ namespace TechnoShop.Exceptions
         {
 
         }
-        public IncorrectValueException(T value) : base($"Неверное значение - {value.ToString}")
+        public IncorrectValueException(T value) : base($"Неверное значение - {value.ToString()}")
         {
 
         }

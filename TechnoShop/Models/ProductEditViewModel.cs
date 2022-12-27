@@ -3,13 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TechnoShop.Models
 {
-    public class ProductResponceViewModel
+    public class ProductEditViewModel
     {
         public string Id { get; set; }
 
         public int ProductRate { get; set; }
-
-        public bool IsOpenForCart { get; set; }
 
         [Display(Name = "Название продукта")]
         public string Name { get; set; }
@@ -19,6 +17,9 @@ namespace TechnoShop.Models
 
         [Display(Name = "Кол-во продукта")]
         public int Count { get; set; }
+        
+        [Display(Name = "Минимальное кол-во продукта")]
+        public int MinCount { get; set; }
 
         [Display(Name = "Описание продукта")]
         public string Description { get; set; }

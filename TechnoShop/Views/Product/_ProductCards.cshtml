@@ -154,13 +154,14 @@
                         </div>
                     }
 
-                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                    @*@if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))*@
+                    @if (true)
                     {
                         <div class="row d-flex justify-content-evenly" style="margin: 6px;">
 
                             <div class="col-auto col-md-6 d-flex justify-content-center" style="margin: 0px;padding: 4px;">
 
-                                <form action="/Product/EditProduct" method="post">
+                                <form action="/Product/EditProduct" method="get">
                                     <button name="productId" value="@productId" class="btn btn-primary d-flex justify-content-center" style="border-radius: 10px;background: rgb(125,232,255);font-weight: bold;color: rgb(0,0,0);border-style: none;box-shadow: 2px 2px 3px rgba(0,0,0,0.5);">
                                         Edit product <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-pencil-fill" style="transform: translateY(3px);">
                                             <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"></path>

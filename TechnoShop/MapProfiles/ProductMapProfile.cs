@@ -13,6 +13,9 @@ namespace TechnoShop.MapProfiles
             CreateMap<ProductResponceViewModel, ProductRequestDto>();
             CreateMap<ProductRequestViewModel, ProductRequestDto>();
 
+            CreateMap<ProductEditViewModel, ProductRequestDto>();
+            CreateMap<ProductRequestDto, ProductEditViewModel>();
+
             CreateMap<ProductTypeViewModel, ProductTypeRequestDto>();
         }
     }
