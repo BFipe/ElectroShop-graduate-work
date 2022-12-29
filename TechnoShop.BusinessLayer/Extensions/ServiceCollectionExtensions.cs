@@ -7,6 +7,7 @@ using TechnoShop.BusinessLayer.Extensions;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.BusinessLayer.Services.CartServiceData;
 using TechnoShop.BusinessLayer.Services.EmailSenderServiceData;
+using TechnoShop.BusinessLayer.Services.ManagerServiceData;
 using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Data;
 using TechnoShop.Data.Extensions;
@@ -25,9 +26,11 @@ public static class ServiceCollectionExtensions
 
         services.AddAutoMapper(Assembly.GetCallingAssembly(),
                        Assembly.GetExecutingAssembly());
+
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IEmailSender, EmailSenderService>();
+        services.AddScoped<IManagerService, ManagerService>();
         return services;
     }
 }

@@ -211,7 +211,10 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             var user = await _userRepository.FindUserByEmail(userEmail);
             if (user == null) throw new NotFoundException<string>(userEmail);
 
-            var userOrder = user.UserOrders.Single(q => q.UserOrderId == orderId);
+            var userOrder = user.UserOrders.FirstOrDefault(q => q.UserOrderId == orderId);
+
+            if (userOrder == null) throw new ObjectNotExistsException();
+
             userOrder.OrderStatusComment = cancelComment;
             userOrder.OrderStatus = OrderStatusEnum.Canceled_By_User;
             userOrder.Products.ForEach(q =>
