@@ -217,9 +217,10 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
 
             userOrder.OrderStatusComment = cancelComment;
             userOrder.OrderStatus = OrderStatusEnum.Canceled_By_User;
-            userOrder.Products.ForEach(q =>
+
+            userOrder.UserOrderProducts.ForEach(q =>
             {
-                q.InOrderCount -= userOrder.UserOrderProducts.Single(w => w.ProductId == q.ProductId).ProductCount;
+                q.Product.InOrderCount -= q.ProductCount;
             });
 
             await _productRepository.Save();

@@ -8,6 +8,7 @@ using TechnoShop.BusinessLayer.Dtos.ManagerDtos.OrderDto;
 using TechnoShop.BusinessLayer.Dtos.OrderDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories.Interfaces;
+using TechnoShop.Exceptions;
 
 namespace TechnoShop.BusinessLayer.Services.ManagerServiceData
 {
@@ -64,6 +65,33 @@ namespace TechnoShop.BusinessLayer.Services.ManagerServiceData
             }
 
             return managerOrderResponces.OrderBy(q => q.OrderStatus).ThenByDescending(q => q.DateCreated).ToList();
+        }
+
+        public async Task CancelOrder(string cancelRequestComment, string orderId)
+        {
+            var order = await _managerRepository.OrderById(orderId);
+            if (order == null) throw new NotFoundException<string>(orderId);
+
+            order.OrderStatus = Enums.OrderStatusEnum.Canceled_By_Manager;
+            order.OrderStatusComment = cancelRequestComment;
+
+            order.UserOrderProducts.ForEach(q =>
+            {
+                q.Product.InOrderCount -= q.ProductCount;
+            });
+
+            await _managerRepository.SaveAsync();
+        }
+
+        public async Task ConfirmOrder(string orderId)
+        {
+            var order = await _managerRepository.OrderById(orderId);
+            if (order == null) throw new NotFoundException<string>(orderId);
+
+            order.OrderStatus = Enums.OrderStatusEnum.Confirmed;
+            order.OrderStatusComment = $"Подтвержден менеджером {DateTime.Now.ToString()}";
+
+            await _managerRepository.SaveAsync();
         }
     }
 }

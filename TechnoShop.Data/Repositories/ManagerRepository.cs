@@ -18,6 +18,11 @@ namespace TechnoShop.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<UserOrder> OrderById(string orderId)
+        {
+            return await _dbContext.UserOrders.Include(q => q.UserOrderProducts).ThenInclude(q => q.Product).SingleOrDefaultAsync(q => q.UserOrderId == orderId);
+        }
+
         public async Task<List<UserOrder>> GetOrders()
         {
             return await _dbContext.UserOrders
@@ -25,6 +30,11 @@ namespace TechnoShop.Data.Repositories
                 .Include(q => q.UserOrderProducts)
                 .ThenInclude(q => q.Product)
                 .ToListAsync();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

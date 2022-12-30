@@ -84,6 +84,9 @@ else
                                             break;
 
                                         case OrderStatusEnum.Confirmed:
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);text-align: center;" colspan="3">
+                                                Подтвержден менеджером
+                                            </td>
                                             break;
 
                                         case OrderStatusEnum.Ready_to_go:
@@ -208,7 +211,7 @@ else
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12 d-flex justify-content-center" style="margin-bottom: 9px;">
-                                            <select name="cancelationReason" class="form-select-lg " style="background: rgb(227,252,255); width: 400px;">
+                                            <select required name="cancelationReason" class="form-select-lg " style="background: rgb(227,252,255); width: 400px;">
                                                 <option value="" selected disabled>Выберите причину отмены</option>
                                                 <option value="Передумал покупать">Передумал покупать</option>
                                                 <option value="Неправильно оформлен заказ">Неправильно оформлен заказ</option>

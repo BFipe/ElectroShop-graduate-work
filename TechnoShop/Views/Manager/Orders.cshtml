@@ -81,12 +81,15 @@ else
                                     @switch (order.OrderStatus)
                                     {
                                         case OrderStatusEnum.Processing_State:
-                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);text-align: center;" colspan="3">
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);" colspan="3">
                                                 Оформлен
                                             </td>
                                             break;
 
                                         case OrderStatusEnum.Confirmed:
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);" colspan="3">
+                                                Подтвержден менеджером
+                                            </td>
                                             break;
 
                                         case OrderStatusEnum.Ready_to_go:
@@ -126,13 +129,17 @@ else
                                 </button>
                             </div>
 
+
                             <div class="col-auto d-flex justify-content-center align-items-center">
-                                <a class="btn btn-primary btn-sm" role="button" href="/Cart/MyCart" style="margin: 5px;font-size: 17px;font-weight: bold;background: #76ff54;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                                <form action="/Manager/ConfirmOrder" method="post">
+                                    <input name="orderId" value="@order.UserOrderId" hidden>
+                                <button class="btn btn-primary btn-sm" role="button" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #76ff54;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
                                     Confirm order 
                                     <svg class="bi bi-file-check-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;">
                                         <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1.146 6.854-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
                                     </svg>
-                                </a>
+                                </button>
+                                </form>
                             </div>
                         }
 
@@ -211,7 +218,7 @@ else
                 </div>
             </div>
 
-            <form method="post" action="/Cart/CancelOrder">
+            <form method="post" action="/Manager/CancelOrder">
                 <div id="cancelModal_@modalId" class="modal fade" role="dialog" tabindex="-1">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -224,16 +231,15 @@ else
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-md-12 d-flex justify-content-center" style="margin-bottom: 9px;">
-                                            <select name="cancelationReason" class="form-select-lg " style="background: rgb(227,252,255); width: 400px;">
-                                                <option value="" selected disabled>Выберите причину отмены</option>
-                                                <option value="Передумал покупать">Передумал покупать</option>
-                                                <option value="Неправильно оформлен заказ">Неправильно оформлен заказ</option>
-                                                <option value="Уже приобрел данный товар/товары">Уже приобрел данный товар/товары</option>
-                                                <option value="Другое">Другое (Просим вас описать ниже что не так с оформлением заказа)</option>
+                                            <select required name="cancelationReason" class="form-select-lg " style="background: rgb(227,252,255);width: 640.6px;border-radius: 9px;">
+                                                <option value="@null" selected disabled>Выберите причину отмены</option>
+                                                <option value="Передумал покупать">Клиент передумал покупать</option>
+                                                <option value="Некорректно оформлен заказ">Некорректно оформлен заказ</option>
+                                                <option value="Другая причина">Другая причина</option>
                                             </select>
                                         </div>
                                         <div class="col-md-12 d-flex justify-content-center">
-                                            <textarea name="cancelComment" style="width: 500px;" placeholder="Расскажите нам, почему вы хотите отменить ваш заказ"></textarea>
+                                            <textarea name="cancelComment" style="width: 500px;border-radius: 8px;" placeholder="Напишите причину отмены товара"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -255,6 +261,9 @@ else
                     </div>
                 </div>
             </form>
+            
+            
+            
         </div>
     }
 }

@@ -9,17 +9,14 @@ namespace HelloApp
     {
         public static void Main()
         {
-            string phoneNumber = String.Empty;
-            var charArray = "80296111953".ToArray();
-            if (charArray[0] == '3')
+            List<int> list = new List<int>() { 1,2,3,4,5,6,7,8};
+            List<int> list2 = new List<int>(list);
+
+            list[1] = 10000;
+
+            foreach (var item in list2)
             {
-                phoneNumber = $"+{charArray[0]}{charArray[1]}{charArray[2]} ({charArray[3]}{charArray[4]}) {charArray[5]}{charArray[6]}{charArray[7]}-{charArray[8]}{charArray[9]}-{charArray[10]}{charArray[11]}";
-                Console.WriteLine(phoneNumber);
-            }
-            if (charArray[0] == '8')
-            {
-                phoneNumber = $"{charArray[0]} ({charArray[1]}{charArray[2]}{charArray[3]}) {charArray[4]}{charArray[5]}{charArray[6]}-{charArray[7]}{charArray[8]}-{charArray[9]}{charArray[10]}";
-                Console.WriteLine(phoneNumber);
+                Console.WriteLine(item);
             }
         }
     }

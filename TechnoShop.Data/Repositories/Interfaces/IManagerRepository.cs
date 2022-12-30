@@ -10,5 +10,7 @@ namespace TechnoShop.Data.Repositories.Interfaces
     public interface IManagerRepository
     {
         public Task<List<UserOrder>> GetOrders();
+        public Task<UserOrder> OrderById(string orderId);
+        public Task SaveAsync();
     }
 }
