@@ -1,0 +1,81 @@
+﻿@model List<IdentityRole>
+
+@if (Model != null)
+{
+    <div>
+        <div class="table-responsive" style="margin-left: 24px;margin-right: 24px;">
+            <table class="table table-striped table-hover table-dark">
+                <thead>
+                    <tr class="text-center">
+                        <th style="border-top-left-radius: 20px;">Название</th>
+                        <th>Id</th>
+                        <th style="border-top-right-radius: 20px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td class="justify-content-center" style="text-align: center;font-size: 16px;color: #ffffff;">@role.Name</td>
+                            <td class="justify-content-center" style="text-align: center;font-size: 16px;color: #ffffff;">@role.Id</td>
+                            <td class="justify-content-center" style="text-align: center;font-size: 16px;color: #ffffff;">
+                                <form method="post" action="/Admin/DeleteRole">
+                                    <input hidden value="@role.Id" name="roleId">
+                                <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e21205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                                    Delete role
+                                </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="border-bottom-left-radius: 20px;border-bottom-width: 0px;text-align: center;">
+                            <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#addRole" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e28c05;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                                Add role
+                            </button>
+                        </td>
+                        <td style="border-bottom-width: 0px"></td>
+                        <td style="text-align: center;font-size: 20px;color: var(--bs-table-color);font-weight: bold;border-bottom-right-radius: 20px;border-bottom-width: 0px;">
+                            <a class="btn btn-primary btn-sm" href="AllUsers" style="margin: 5px;font-size: 17px;font-weight: bold;background: #00910c;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                                View all users
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+
+
+
+<div id="addRole" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+
+        <form class="modal-content" method="post" action="/Admin/AddRole">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Добавление роли</h4><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p style="color: rgb(0,0,0);font-size: 20px;font-weight: bold;">Название роли</p>
+                <input type="text" name="roleName" style="border-radius: 9px;border-width: 5px;box-shadow: 5px 5px 2px rgba(0,0,0,0.33);min-width: 300px;" />
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-primary" type="submit">
+                    Add role
+                </button>
+
+                <button class="btn btn-light" type="button" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
