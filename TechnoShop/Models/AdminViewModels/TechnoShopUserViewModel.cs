@@ -1,0 +1,9 @@
+﻿namespace TechnoShop.Models.AdminViewModels
+{
+    public class TechnoShopUserViewModel
+    {
+        public string Email { get; set; }
+
+        public string Id { get; set; }
+    }
+}

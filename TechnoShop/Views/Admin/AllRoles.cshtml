@@ -1,6 +1,11 @@
-﻿@model List<IdentityRole>
+﻿@model CombinedAllRolesViewModel
 
-@if (Model != null)
+@if (Model.Responce != null)
+{
+    @await Html.PartialAsync("_ToastErrorSucessInformation", Model.Responce)
+}
+
+@if (Model.Roles != null)
 {
     <div>
         <div class="table-responsive" style="margin-left: 24px;margin-right: 24px;">
@@ -13,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var role in Model)
+                    @foreach (var role in Model.Roles)
                     {
                         <tr>
                             <td class="justify-content-center" style="text-align: center;font-size: 16px;color: #ffffff;">@role.Name</td>

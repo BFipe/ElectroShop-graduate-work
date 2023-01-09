@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using TechnoShop.BusinessLayer.Extensions;
 using TechnoShop.BusinessLayer.Interfaces;
+using TechnoShop.BusinessLayer.Services.AdminServiceData;
 using TechnoShop.BusinessLayer.Services.CartServiceData;
 using TechnoShop.BusinessLayer.Services.EmailSenderServiceData;
 using TechnoShop.BusinessLayer.Services.ManagerServiceData;
@@ -31,6 +32,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IEmailSender, EmailSenderService>();
         services.AddScoped<IManagerService, ManagerService>();
+        services.AddScoped<IAdminService, AdminService>();
         return services;
     }
 }
