@@ -19,7 +19,7 @@ namespace TechnoShop.Data.Repositories
         }
 
         public async Task<UserOrder> OrderById(string orderId)
-        {
+        { 
             return await _dbContext.UserOrders.Include(q => q.UserOrderProducts).ThenInclude(q => q.Product).SingleOrDefaultAsync(q => q.UserOrderId == orderId);
         }
 

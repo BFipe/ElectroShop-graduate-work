@@ -21,7 +21,7 @@ namespace TechnoShop.Controllers
 
         public AdminController(ILogger<AdminController> logger, IAdminService adminService, IMapper mapper)
         {
-           _adminService= adminService;
+            _adminService = adminService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -38,7 +38,7 @@ namespace TechnoShop.Controllers
             {
                 combinedAllRolesViewModel.Responce.ErrorMessage += " " + ex.Message;
             }
-    
+
             return View(combinedAllRolesViewModel);
         }
 
@@ -58,19 +58,19 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
-        public async  Task<IActionResult> AddRole(string roleName)
+        public async Task<IActionResult> AddRole(string roleName)
         {
             ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
-            if(String.IsNullOrEmpty(roleName) == false)
+            if (String.IsNullOrEmpty(roleName) == false)
             {
                 IdentityResult result = await _adminService.AddRole(roleName);
-                if (result.Succeeded == false)
+                if (result.Succeeded)
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    responceStatusViewModel.SucessMessage = $"Роль {roleName} успешно добавлена!";
                 }
                 else
                 {
-                    responceStatusViewModel.SucessMessage = $"Роль {roleName} успешно добавлена!";
+                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
                 }
             }
             return RedirectToAction("AllRoles", responceStatusViewModel);
@@ -83,18 +83,55 @@ namespace TechnoShop.Controllers
             if (String.IsNullOrEmpty(roleId) == false)
             {
                 IdentityResult result = await _adminService.DeleteRole(roleId);
-                if (result.Succeeded == false)
+                if (result.Succeeded)
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().ToString();
+                    responceStatusViewModel.SucessMessage = "Роль успешно удалена!";
                 }
                 else
                 {
-                    responceStatusViewModel.SucessMessage = "Роль успешно удалена!";
+                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
                 }
             }
             return RedirectToAction("AllRoles", responceStatusViewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddRoleToUser(string userId, string roleName)
+        {
+            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
+            if (String.IsNullOrEmpty(userId) == false && String.IsNullOrEmpty(roleName) == false)
+            {
+                var result = await _adminService.AddRoleToUser(userId, roleName);
+                if (result.Succeeded)
+                {
+                    responceStatusViewModel.SucessMessage = $"Пользователю успешно назначена роль {roleName}!";
+                }
+                else
+                {
+                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                }
+            }
+            return RedirectToAction("AllUsers", responceStatusViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRoleFromUser(string userId, string roleName)
+        {
+            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
+            if (String.IsNullOrEmpty(userId) == false && String.IsNullOrEmpty(roleName) == false)
+            {
+                var result = await _adminService.DeleteRoleFromUser(userId, roleName);
+                if (result.Succeeded)
+                {
+                    responceStatusViewModel.SucessMessage = $"Роль {roleName} успешно удалена у пользователя!";
+                }
+                else
+                {
+                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                }
+            }
+            return RedirectToAction("AllUsers", responceStatusViewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

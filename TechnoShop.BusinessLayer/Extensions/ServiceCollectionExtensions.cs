@@ -13,6 +13,7 @@ using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Data;
 using TechnoShop.Data.Extensions;
 using TechnoShop.Entities.UserEntity;
+using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.BusinessLayer.Extensions;
 
@@ -22,7 +23,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddDatabase(connectionString);
         services.AddDefaultIdentity<TechnoShopUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddRoles<IdentityRole>()
+            .AddRoles<TechnoShopRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddAutoMapper(Assembly.GetCallingAssembly(),

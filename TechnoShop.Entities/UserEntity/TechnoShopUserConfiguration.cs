@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.Entities.CartEntity;
 using TechnoShop.Entities.ProductEntity;
+using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.Entities.UserEntity
 {
@@ -26,6 +27,11 @@ namespace TechnoShop.Entities.UserEntity
                     j.HasKey(q => new { q.TechnoShopUserId, q.ProductId });
                     j.ToTable("UserCart");
                 });
+
+            builder
+                .HasMany(q => q.TechnoShopRoles)
+                .WithMany(q => q.TechnoShopUsers)
+                .UsingEntity<TechnoShopUserRole>();
         }
     }
 }

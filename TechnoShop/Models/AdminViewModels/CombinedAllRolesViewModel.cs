@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.Models.AdminViewModels
 {
@@ -6,6 +7,6 @@ namespace TechnoShop.Models.AdminViewModels
     {
         public ResponceStatusViewModel Responce { get; set; }
 
-        public List<IdentityRole> Roles { get; set; }
+        public List<TechnoShopRole> Roles { get; set; }
     }
 }

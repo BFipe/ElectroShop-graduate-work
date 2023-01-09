@@ -2,6 +2,7 @@
 using TechnoShop.Entities.CartEntity;
 using TechnoShop.Entities.ProductEntity;
 using TechnoShop.Entities.UserOrderEntity;
+using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.Entities.UserEntity
 {
@@ -12,5 +13,7 @@ namespace TechnoShop.Entities.UserEntity
         public List<UserCart> UserCarts { get; set; } = new();
 
         public List<UserOrder> UserOrders { get; set; } = new();
+
+        public List<TechnoShopRole> TechnoShopRoles { get; set; } = new();
     }
 }
