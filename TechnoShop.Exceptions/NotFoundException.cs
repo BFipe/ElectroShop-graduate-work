@@ -8,7 +8,7 @@ namespace TechnoShop.Exceptions
 {
     public class NotFoundException<T> : Exception
     {
-        public NotFoundException(T element) : base($"{element.ToString} не найден!")
+        public NotFoundException(T element) : base($"{element.ToString()} не найден!")
         {
 
         }

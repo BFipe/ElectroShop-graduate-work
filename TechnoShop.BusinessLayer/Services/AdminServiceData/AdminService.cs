@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.AdminDtos;
 using TechnoShop.BusinessLayer.Interfaces;
+using TechnoShop.Data.Repositories.Interfaces;
 using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.BusinessLayer.Services.AdminServiceData
@@ -17,13 +18,15 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
     {
         private readonly RoleManager<TechnoShopRole> _roleManager;
         private readonly UserManager<TechnoShopUser> _userManager;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public AdminService(RoleManager<TechnoShopRole> roleManager, UserManager<TechnoShopUser> userManager, IMapper mapper)
+        public AdminService(RoleManager<TechnoShopRole> roleManager, UserManager<TechnoShopUser> userManager, IMapper mapper, IUserRepository userRepository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public async Task<List<TechnoShopRole>> AllRoles()
@@ -34,7 +37,7 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
         public async Task<List<TechnoShopUserDto>> AllUsers()
         {
             List<TechnoShopUserDto> technoShopUserDtos = new();
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userRepository.ReturnAllUsersWithRolesAsync();
             users.ForEach(q =>
             {
                 var technoShopUser = new TechnoShopUserDto()
@@ -43,10 +46,10 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
                     Id = q.Id,
                 };
 
-                //q.TechnoShopRoles.ForEach(j =>
-                //{
-                //    technoShopUser.Roles.Add(j.Name);
-                //});
+                q.TechnoShopRoles.ForEach(j =>
+                {
+                    technoShopUser.Roles.Add(j.Name);
+                });
 
                 technoShopUserDtos.Add(technoShopUser);
             }
@@ -67,12 +70,12 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
 
         public async Task<IdentityResult> AddRoleToUser(string userId, string roleName)
         {
-            return await _userManager.AddToRoleAsync(await _userManager.FindByIdAsync(userId), roleName);
+            return await _userRepository.AddRoleToUser(userId,roleName);
         }
 
         public async Task<IdentityResult> DeleteRoleFromUser(string userId, string roleName)
         {
-            return await _userManager.RemoveFromRoleAsync(await _userManager.FindByIdAsync(userId), roleName);
+            return await _userRepository.RemoveRoleFromUser(userId,roleName);
         }
     }
 }

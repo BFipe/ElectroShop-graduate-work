@@ -12,6 +12,7 @@ using TechnoShop.Models.AdminViewModels;
 
 namespace TechnoShop.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
@@ -49,6 +50,11 @@ namespace TechnoShop.Controllers
             try
             {
                 combinedAllUsersViewModel.TechnoShopUsers = _mapper.Map<List<TechnoShopUserViewModel>>(await _adminService.AllUsers());
+                var roles = await _adminService.AllRoles();
+                roles.ForEach(q =>
+                {
+                    combinedAllUsersViewModel.Roles.Add(q.Name);
+                });
             }
             catch (Exception ex)
             {
