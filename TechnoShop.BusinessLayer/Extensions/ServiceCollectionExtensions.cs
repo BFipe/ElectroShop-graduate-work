@@ -13,7 +13,6 @@ using TechnoShop.BusinessLayer.Services.ProductServiceData;
 using TechnoShop.Data;
 using TechnoShop.Data.Extensions;
 using TechnoShop.Entities.UserEntity;
-using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.BusinessLayer.Extensions;
 

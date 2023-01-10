@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TechnoShop.Entities.UserRoleEntity;
+using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.Models.AdminViewModels
 {

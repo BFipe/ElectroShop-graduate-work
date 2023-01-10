@@ -25,7 +25,6 @@ namespace TechnoShop.Data.Repositories
             return _dbContext.TechnoShopUsers
                 .Include(q => q.Products)
                 .Include(q => q.UserOrders).ThenInclude(q => q.UserOrderProducts).ThenInclude(q => q.Product)
-                .Include(q => q.TechnoShopRoles)
                 .SingleOrDefaultAsync(q => q.Email == email);
         }
     }

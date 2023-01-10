@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Identity;
 using TechnoShop.Entities.UserEntity;
 using TechnoShop.Entities.UserOrderEntity;
 using TechnoShop.Entities.EmailSenderEntity;
-using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<
+        TechnoShopUser, TechnoShopRole, string,
+        IdentityUserClaim<string>, TechnoShopUserRole, IdentityUserLogin<string>,
+        IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -32,6 +34,7 @@ namespace TechnoShop.Data
             builder.ApplyConfiguration(new TechnoShopUserConfiguration());
             builder.ApplyConfiguration(new UserOrderConfiguration());
             builder.ApplyConfiguration(new EmailSenderConfiguration());
+            builder.ApplyConfiguration(new TechnoShopRoleConfiguration());
         }
     }
 }

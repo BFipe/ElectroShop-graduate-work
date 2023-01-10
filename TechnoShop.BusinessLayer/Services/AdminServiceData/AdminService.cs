@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.AdminDtos;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Entities.UserEntity;
-using TechnoShop.Entities.UserRoleEntity;
 
 namespace TechnoShop.BusinessLayer.Services.AdminServiceData
 {
@@ -44,10 +43,10 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
                     Id = q.Id,
                 };
 
-                q.TechnoShopRoles.ForEach(j =>
-                {
-                    technoShopUser.Roles.Add(j.Name);
-                });
+                //q.TechnoShopRoles.ForEach(j =>
+                //{
+                //    technoShopUser.Roles.Add(j.Name);
+                //});
 
                 technoShopUserDtos.Add(technoShopUser);
             }

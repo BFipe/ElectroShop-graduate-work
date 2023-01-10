@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TechnoShop.BusinessLayer.Dtos.AdminDtos;
-using TechnoShop.Entities.UserRoleEntity;
+using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.BusinessLayer.Interfaces
 {

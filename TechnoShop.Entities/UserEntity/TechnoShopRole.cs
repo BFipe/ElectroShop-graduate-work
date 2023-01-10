@@ -4,18 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TechnoShop.Entities.UserEntity;
 
-namespace TechnoShop.Entities.UserRoleEntity
+namespace TechnoShop.Entities.UserEntity
 {
     public class TechnoShopRole : IdentityRole
     {
+        public TechnoShopRole() : base() { }
+
         public TechnoShopRole(string roleName) : base(roleName)
         {
-        }
-        
-        public TechnoShopRole() : base()
-        {
+
         }
 
         public List<TechnoShopUser> TechnoShopUsers { get; set; } = new();
