@@ -2,7 +2,48 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div style="background: rgba(20,0,255,0.06);padding: 4px;margin: 7px;border-radius: 31px;margin-bottom: 16px;border: 7.4px dashed #cac9ff;">
+    <h1 class="text-center" style="font-size: 42.52px;font-family: Aldrich, sans-serif;font-weight: bold;margin-top: 8px;">TechnoShop</h1>
+    <h3 style="text-align: center;color: rgb(111,111,111);margin-bottom: 12px;">Лучший магазин несуществующих электронных товаров</h3>
+</div>
+<div style="background: rgba(0,255,179,0.12);margin: 7px;padding: 7px;border-radius: 15px;border: 6.4px dashed rgb(156,235,211);">
+    <p style="padding: 14px;">TechnoShop - дипломный проект курса от компании <a href="https://teachmeskills.by/">TeachMeSkills</a> по направлению <a href="#" data-bs-target="https://teachmeskills.by/kursy-programmirovaniya/kursy-asp-net-minsk">ASP.NET C# разработка</a>. На выполнение данного сайта по теме &quot;Магазин электротехники&quot; ушло 1,5 месяца (с 1 декабря по 13 января). Технологии, которые использовались для разработки данного сайта:</p>
+    <ol style="background: rgba(0,255,41,0.1);padding-top: 10px;padding-bottom: 10px;border-radius: 26px;border: 7px dashed rgb(94,209,120);">
+        <li style="margin-top: 5px;margin-bottom: 5px;">
+            Технологии Front-End разработки:
+            <ul>
+                <li>Html / CSS (Вёрстка)</li>
+                <li>JavaScript (Валидация данных в моделях)</li>
+                <li>Bootstrap / Bootstrap studio (Составление вёрстки на основе технологии Bootstrap)</li>
+                <li>Adobe Photoshop (Разработка дизайна сайта)</li>
+            </ul>
+        </li>
+        <li style="margin-top: 5px;">
+            Технологии Back-End разработки:
+            <ul>
+                <li>ASP.NET MVC (Основной фреймворк для разработки сайта)</li>
+                <li>Fiddler Classic (Проверка безопасности сайта и Http-запросов)</li>
+            </ul><br />
+        </li>
+    </ol>
+    <h2 class="text-center">Предлагаю вам начать тестировать данный сайт!<br /></h2>
+    <div class="row justify-content-center">
+        <div class="col-auto text-center justify-content-center">
+            <a class="btn btn-primary btn-lg justify-content-center" role="button" href="/Product/AllProducts" style="margin: 5px;font-size: 17px;font-weight: bold;background: #c0ff5a;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                Посмотреть каталог товаров
+                <svg class="bi bi-justify justify-content-center" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 5px;font-size: 23px;">
+                    <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"></path>
+                </svg>
+            </a>
+        </div>
+        <div class="col-auto text-center justify-content-center">
+            <a class="btn btn-primary btn-lg justify-content-center" role="button" href="/Cart/MyCart" style="margin: 5px;font-size: 17px;font-weight: bold;background: #ffc75a;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                Собрать корзину
+                <svg class="bi bi-cart4 justify-content-center" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-left: 5px;font-size: 22px;margin-bottom: 3px;">
+                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <ul class="list-group"></ul>
 </div>
