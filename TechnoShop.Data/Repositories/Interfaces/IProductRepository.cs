@@ -11,6 +11,8 @@ namespace TechnoShop.Data.Repositories.Interfaces
     {
         Task<bool> IsExists(string name);
 
+        Task DeleteType(string productTypeId);
+
         int ProductCount();
     }
 }

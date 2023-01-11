@@ -39,7 +39,7 @@ namespace TechnoShop.Data.Repositories
 
         public async Task<IdentityResult> AddRoleToUser(string userId, string roleName) 
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(q => q.Id == userId);
+            var user = await _dbContext.Users.Include(q => q.TechnoShopRoles).SingleOrDefaultAsync(q => q.Id == userId);
             if (user == null) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User with Id {userId} not found" });
 
             var role = await _dbContext.TechnoShopRoles.SingleOrDefaultAsync(q => q.Name == roleName);
@@ -62,7 +62,7 @@ namespace TechnoShop.Data.Repositories
 
         public async Task<IdentityResult> RemoveRoleFromUser(string userId, string roleName)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(q => q.Id == userId);
+            var user = await _dbContext.Users.Include(q => q.TechnoShopRoles).SingleOrDefaultAsync(q => q.Id == userId);
             if (user == null) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User with Id {userId} not found" });
 
             var role = await _dbContext.TechnoShopRoles.SingleOrDefaultAsync(q => q.Name == roleName);

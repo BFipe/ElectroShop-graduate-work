@@ -12,7 +12,7 @@ using TechnoShop.Models.AdminViewModels;
 
 namespace TechnoShop.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
@@ -27,6 +27,7 @@ namespace TechnoShop.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllRoles(ResponceStatusViewModel responceStatus)
         {
             CombinedAllRolesViewModel combinedAllRolesViewModel = new CombinedAllRolesViewModel();
@@ -43,6 +44,7 @@ namespace TechnoShop.Controllers
             return View(combinedAllRolesViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllUsers(ResponceStatusViewModel responceStatus)
         {
             CombinedAllUsersViewModel combinedAllUsersViewModel = new CombinedAllUsersViewModel();
@@ -83,6 +85,7 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRole(string roleId)
         {
             ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
@@ -102,6 +105,7 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddRoleToUser(string userId, string roleName)
         {
             ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
@@ -121,6 +125,7 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteRoleFromUser(string userId, string roleName)
         {
             ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();

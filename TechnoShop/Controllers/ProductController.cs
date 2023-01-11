@@ -96,23 +96,9 @@ namespace TechnoShop.Controllers
                     productTypeViewModel.ResponceStatus.ErrorMessage = ex.Message;
                 }
             }
+            ModelState.Clear();
             await GetProductTypeToViewData();
             return View(productTypeViewModel);
-        }
-
-        public async Task<IActionResult> AllProductTypes()
-        {
-            List<ProductTypeViewModel> productTypeViewModels = new List<ProductTypeViewModel>();
-            var productTypes = await _productService.GetProductTypes();
-            foreach (var type in productTypes)
-            {
-                productTypeViewModels.Add(new ProductTypeViewModel()
-                {
-                    TypeName = type.TypeName,
-                });
-            }
-            await GetProductTypeToViewData();
-            return View(productTypeViewModels);
         }
 
         public async Task<IActionResult> AllProducts(string productType, int page = 1, int productsPerPage = 6, ResponceStatusViewModel? responceStatusViewModel = null)
@@ -154,8 +140,8 @@ namespace TechnoShop.Controllers
             return View(combinedPageProductViewModel);
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> DeleteProduct(string productId)
         {
             if (productId == null) RedirectToAction("AllProducts", "Product");
@@ -172,8 +158,26 @@ namespace TechnoShop.Controllers
             return RedirectToAction("AllProducts", responceStatusViewModel);
         }
 
-        [Authorize]
+        [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<IActionResult> DeleteProductType(string productTypeName)
+        {
+            if (String.IsNullOrWhiteSpace(productTypeName)) RedirectToAction("AddProductType", "Product");
+            ResponceStatusViewModel responceStatusViewModel = new();
+            try
+            {
+                await _productService.DeleteProductType(productTypeName);
+                responceStatusViewModel.SucessMessage = "Тип продукта был успешно удален";
+            }
+            catch (Exception ex)
+            {
+                responceStatusViewModel.ErrorMessage = ex.Message;
+            }
+            return RedirectToAction("AddProductType", responceStatusViewModel);
+        }
+
         [HttpGet]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> EditProduct(string productId)
         {
             if (String.IsNullOrEmpty(productId)) return Redirect("AllProducts");
@@ -199,8 +203,8 @@ namespace TechnoShop.Controllers
             return View(productResponceViewModel);
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> EditProduct(string productId, ProductEditViewModel productEditViewModel)
         {
             ModelState.Remove("ResponceStatus.ErrorMessage");

@@ -122,5 +122,11 @@ namespace TechnoShop.BusinessLayer.Services.ProductServiceData
 
             await _productRepository.Save();
         }
+
+        public async Task DeleteProductType(string productTypeName)
+        {
+            await _productRepository.DeleteType(productTypeName);
+            await _productRepository.Save();
+        }
     }
 }

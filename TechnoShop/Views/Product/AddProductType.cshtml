@@ -8,7 +8,8 @@
 
 @if (Model != null)
 {
-    @await Html.PartialAsync("_ToastErrorSucessInformation", Model.ResponceStatus);
+    @await Html.PartialAsync("_ToastErrorSucessInformation", Model.ResponceStatus)
+    ;
 }
 
 <h1 class="text-center">Добавление типа продукта</h1>
@@ -23,7 +24,7 @@
                     <div class="input-group input-group-lg d-flex justify-content-start" style="margin: 7px;margin-bottom: 8px;">
                         <span class="input-group-text" style="background: rgb(191,223,255);font-weight: bold;">
                             Тип продукта
-                            </span>
+                        </span>
                         <input asp-for="TypeName" class="form-control" type="text" style="max-width: 419px;min-width: 300px;" required minlength="1" maxlength="150" />
                     </div>
 
@@ -58,9 +59,32 @@
 
                         @foreach (var productType in ViewData["ProductTypes"] as List<SelectListItem>)
                         {
-                            <li class="list-group-item" style="margin: 3px;background: rgb(213,242,255);font-weight: bold;border-radius: 18px;box-shadow: 2px 2px 5px rgba(33,37,41,0.3);">
-                                <span>@productType.Value</span>
+                            <li class="list-group-item" style="margin: 3px;background: rgb(213,242,255);font-weight: bold;border-radius: 18px;box-shadow: 2px 2px 5px rgba(33,37,41,0.3); ">
+                                <div class="row row-cols-2 justify-content-between">
+
+                                    <div class="col-auto">
+                                        <span>@productType.Value</span>
+                                    </div>
+                                    <div class="col-auto">
+                                    <form action="/Product/DeleteProductType" method="post">
+                                        <input hidden value="@productType.Value" name="productTypeName">
+                                        <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center align-items-md-center" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e21205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);width: 33px;height: 33px;">
+                                            <svg class="bi bi-x-lg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"></path>
+                                                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    </div>
+
+                                </div>
+
+
+
+
                             </li>
+
+
                         }
                     </ul>
                 </div>

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using TechnoShop.BusinessLayer.Dtos.ManagerDtos.OrderDto;
 using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.BusinessLayer.Services.CartServiceData;
@@ -7,6 +9,7 @@ using TechnoShop.Models.ManagerViewModels;
 
 namespace TechnoShop.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class ManagerController : Controller
     {
         private readonly IMapper _mapper;
@@ -20,11 +23,7 @@ namespace TechnoShop.Controllers
             _contextAccessor = contextAccessor;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Orders()
         {
             CombinedManagerOrderResponceViewModel combinedManagerOrderResponce = new();
@@ -34,6 +33,7 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> ConfirmOrder(string orderId)
         {
             if (String.IsNullOrWhiteSpace(orderId)) return Redirect("Orders");
@@ -51,6 +51,7 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> CancelOrder(string orderId, string cancelComment, string cancelationReason)
         {
             if (String.IsNullOrWhiteSpace(orderId)) Redirect("Orders");

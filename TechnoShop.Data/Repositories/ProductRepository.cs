@@ -61,5 +61,10 @@ namespace TechnoShop.Data.Repositories
         {
             return _dbContext.Products.Count();
         }
+
+        public async Task DeleteType(string productTypeName)
+        {
+            _dbContext.Remove(await _dbContext.ProductTypes.SingleAsync(q => q.TypeName == productTypeName));
+        }
     }
 }
