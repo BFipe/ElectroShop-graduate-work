@@ -21,7 +21,7 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
             _bodyBuilder = new BodyBuilder();
 
             var emailSender = _emailSenderRepository.GetEmailSenders().FirstOrDefault();
-            if (emailSender == null) throw new ObjectNotExistsException();
+            if (emailSender == null) return;
 
             _smtpClient = new SmtpClient();
             _smtpClient.Connect("smtp.gmail.com", 465, true);
@@ -30,6 +30,8 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
+            if (_smtpClient == null) return Task.CompletedTask;
+
             MailboxAddress from = new MailboxAddress("TechnoShop", "TechnoShopEmailSender@gmail.com");
             MailboxAddress to = new MailboxAddress($"{email}", $"{email}");
             _message.From.Add(from);
@@ -44,8 +46,11 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
 
         public void Dispose()
         {
-            _smtpClient.Disconnect(true);
-            _smtpClient.Dispose();
+            if (_smtpClient != null)
+            {
+                _smtpClient.Disconnect(true);
+                _smtpClient.Dispose();
+            }
         }
     }
 }

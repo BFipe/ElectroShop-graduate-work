@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace TechnoShop.Data.Repositories
 
         public UserRepository(ApplicationDbContext dbContext)
         {
-            _dbContext= dbContext;
+            _dbContext = dbContext;
         }
 
         public Task<List<TechnoShopUser>> ReturnAllUsersWithRolesAsync()
@@ -37,7 +38,7 @@ namespace TechnoShop.Data.Repositories
                 .SingleOrDefaultAsync(q => q.Email == email);
         }
 
-        public async Task<IdentityResult> AddRoleToUser(string userId, string roleName) 
+        public async Task<IdentityResult> AddRoleToUser(string userId, string roleName)
         {
             var user = await _dbContext.Users.Include(q => q.TechnoShopRoles).SingleOrDefaultAsync(q => q.Id == userId);
             if (user == null) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User with Id {userId} not found" });
@@ -74,6 +75,25 @@ namespace TechnoShop.Data.Repositories
             {
                 user.TechnoShopRoles.Remove(role);
                 _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return IdentityResult.Failed(new IdentityError() { Code = "0", Description = ex.Message });
+            }
+
+            return IdentityResult.Success;
+        }
+
+        public async Task<IdentityResult> ConfirmEmail(string userId)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(q => q.Id == userId);
+            if (user == null) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User with Id {userId} not found" });
+            if (user.EmailConfirmed == true) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User already has confirmed email" });
+
+            try
+            { 
+                user.EmailConfirmed = true;
+                await _dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {

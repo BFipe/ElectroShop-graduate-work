@@ -6,6 +6,8 @@
 
         public string Id { get; set; }
 
+        public bool IsEmailComfirmed { get; set; }
+
         public List<string> Roles { get; set; }
     }
 }

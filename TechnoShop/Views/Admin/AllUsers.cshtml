@@ -28,7 +28,28 @@
                         <tr>
 
                             <td class="text-center" style="color: #ffffff;font-size: 16px;">
-                                @user.Email
+                                @if (user.IsEmailComfirmed == false)
+                                {
+
+                                    <div class="col">
+                                        <p style="font-size: 20px;color: rgb(255,0,0);">@user.Email<br /></p>
+                                    </div>
+
+                                    <form action="/Admin/ConfirmEmail" method="post">
+                                        <input hidden name="userId" value="@user.Id">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #74e205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                                            Confirm Email
+                                        </button>
+                                    </div>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="col">
+                                        <p style="font-size: 20px;color: rgb(0,255,0);">@user.Email<br /></p>
+                                    </div>
+                                }
                             </td>
 
                             <td class="text-center justify-content-center" style="text-align: center;font-size: 16px;color: #ffffff;">
@@ -39,19 +60,19 @@
 
                                 @foreach (var role in user.Roles)
                                 {
-                                    <p class="d-flex justify-content-center align-items-center justify-content-md-end" style="margin-bottom: 3px;text-align: center;">
+                                    <p style="margin-bottom: 3px;text-align: center;">
 
-                                        @role
+                                        <form method="post" action="/Admin/DeleteRoleFromUser" class="d-flex justify-content-md-end align-items-center">
+                                            @role
 
-                                        <form method="post" action="/Admin/DeleteRoleFromUser">
-                                        <input hidden value="@role" name="roleName">
-                                        <input hidden value="@user.Id" name="userId">
-                                        <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center align-items-md-center" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e21205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);width: 33px;height: 33px;">
-                                            <svg class="bi bi-x-lg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"></path>
-                                                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"></path>
-                                            </svg>
-                                        </button>
+                                            <input hidden value="@role" name="roleName">
+                                            <input hidden value="@user.Id" name="userId">
+                                            <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center align-items-md-center" type="submit" style="padding: 5px;margin: 5px;font-size: 17px;font-weight: bold;background: #e21205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);width: 33px;height: 33px;">
+                                                <svg class="bi bi-x-lg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"></path>
+                                                    <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"></path>
+                                                </svg>
+                                            </button>
                                         </form>
                                     </p>
                                 }
@@ -74,26 +95,26 @@
                                                 </div>
 
                                                 <form method="post" action="/Admin/AddRoleToUser">
-                                                <div class="modal-body text-center">
-                                                    <p style="color: rgb(0,0,0);font-size: 20px;font-weight: bold;">Выберите роль</p>
-                                                    <input hidden name="userId" value="@user.Id">
-                                                    <select required name="roleName" class="form-select-lg" style="width: 379.2px;border-radius: 12px;background: rgb(195,244,255);">
-                                                        <option selected disabled>Выберите роль</option>
-                                                        @foreach (var role in Model.Roles)
+                                                    <div class="modal-body text-center">
+                                                        <p style="color: rgb(0,0,0);font-size: 20px;font-weight: bold;">Выберите роль</p>
+                                                        <input hidden name="userId" value="@user.Id">
+                                                        <select required name="roleName" class="form-select-lg" style="width: 379.2px;border-radius: 12px;background: rgb(195,244,255);">
+                                                            <option selected disabled>Выберите роль</option>
+                                                            @foreach (var role in Model.Roles)
                                                             {
-                                                                <option value="@role">@role</option>                
+                                                                <option value="@role">@role</option>
                                                             }
-                                                    </select>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-primary" type="submit" style="background: rgb(133,13,253);">
-                                                        Add role to user
-                                                    </button>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-primary" type="submit" style="background: rgb(133,13,253);">
+                                                            Add role to user
+                                                        </button>
 
-                                                    <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(237,237,237);">
-                                                        Close
-                                                    </button>
-                                                </div>
+                                                        <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: rgb(237,237,237);">
+                                                            Close
+                                                        </button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>

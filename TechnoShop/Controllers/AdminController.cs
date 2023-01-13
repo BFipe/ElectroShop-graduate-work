@@ -10,6 +10,7 @@ using TechnoShop.Entities.UserEntity;
 using TechnoShop.Models;
 using TechnoShop.Models.AdminViewModels;
 
+
 namespace TechnoShop.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -143,6 +144,27 @@ namespace TechnoShop.Controllers
             }
             return RedirectToAction("AllUsers", responceStatusViewModel);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ConfirmEmail(string userId)
+        {
+            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
+            if (String.IsNullOrEmpty(userId) == false)
+            {
+                var result = await _adminService.ConfirmEmail(userId);
+                if (result.Succeeded)
+                {
+                    responceStatusViewModel.SucessMessage = $"Юзеру успешно подтверждена почта!";
+                }
+                else
+                {
+                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                }
+            }
+            return RedirectToAction("AllUsers", responceStatusViewModel);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

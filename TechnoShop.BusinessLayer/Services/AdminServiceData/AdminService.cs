@@ -44,6 +44,7 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
                 {
                     Email = q.Email,
                     Id = q.Id,
+                    IsEmailComfirmed = q.EmailConfirmed,
                 };
 
                 q.TechnoShopRoles.ForEach(j =>
@@ -76,6 +77,11 @@ namespace TechnoShop.BusinessLayer.Services.AdminServiceData
         public async Task<IdentityResult> DeleteRoleFromUser(string userId, string roleName)
         {
             return await _userRepository.RemoveRoleFromUser(userId,roleName);
+        }
+
+        public async Task<IdentityResult> ConfirmEmail(string userId)
+        {
+            return await _userRepository.ConfirmEmail(userId);
         }
     }
 }

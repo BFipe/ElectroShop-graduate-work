@@ -14,6 +14,7 @@ namespace TechnoShop.Data.Repositories.Interfaces
         public Task<TechnoShopUser> FindUserByEmail(string email);
         public Task<IdentityResult> AddRoleToUser(string userId, string roleName);
         public Task<IdentityResult> RemoveRoleFromUser(string userId, string roleName);
+        public Task<IdentityResult> ConfirmEmail(string userId);
         public Task<List<TechnoShopUser>> ReturnAllUsersWithRolesAsync();
     }
 }

@@ -17,5 +17,6 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task<IdentityResult> DeleteRole(string roleId);
         public Task<IdentityResult> AddRoleToUser(string userId, string roleName);
         public Task<IdentityResult> DeleteRoleFromUser(string userId, string roleName);
+        public Task<IdentityResult> ConfirmEmail(string userId);
     }
 }
