@@ -1,0 +1,16 @@
+﻿@model ResponceStatusViewModel
+
+@if (Model != null)
+{
+    @await Html.PartialAsync("_ToastErrorSucessInformation", Model)
+}
+
+<h1 style="text-align: center;margin: 8px;">Admin panel</h1>
+<p class="text-center">Это администраторская панель, которая доступна только юзерам с ролью Admin</p>
+<div class="container">
+    <div class="row d-flex justify-content-center" style="margin: 44px;">
+        <div class="col-auto d-flex justify-content-center"><a class="btn btn-primary btn-lg" role="button" href="/Admin/AllRoles" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e28c05;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: black">All roles</a></div>
+        <div class="col-auto d-flex justify-content-center"><a class="btn btn-primary btn-lg" role="button" href="/Admin/AllUsers" style="margin: 5px;font-size: 17px;font-weight: bold;background: #00ff38;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: black">All users</a></div>
+        <div class="col-auto d-flex justify-content-center"><a class="btn btn-primary btn-lg" role="button" href="/Admin/AllEmailSenders" style="margin: 5px;font-size: 17px;font-weight: bold;background: #ffc66c;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: black">All email senders</a></div>
+    </div>
+</div>

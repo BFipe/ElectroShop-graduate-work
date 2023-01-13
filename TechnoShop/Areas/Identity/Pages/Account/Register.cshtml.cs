@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.Areas.Identity.Pages.Account
@@ -29,14 +30,14 @@ namespace TechnoShop.Areas.Identity.Pages.Account
         private readonly IUserStore<TechnoShopUser> _userStore;
         private readonly IUserEmailStore<TechnoShopUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
 
         public RegisterModel(
             UserManager<TechnoShopUser> userManager,
             IUserStore<TechnoShopUser> userStore,
             SignInManager<TechnoShopUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSenderService emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;

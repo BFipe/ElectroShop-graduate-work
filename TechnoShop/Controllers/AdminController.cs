@@ -19,13 +19,36 @@ namespace TechnoShop.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
+        private readonly IEmailSenderService _emailSenderService;
 
 
-        public AdminController(ILogger<AdminController> logger, IAdminService adminService, IMapper mapper)
+        public AdminController(ILogger<AdminController> logger, IAdminService adminService, IMapper mapper, IEmailSenderService emailSenderService)
         {
             _adminService = adminService;
             _logger = logger;
             _mapper = mapper;
+            _emailSenderService = emailSenderService;
+        }
+
+        public IActionResult Index(ResponceStatusViewModel responceStatusViewModel)
+        {
+            return View(responceStatusViewModel);
+        }
+
+        public async Task<IActionResult> AllEmailSenders(ResponceStatusViewModel responceStatusViewModel)
+        {
+            CombinedAllEmailSendersViewModel combinedAllEmailSendersViewModel = new CombinedAllEmailSendersViewModel();
+            combinedAllEmailSendersViewModel.Responce = responceStatusViewModel;
+            try
+            {
+                var emails = await _emailSenderService.GetEmailSenders();
+                combinedAllEmailSendersViewModel.EmailSenders = emails;
+            }
+            catch (Exception ex)
+            {
+                combinedAllEmailSendersViewModel.Responce.ErrorMessage += " " + ex.Message;
+            }
+            return View(combinedAllEmailSendersViewModel);
         }
 
         [Authorize(Roles = "Admin")]
@@ -46,7 +69,7 @@ namespace TechnoShop.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AllUsers(ResponceStatusViewModel responceStatus)
+        public async Task<IActionResult> AllUsers([FromBody]ResponceStatusViewModel responceStatus)
         {
             CombinedAllUsersViewModel combinedAllUsersViewModel = new CombinedAllUsersViewModel();
             combinedAllUsersViewModel.Responce = responceStatus;
@@ -165,6 +188,26 @@ namespace TechnoShop.Controllers
             return RedirectToAction("AllUsers", responceStatusViewModel);
         }
 
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddEmailSender(string email, string password)
+        {
+            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
+            if (String.IsNullOrEmpty(email) == false && String.IsNullOrEmpty(password) == false)
+            {
+                try
+                {
+                    await _emailSenderService.AddEmailSender(email, password);
+                    responceStatusViewModel.SucessMessage = $"{email} еmail sender был успешно добавлен!";
+                }
+                catch (Exception ex)
+                {
+                    responceStatusViewModel.ErrorMessage = ex.Message;
+                }
+            }
+            return RedirectToAction("AllEmailSenders", responceStatusViewModel);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

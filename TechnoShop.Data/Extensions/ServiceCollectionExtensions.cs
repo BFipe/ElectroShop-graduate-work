@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
-        services.AddScoped<IEmailSenderRepository, EmailSenderRepository>();
+        services.AddScoped<IEmailSenderServiceRepository, EmailSenderRepository>();
         services.AddScoped<IManagerRepository, ManagerRepository> ();
         return services;
     }

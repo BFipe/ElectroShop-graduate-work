@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Entities.UserEntity;
 
 namespace TechnoShop.Areas.Identity.Pages.Account
@@ -19,9 +20,9 @@ namespace TechnoShop.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<TechnoShopUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly IEmailSenderService _sender;
 
-        public RegisterConfirmationModel(UserManager<TechnoShopUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<TechnoShopUser> userManager, IEmailSenderService sender)
         {
             _userManager = userManager;
             _sender = sender;

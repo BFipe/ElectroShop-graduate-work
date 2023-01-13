@@ -16,10 +16,6 @@ namespace TechnoShop
 
             builder.Services.AddBusinessLayerServices(builder.Configuration.GetConnectionString("DefaultConnection"));
 
-
-
-                                    
-
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 

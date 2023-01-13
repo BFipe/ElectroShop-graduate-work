@@ -21,10 +21,10 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICartRepository _cartRepository;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
         private readonly IMapper _mapper;
 
-        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository, ICartRepository cartRepository, IEmailSender emailSender)
+        public CartService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper, IUserRepository userRepository, ICartRepository cartRepository, IEmailSenderService emailSender)
         {
             _productRepository = productRepository;
             _productTypeRepository = productTypeRepository;

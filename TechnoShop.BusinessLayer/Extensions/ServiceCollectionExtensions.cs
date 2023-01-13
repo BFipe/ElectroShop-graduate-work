@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICartService, CartService>();
+        services.AddScoped<IEmailSenderService, EmailSenderService>();
         services.AddScoped<IEmailSender, EmailSenderService>();
         services.AddScoped<IManagerService, ManagerService>();
         services.AddScoped<IAdminService, AdminService>();

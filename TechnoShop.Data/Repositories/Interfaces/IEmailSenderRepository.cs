@@ -7,8 +7,11 @@ using TechnoShop.Entities.EmailSenderEntity;
 
 namespace TechnoShop.Data.Repositories.Interfaces
 {
-    public interface IEmailSenderRepository
+    public interface IEmailSenderServiceRepository
     {
-        List<EmailSender> GetEmailSenders();  
+        public Task<List<EmailSender>> GetEmailSenders();
+        public Task<EmailSender> GetEmailSender();
+        public Task AddEmailSender(string email, string password);
+        public Task SaveChanges();
     }
 }

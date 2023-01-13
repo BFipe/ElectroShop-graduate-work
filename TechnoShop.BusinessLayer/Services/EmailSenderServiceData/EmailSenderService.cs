@@ -1,26 +1,27 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
+using TechnoShop.BusinessLayer.Interfaces;
 using TechnoShop.Data.Repositories;
 using TechnoShop.Data.Repositories.Interfaces;
 using TechnoShop.Exceptions;
 
 namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
 {
-    public class EmailSenderService : IEmailSender, IDisposable
+    public class EmailSenderService : IEmailSenderService, IDisposable
     {
         private MimeMessage _message;
         private BodyBuilder _bodyBuilder;
         private SmtpClient _smtpClient;
-        private readonly IEmailSenderRepository _emailSenderRepository;
+        private readonly IEmailSenderServiceRepository _emailSenderRepository;
 
-        public EmailSenderService(IEmailSenderRepository emailSenderRepository)
+        public EmailSenderService(IEmailSenderServiceRepository emailSenderRepository)
         {
             _emailSenderRepository = emailSenderRepository;
             _message = new MimeMessage();
             _bodyBuilder = new BodyBuilder();
 
-            var emailSender = _emailSenderRepository.GetEmailSenders().FirstOrDefault();
+            var emailSender = _emailSenderRepository.GetEmailSender().Result;
             if (emailSender == null) return;
 
             _smtpClient = new SmtpClient();
@@ -44,6 +45,12 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
             return _smtpClient.SendAsync(_message);
         }
 
+        public async Task AddEmailSender(string email, string password)
+        {
+            await _emailSenderRepository.AddEmailSender(email, password);
+            await _emailSenderRepository.SaveChanges();
+        }
+
         public void Dispose()
         {
             if (_smtpClient != null)
@@ -51,6 +58,17 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
                 _smtpClient.Disconnect(true);
                 _smtpClient.Dispose();
             }
+        }
+
+        public async Task<List<string>> GetEmailSenders()
+        {
+            var senders = await _emailSenderRepository.GetEmailSenders();
+            List<string> result = new List<string>();
+            senders.ForEach(q =>
+            {
+                result.Add(q.Email);
+            });
+            return result;
         }
     }
 }
