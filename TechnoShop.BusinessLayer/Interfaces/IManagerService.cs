@@ -13,5 +13,6 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task<List<ManagerOrderResponceDto>> GetUserOrders();
         public Task CancelOrder(string cancelRequestComment,string orderId);
         public Task ConfirmOrder(string orderId);
+        public Task DeleteOrder(string orderId);
     }
 }

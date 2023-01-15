@@ -68,5 +68,22 @@ namespace TechnoShop.Controllers
             }
             return Redirect("Orders");
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<IActionResult> DeleteOrder(string orderId)
+        {
+            if (String.IsNullOrWhiteSpace(orderId)) Redirect("Orders");
+
+            try
+            {
+                await _managerService.DeleteOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ExceptionMessage"] = ex.Message;
+            }
+            return Redirect("Orders");
+        }
     }
 }

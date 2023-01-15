@@ -15,6 +15,7 @@ namespace TechnoShop.Entities.EmailSenderEntity
             builder.HasKey(q => q.EmailSenderId);
             builder.Property(q => q.Password).HasMaxLength(24).IsRequired(true);
             builder.Property(q => q.Email).HasMaxLength(60).IsRequired(true);
+            builder.HasIndex(q => q.Email).IsUnique(true);
         }
     }
 }

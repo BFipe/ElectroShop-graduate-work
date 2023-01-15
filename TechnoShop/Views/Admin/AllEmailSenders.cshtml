@@ -32,11 +32,26 @@
     <div class="row row-cols-1">
         @foreach (var email in Model.EmailSenders)
         {
-            <div class="col text-center">
-                <button class="btn btn-primary" type="button" style="margin: 5px;font-size: 17px;font-weight: bold;background: #4e44c8;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);padding-right: 12px;padding-left: 12px;">
-                    @email
-                </button>
+            <div class="row justify-content-center">
+                <div class="col-auto" style="padding-right: 0">
+                    <div class="btn btn-primary btn-sm" type="button" style="margin: 5px;font-size: 17px;font-weight: bold;background: #8000ff;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                        @email
+                    </div>
+                </div>
+                <div class="col-auto" style="padding-left: 0">
+                    <form action="/Admin/DeleteEmailSender" method="post">
+                        <input hidden name="email" value="@email">
+                        <button type="submit" class="btn btn-primary btn-sm d-flex justify-content-center align-items-center align-items-md-center" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e21205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);width: 33px;height: 33px;">
+                            <svg class="bi bi-x-lg" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"></path>
+                                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
             </div>
         }
     </div>
 }
+
+<a class="btn btn-primary btn-sm" role="button" href="/Admin/Index" style="margin: 24px;font-size: 17px;font-weight: bold;background: #5905e2;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">Back to the Admin panel</a>

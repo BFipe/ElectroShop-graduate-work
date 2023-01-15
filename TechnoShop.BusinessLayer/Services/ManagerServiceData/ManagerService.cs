@@ -93,5 +93,22 @@ namespace TechnoShop.BusinessLayer.Services.ManagerServiceData
 
             await _managerRepository.SaveAsync();
         }
+
+        public async Task DeleteOrder(string orderId)
+        {
+            var order = await _managerRepository.OrderById(orderId);
+            if (order == null) throw new NotFoundException<string>(orderId);
+
+            if (order.OrderStatus != Enums.OrderStatusEnum.Canceled_By_Manager && order.OrderStatus != Enums.OrderStatusEnum.Canceled_By_User && order.OrderStatus != Enums.OrderStatusEnum.Finished_Sucessfully)
+            {
+                order.UserOrderProducts.ForEach(q =>
+                {
+                    q.Product.InOrderCount -= q.ProductCount;
+                });
+            }
+
+            await _managerRepository.DeleteOrder(orderId);
+            await _managerRepository.SaveAsync();
+        }
     }
 }

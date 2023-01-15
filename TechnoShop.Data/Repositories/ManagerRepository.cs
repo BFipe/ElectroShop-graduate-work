@@ -36,5 +36,11 @@ namespace TechnoShop.Data.Repositories
         {
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteOrder(string orderId)
+        {
+            var order = await _dbContext.UserOrders.SingleOrDefaultAsync(q => q.UserOrderId == orderId);
+            _dbContext.UserOrders.Remove(order);
+        }
     }
 }

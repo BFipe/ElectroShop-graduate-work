@@ -12,7 +12,7 @@
 @if (Model.TechnoShopUsers != null)
 {
     <div>
-        <div class="table-responsive" style="margin-left: 24px;margin-right: 24px;background: #ffffff;">
+        <div class="table-responsive" style="margin-left: 24px;margin-right: 24px;">
             <table class="table table-striped table-hover table-dark">
                 <thead>
                     <tr class="text-center">
@@ -37,11 +37,11 @@
 
                                     <form action="/Admin/ConfirmEmail" method="post">
                                         <input hidden name="userId" value="@user.Id">
-                                    <div class="col">
-                                        <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #74e205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
-                                            Confirm Email
-                                        </button>
-                                    </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #74e205;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">
+                                                Confirm Email
+                                            </button>
+                                        </div>
                                     </form>
                                 }
                                 else
@@ -145,5 +145,7 @@
                 </tfoot>
             </table>
         </div>
+
+        <a class="btn btn-primary btn-sm" role="button" href="/Admin/Index" style="margin: 24px;font-size: 17px;font-weight: bold;background: #5905e2;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);">Back to the Admin panel</a>
     </div>
 }

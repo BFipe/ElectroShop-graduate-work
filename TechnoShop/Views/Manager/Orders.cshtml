@@ -16,13 +16,13 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="text-center" style="font-weight: bold;">Вы пока не оформили<br>ни одного заказа!</h1>
+                    <h1 class="text-center" style="font-weight: bold;">Здесь пока нет<br>ни одного заказа!</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 d-flex justify-content-center">
                     <a class="btn btn-primary" role="button" href="/Product/AllProducts" style="margin: 5px;font-size: 17px;font-weight: bold;background: #e28c05;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(255,255,255);">
-                        Start shopping
+                        Show all products
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-basket3-fill" style="margin-bottom: 5px;">
                             <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.468 15.426.943 9h14.114l-1.525 6.426a.75.75 0 0 1-.729.574H3.197a.75.75 0 0 1-.73-.574z"></path>
                         </svg>
@@ -48,7 +48,7 @@ else
                 <div style="margin-right: 24px;margin-left: 24px;background: rgba(173,171,255,0.25);padding: 14px;border-radius: 38px;box-shadow: 5px 5px 7px rgba(33,37,41,0.3);">
 
                     <h3 class="text-center">Заказ пользователя <strong>@order.UserEmail</strong></h3>
-                    
+
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-dark">
                             <thead>
@@ -133,12 +133,12 @@ else
                             <div class="col-auto d-flex justify-content-center align-items-center">
                                 <form action="/Manager/ConfirmOrder" method="post">
                                     <input name="orderId" value="@order.UserOrderId" hidden>
-                                <button class="btn btn-primary btn-sm" role="button" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #76ff54;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
-                                    Confirm order 
-                                    <svg class="bi bi-file-check-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;">
-                                        <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1.146 6.854-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
-                                    </svg>
-                                </button>
+                                    <button class="btn btn-primary btn-sm" role="button" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #76ff54;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                                        Confirm order 
+                                        <svg class="bi bi-file-check-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;">
+                                            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1.146 6.854-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
+                                        </svg>
+                                    </button>
                                 </form>
                             </div>
                         }
@@ -151,6 +151,14 @@ else
                             </button>
                         </div>
 
+                        <form method="post" action="/Manager/DeleteOrder">
+                         <input hidden value="@order.UserOrderId" name="orderId">
+                        <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #dd0d00;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                            Delete order <svg class="bi bi-file-earmark-x-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;">
+                                <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM6.854 7.146 8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 1 1 .708-.708z"></path>
+                            </svg>
+                        </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -261,9 +269,9 @@ else
                     </div>
                 </div>
             </form>
-            
-            
-            
+
+
+
         </div>
     }
 }

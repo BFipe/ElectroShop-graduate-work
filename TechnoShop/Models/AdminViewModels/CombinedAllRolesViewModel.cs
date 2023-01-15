@@ -5,7 +5,7 @@ namespace TechnoShop.Models.AdminViewModels
 {
     public class CombinedAllRolesViewModel
     {
-        public ResponceStatusViewModel Responce { get; set; }
+        public ResponceStatusViewModel Responce { get; set; } = new();
 
         public List<TechnoShopRole> Roles { get; set; }
     }

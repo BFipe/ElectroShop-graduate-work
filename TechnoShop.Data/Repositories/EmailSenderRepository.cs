@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using TechnoShop.Entities.EmailSenderEntity;
 
 namespace TechnoShop.Data.Repositories
 {
-    public class EmailSenderRepository : IEmailSenderServiceRepository
+    public class EmailSenderRepository : IEmailSenderRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -21,6 +22,11 @@ namespace TechnoShop.Data.Repositories
         public Task<List<EmailSender>> GetEmailSenders()
         {
             return _dbContext.EmailSenders.ToListAsync();
+        }
+
+        public Task<EmailSender> GetEmailSenderByName(string email)
+        {
+            return _dbContext.EmailSenders.SingleOrDefaultAsync(q => q.Email == email);
         }
 
         public async Task AddEmailSender(string email, string password)
@@ -43,6 +49,11 @@ namespace TechnoShop.Data.Repositories
         public async Task<EmailSender> GetEmailSender()
         {
             return await _dbContext.EmailSenders.FirstOrDefaultAsync();
+        }
+
+        public async Task DeleteEmailSender(string email)
+        {
+            _dbContext.EmailSenders.Remove(await _dbContext.EmailSenders.SingleOrDefaultAsync(q => q.Email == email));
         }
     }
 }

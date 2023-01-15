@@ -35,10 +35,11 @@ namespace TechnoShop.Controllers
             return View(responceStatusViewModel);
         }
 
-        public async Task<IActionResult> AllEmailSenders(ResponceStatusViewModel responceStatusViewModel)
+        public async Task<IActionResult> AllEmailSenders()
         {
             CombinedAllEmailSendersViewModel combinedAllEmailSendersViewModel = new CombinedAllEmailSendersViewModel();
-            combinedAllEmailSendersViewModel.Responce = responceStatusViewModel;
+            combinedAllEmailSendersViewModel.Responce.SucessMessage = TempData["SuccessMessage"] as string;
+            combinedAllEmailSendersViewModel.Responce.ErrorMessage = TempData["ErrorMessage"] as string;
             try
             {
                 var emails = await _emailSenderService.GetEmailSenders();
@@ -52,10 +53,11 @@ namespace TechnoShop.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AllRoles(ResponceStatusViewModel responceStatus)
+        public async Task<IActionResult> AllRoles()
         {
             CombinedAllRolesViewModel combinedAllRolesViewModel = new CombinedAllRolesViewModel();
-            combinedAllRolesViewModel.Responce = responceStatus;
+            combinedAllRolesViewModel.Responce.SucessMessage = TempData["SuccessMessage"] as string;
+            combinedAllRolesViewModel.Responce.ErrorMessage = TempData["ErrorMessage"] as string;
             try
             {
                 combinedAllRolesViewModel.Roles = await _adminService.AllRoles();
@@ -69,10 +71,11 @@ namespace TechnoShop.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AllUsers(ResponceStatusViewModel responceStatus)
+        public async Task<IActionResult> AllUsers()
         {
             CombinedAllUsersViewModel combinedAllUsersViewModel = new CombinedAllUsersViewModel();
-            combinedAllUsersViewModel.Responce = responceStatus;
+            combinedAllUsersViewModel.Responce.SucessMessage = TempData["SuccessMessage"] as string;
+            combinedAllUsersViewModel.Responce.ErrorMessage = TempData["ErrorMessage"] as string;
             try
             {
                 combinedAllUsersViewModel.TechnoShopUsers = _mapper.Map<List<TechnoShopUserViewModel>>(await _adminService.AllUsers());
@@ -90,27 +93,26 @@ namespace TechnoShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(string roleName)
+        public async Task<IActionResult> AddRole([FromForm] string roleName)
         {
-            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(roleName) == false)
             {
                 IdentityResult result = await _adminService.AddRole(roleName);
                 if (result.Succeeded)
                 {
-                    responceStatusViewModel.SucessMessage = $"Роль {roleName} успешно добавлена!";
+                    TempData["SuccessMessage"] = $"Роль {roleName} успешно добавлена!";
                 }
                 else
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    TempData["ErrorMessage"] = result.Errors.FirstOrDefault().Description;
                 }
             }
-            return RedirectToAction("AllRoles", responceStatusViewModel);
+            return RedirectToAction("AllRoles");
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteRole(string roleId)
+        public async Task<IActionResult> DeleteRole([FromForm] string roleId)
         {
             ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(roleId) == false)
@@ -118,95 +120,110 @@ namespace TechnoShop.Controllers
                 IdentityResult result = await _adminService.DeleteRole(roleId);
                 if (result.Succeeded)
                 {
-                    responceStatusViewModel.SucessMessage = "Роль успешно удалена!";
+                    TempData["SuccessMessage"] = "Роль успешно удалена!";
                 }
                 else
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    TempData["ErrorMessage"] = result.Errors.FirstOrDefault().Description;
                 }
             }
-            return RedirectToAction("AllRoles", responceStatusViewModel);
+            return RedirectToAction("AllRoles");
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddRoleToUser(string userId, string roleName)
+        public async Task<IActionResult> AddRoleToUser([FromForm] string userId, string roleName)
         {
-            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(userId) == false && String.IsNullOrEmpty(roleName) == false)
             {
                 var result = await _adminService.AddRoleToUser(userId, roleName);
                 if (result.Succeeded)
                 {
-                    responceStatusViewModel.SucessMessage = $"Пользователю успешно назначена роль {roleName}!";
+                    TempData["SuccessMessage"] = $"Роль {roleName} успешно добавлена к пользователю!";
                 }
                 else
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    TempData["ErrorMessage"] = result.Errors.FirstOrDefault().Description;
                 }
             }
-            return RedirectToAction("AllUsers", responceStatusViewModel);
+            return RedirectToAction("AllUsers");
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteRoleFromUser(string userId, string roleName)
+        public async Task<IActionResult> DeleteRoleFromUser([FromForm] string userId, string roleName)
         {
-            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(userId) == false && String.IsNullOrEmpty(roleName) == false)
             {
                 var result = await _adminService.DeleteRoleFromUser(userId, roleName);
                 if (result.Succeeded)
                 {
-                    responceStatusViewModel.SucessMessage = $"Роль {roleName} успешно удалена у пользователя!";
+                    TempData["SuccessMessage"] = $"Роль {roleName} успешно удалена у пользователя!";
                 }
                 else
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    TempData["ErrorMessage"] = result.Errors.FirstOrDefault().Description;
                 }
             }
-            return RedirectToAction("AllUsers", responceStatusViewModel);
+            return RedirectToAction("AllUsers");
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ConfirmEmail(string userId)
+        public async Task<IActionResult> ConfirmEmail([FromForm] string userId)
         {
-            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(userId) == false)
             {
                 var result = await _adminService.ConfirmEmail(userId);
                 if (result.Succeeded)
                 {
-                    responceStatusViewModel.SucessMessage = $"Юзеру успешно подтверждена почта!";
+                    TempData["SuccessMessage"] = $"Юзеру успешно подтверждена почта!";
                 }
                 else
                 {
-                    responceStatusViewModel.ErrorMessage = result.Errors.FirstOrDefault().Description;
+                    TempData["ErrorMessage"] = result.Errors.FirstOrDefault().Description;
                 }
             }
-            return RedirectToAction("AllUsers", responceStatusViewModel);
+            return RedirectToAction("AllUsers");
         }
 
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddEmailSender(string email, string password)
+        public async Task<IActionResult> AddEmailSender([FromForm] string email, string password)
         {
-            ResponceStatusViewModel responceStatusViewModel = new ResponceStatusViewModel();
             if (String.IsNullOrEmpty(email) == false && String.IsNullOrEmpty(password) == false)
             {
                 try
                 {
                     await _emailSenderService.AddEmailSender(email, password);
-                    responceStatusViewModel.SucessMessage = $"{email} еmail sender был успешно добавлен!";
+                    TempData["SuccessMessage"] = $"{email} еmail sender был успешно добавлен!";
                 }
                 catch (Exception ex)
                 {
-                    responceStatusViewModel.ErrorMessage = ex.Message;
+                    TempData["ErrorMessage"] = ex.Message;
                 }
             }
-            return RedirectToAction("AllEmailSenders", responceStatusViewModel);
+            return RedirectToAction("AllEmailSenders");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteEmailSender([FromForm] string email)
+        {
+            if (String.IsNullOrEmpty(email) == false)
+            {
+                try
+                {
+                    await _emailSenderService.DeleteEmailSender(email);
+                    TempData["SuccessMessage"] = $"{email} еmail sender был успешно удален!";
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = ex.Message;
+                }
+            }
+            return RedirectToAction("AllEmailSenders");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

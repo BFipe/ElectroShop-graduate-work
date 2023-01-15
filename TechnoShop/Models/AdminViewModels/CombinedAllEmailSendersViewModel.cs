@@ -5,7 +5,7 @@ namespace TechnoShop.Models.AdminViewModels
 {
     public class CombinedAllEmailSendersViewModel
     {
-        public ResponceStatusViewModel Responce { get; set; }
+        public ResponceStatusViewModel Responce { get; set; } = new();
 
         public List<string> EmailSenders { get; set; }
     }

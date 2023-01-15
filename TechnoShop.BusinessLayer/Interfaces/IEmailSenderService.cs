@@ -10,6 +10,7 @@ namespace TechnoShop.BusinessLayer.Interfaces
     public interface IEmailSenderService : IEmailSender
     {
         public Task AddEmailSender(string email, string password);
+        public Task DeleteEmailSender(string email);
         public Task<List<string>> GetEmailSenders();
     }
 }

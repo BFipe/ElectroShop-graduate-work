@@ -13,9 +13,9 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
         private MimeMessage _message;
         private BodyBuilder _bodyBuilder;
         private SmtpClient _smtpClient;
-        private readonly IEmailSenderServiceRepository _emailSenderRepository;
+        private readonly IEmailSenderRepository _emailSenderRepository;
 
-        public EmailSenderService(IEmailSenderServiceRepository emailSenderRepository)
+        public EmailSenderService(IEmailSenderRepository emailSenderRepository)
         {
             _emailSenderRepository = emailSenderRepository;
             _message = new MimeMessage();
@@ -45,10 +45,35 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
             return _smtpClient.SendAsync(_message);
         }
 
+        public async Task<List<string>> GetEmailSenders()
+        {
+            var senders = await _emailSenderRepository.GetEmailSenders();
+            List<string> result = new List<string>();
+            senders.ForEach(q =>
+            {
+                result.Add(q.Email);
+            });
+            return result;
+        }
+
         public async Task AddEmailSender(string email, string password)
         {
+            if (await _emailSenderRepository.GetEmailSenderByName(email) != null)
+            {
+                throw new ObjectExistsException(email);
+            }
             await _emailSenderRepository.AddEmailSender(email, password);
             await _emailSenderRepository.SaveChanges();
+        }
+
+        public async Task DeleteEmailSender(string email)
+        {
+            if (await _emailSenderRepository.GetEmailSenderByName(email) != null)
+            {
+                await _emailSenderRepository.DeleteEmailSender(email);
+                await _emailSenderRepository.SaveChanges();
+            }
+            else throw new ObjectNotExistsException(email);
         }
 
         public void Dispose()
@@ -60,15 +85,5 @@ namespace TechnoShop.BusinessLayer.Services.EmailSenderServiceData
             }
         }
 
-        public async Task<List<string>> GetEmailSenders()
-        {
-            var senders = await _emailSenderRepository.GetEmailSenders();
-            List<string> result = new List<string>();
-            senders.ForEach(q =>
-            {
-                result.Add(q.Email);
-            });
-            return result;
-        }
     }
 }

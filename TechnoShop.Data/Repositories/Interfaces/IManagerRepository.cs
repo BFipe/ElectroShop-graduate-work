@@ -11,6 +11,7 @@ namespace TechnoShop.Data.Repositories.Interfaces
     {
         public Task<List<UserOrder>> GetOrders();
         public Task<UserOrder> OrderById(string orderId);
+        public Task DeleteOrder(string orderId);
         public Task SaveAsync();
     }
 }
