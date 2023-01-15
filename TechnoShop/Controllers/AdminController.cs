@@ -69,7 +69,7 @@ namespace TechnoShop.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AllUsers([FromBody]ResponceStatusViewModel responceStatus)
+        public async Task<IActionResult> AllUsers(ResponceStatusViewModel responceStatus)
         {
             CombinedAllUsersViewModel combinedAllUsersViewModel = new CombinedAllUsersViewModel();
             combinedAllUsersViewModel.Responce = responceStatus;

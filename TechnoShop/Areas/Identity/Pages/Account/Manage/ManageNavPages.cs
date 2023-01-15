@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TechnoShop.Entities.UserEntity;
 
 namespace  TechnoShop.Areas.Identity.Pages.Account.Manage
 {
