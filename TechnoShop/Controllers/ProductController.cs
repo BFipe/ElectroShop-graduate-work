@@ -62,6 +62,7 @@ namespace TechnoShop.Controllers
                     var product = _mapper.Map<ProductRequestDto>(productRequestViewModel);
                     await _productService.AddNewProduct(product);
                     productRequestViewModel.ResponceStatus.SucessMessage = $"Успешно добавлен новый продукт {product.Name}!";
+                    ModelState.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -132,6 +133,11 @@ namespace TechnoShop.Controllers
                 combinedPageProductViewModel.ProductsPerPage = productsPerPage;
                 combinedPageProductViewModel.ProductType = productType;
                 combinedPageProductViewModel.ProductCount = _productService.GetProductCount(productType);
+                var productTypes = await _productService.GetProductTypes();
+                productTypes.ForEach(type =>
+                {
+                    combinedPageProductViewModel.AllProductTypes.Add(type.TypeName);
+                });
             }
             catch (Exception ex)
             {

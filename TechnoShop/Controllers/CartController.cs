@@ -211,7 +211,21 @@ namespace TechnoShop.Controllers
             catch (Exception ex)
             {
                 ViewData["ExceptionMessage"] = ex.Message;
-                
+            }
+            return Redirect("MyOrders");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmOrder(string orderId)
+        {
+            if (String.IsNullOrWhiteSpace(orderId)) Redirect("MyOrders");
+            try
+            { 
+                await _cartService.ConfirmOrder(_contextAccessor.HttpContext.User.Identity.Name, orderId);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ExceptionMessage"] = ex.Message;
             }
             return Redirect("MyOrders");
         }

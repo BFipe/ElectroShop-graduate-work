@@ -20,7 +20,7 @@
 
         <div class="input-group input-group-lg d-flex justify-content-start" style="margin: 7px;margin-bottom: 8px;max-width: 580px;">
             <span class="input-group-text" style="background: rgb(191,223,255);font-weight: bold;">
-                Наименование<br />продукта
+                Наименование
             </span>
             <input asp-for="@Model.Name" class="form-control" type="text" style="min-width: 300px;" required minlength="10" maxlength="150" placeholder="Например, LG C2 OLED55C24LA" />
         </div>
@@ -81,20 +81,13 @@
 
         <div class="row d-flex justify-content-center" style="max-width: 580px ;margin: -1px;">
             <div class="col-auto text-center">
-                <button class="btn btn-primary btn-lg text-center" type="reset" style="margin: 5px;font-size: 17px;font-weight: bold;background: #ffcb8d;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                <button class="btn btn-primary btn-lg text-center" style="margin: 5px;font-size: 17px;font-weight: bold;background: #ffcb8d;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);" onclick="clearForm()">
                     Reset<svg class="bi bi-arrow-clockwise text-center" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 2px;margin-left: 5px;">
                         <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
                         <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
                     </svg>
                 </button>
             </div>
-            @*<div class="col-auto text-center">
-            <button action="/EditProduct" class="btn btn-primary btn-lg" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #f2ff5a;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
-            Apply modifications<svg class="bi bi-plus-square-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;margin-left: 5px;">
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"></path>
-            </svg>
-            </button>
-            </div>*@
             <div class="col-auto text-center">
                 <button class="btn btn-primary btn-lg" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #a3ff5a;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
                     Add product<svg class="bi bi-plus-circle-dotted" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;margin-left: 5px;">
@@ -103,5 +96,23 @@
                 </button>
             </div>
         </div>
+
+        <script>
+            function clearForm() {
+                var inputs = document.querySelectorAll("form input");
+                inputs.forEach(function (input) {
+                    input.value = null
+                });
+                var selects = document.querySelectorAll("form select");
+                selects.forEach(function (select) {
+                    select.selectedIndex = 0;
+                });
+
+                var textareas = document.querySelectorAll("form textarea");
+                textareas.forEach(function (textarea) {
+                    textarea.value = null;
+                });
+            }
+        </script>
     </form>
 </div>

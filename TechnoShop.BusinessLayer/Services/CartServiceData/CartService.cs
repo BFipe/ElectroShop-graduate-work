@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MailKit.Search;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
 using System.Collections.Generic;
@@ -221,6 +222,27 @@ namespace TechnoShop.BusinessLayer.Services.CartServiceData
             userOrder.UserOrderProducts.ForEach(q =>
             {
                 q.Product.InOrderCount -= q.ProductCount;
+            });
+
+            await _productRepository.Save();
+        }
+
+        public async Task ConfirmOrder(string userEmail, string orderId)
+        {
+            var user = await _userRepository.FindUserByEmail(userEmail);
+            if (user == null) throw new NotFoundException<string>(userEmail);
+
+            var userOrder = user.UserOrders.FirstOrDefault(q => q.UserOrderId == orderId);
+            if (userOrder == null) throw new ObjectNotExistsException();
+
+            if (userOrder.OrderStatus != OrderStatusEnum.Confirmed) throw new Exception("Вы не можете подтвердить неподтверждённый заказ!");
+
+            userOrder.OrderStatus = OrderStatusEnum.Finished_Sucessfully;
+
+            userOrder.UserOrderProducts.ForEach(q =>
+            {
+                q.Product.InOrderCount -= q.ProductCount;
+                q.Product.Count -= q.ProductCount;
             });
 
             await _productRepository.Save();

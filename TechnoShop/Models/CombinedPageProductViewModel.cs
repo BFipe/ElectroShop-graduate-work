@@ -10,6 +10,8 @@
 
         public string ProductType { get; set; }
 
+        public List<string> AllProductTypes { get; set; } = new();
+
         public List<ProductResponceViewModel> Products { get; set; }
 
         public ResponceStatusViewModel ResponceStatusViewModel = new();

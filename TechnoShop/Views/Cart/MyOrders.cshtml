@@ -78,21 +78,21 @@ else
                                     @switch (order.OrderStatus)
                                     {
                                         case OrderStatusEnum.Processing_State:
-                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);text-align: center;" colspan="3">
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(150,255,0);text-align: center;" colspan="3">
                                                 Оформлен
                                             </td>
                                             break;
 
                                         case OrderStatusEnum.Confirmed:
-                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(51,255,0);text-align: center;" colspan="3">
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(100,255,0);text-align: center;" colspan="3">
                                                 Подтвержден менеджером
                                             </td>
                                             break;
 
-                                        case OrderStatusEnum.Ready_to_go:
-                                            break;
-
                                         case OrderStatusEnum.Finished_Sucessfully:
+                                            <td style="border-bottom-width: 0px;font-size: 18px;font-weight: bold;color: rgb(0,255,0);text-align: center;" colspan="3">
+                                                Успешно завершен
+                                            </td>
                                             break;
 
                                         case OrderStatusEnum.Canceled_By_Manager:
@@ -127,8 +127,20 @@ else
                             </div>
                         }
 
+                        @if (order.OrderStatus == OrderStatusEnum.Confirmed)
+                        {
+                            <div class="col-auto d-flex justify-content-center align-items-center">
+                                <form action="/Cart/ConfirmOrder" method="post">
+                                <input hidden name="orderId" value="@order.UserOrderId">
+                                    <button class="btn btn-primary btn-sm" type="submit" style="margin: 5px;font-size: 17px;font-weight: bold;background: #4bff4b;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);">
+                                    Confirm your order
+                                </button>
+                                </form>
+                            </div>
+                        }
+
                         <div class="col-auto d-flex justify-content-center align-items-center">
-                            <button class="btn btn-primary btn-sm" type="button" style="font-size: 17px;font-weight: bold;background: #ddff54;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);" data-bs-toggle="modal" data-bs-target="#infoModal_@modalId">
+                            <button class="btn btn-primary btn-sm" type="button" style="font-size: 17px;font-weight: bold;background: #ffe054;border-width: 0px;border-radius: 12px;box-shadow: 2px 2px 3px rgba(0,0,0,0.4);color: rgb(0,0,0);" data-bs-toggle="modal" data-bs-target="#infoModal_@modalId">
                                 Show delivery info <svg class="bi bi-info-square-fill" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="margin-bottom: 5px;">
                                     <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path>
                                 </svg>

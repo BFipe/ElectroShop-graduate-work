@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MailKit.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,6 @@ namespace TechnoShop.BusinessLayer.Interfaces
         public Task CreatePurchase(PurchaseUserOrderDataRequestDto purchaseUserOrder,string userEmail);
         public Task CancelOrder(string userEmail, string cancelComment, string orderId);
         public Task<List<OrderResponceDto>> GetUserOrders(string userEmail);
+        public Task ConfirmOrder(string userEmail, string orderId);
     }
 }

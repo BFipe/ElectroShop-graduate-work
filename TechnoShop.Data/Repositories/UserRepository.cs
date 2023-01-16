@@ -91,7 +91,7 @@ namespace TechnoShop.Data.Repositories
             if (user.EmailConfirmed == true) return IdentityResult.Failed(new IdentityError() { Code = "0", Description = $"User already has confirmed email" });
 
             try
-            { 
+            {
                 user.EmailConfirmed = true;
                 await _dbContext.SaveChangesAsync();
             }

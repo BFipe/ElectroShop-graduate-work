@@ -47,7 +47,7 @@
     <header>
         <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3" style="box-shadow: 0px 6px 1px 1px rgba(33,37,41,0.4);border-bottom-left-radius: 20px;border-bottom-right-radius: 20px;margin-bottom: 30px;">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="#">
+                <a class="navbar-brand d-flex align-items-center" href="/Home/Index">
                     <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center justify-content-xl-center me-2 bs-icon" style="background: #373273;opacity: 1;filter: blur(0px);border: 3px solid rgb(39,35,86);box-shadow: inset 2px 2px 0px 0px rgb(105,93,213), 1px 1px 1px rgb(172,163,255);width: 48px;height: 48px;padding: 0;border-radius: 16px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-battery-charging text-center" style="font-size: 19px;width: 28px;height: 28px;transform: translateX(2px) rotate(-23deg);">
                             <path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z"></path>
@@ -71,7 +71,7 @@
 
                             @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
                             {
-                                <a class="nav-link" href="/Manager/Orders">Manager panel</a>
+                                <a class="nav-link" href="/Manager/Orders" style="color:cornflowerblue">Manager panel</a>
                             }
 
                             <a class="nav-link" href="/Product/AllProducts" style="margin-left: 5px;margin-right: 5px;">Products</a>

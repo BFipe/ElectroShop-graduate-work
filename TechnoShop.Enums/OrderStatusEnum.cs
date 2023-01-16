@@ -16,9 +16,6 @@ namespace TechnoShop.Enums
         [Display(Name = "Заказ подтвержден")]
         Confirmed,
 
-        [Display(Name = "Заказ готов к выдаче")]
-        Ready_to_go,
-
         [Display(Name = "Успешно завершен")]
         Finished_Sucessfully,
 
